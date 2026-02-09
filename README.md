@@ -35,5 +35,8 @@ O Sistema de Gestão de Estacionamento é uma solução projetada para informati
 
 
 ### Descrição do cliente
+O cliente deste projeto é uma instituição responsável pela administração de um estacionamento, atuando no controle do uso de vagas e na prestação de serviços automotivos aos seus usuários. Trata-se de uma organização que necessita de um sistema informatizado para organizar o fluxo de entrada e saída de veículos, gerenciar a ocupação das vagas e realizar a cobrança de forma correta e padronizada.
+
+O sistema será utilizado por funcionários autorizados do estacionamento, como operadores e administradores, que necessitam de acesso rápido e confiável às informações para realizar as atividades diárias. O cliente busca uma solução simples, intuitiva e segura, capaz de atender às necessidades operacionais e administrativas do estacionamento, bem como de fornecer relatórios que auxiliem na tomada de decisão.
 
 ### Descrição dos usuários
