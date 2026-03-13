@@ -22,12 +22,6 @@ Dessa forma, o produto visa otimizar a gestão do estacionamento, reduzir erros 
 
 **Nome:** E-Estacionamento
 
-**Endereço:** Avenida Nossa Senhora da Penha, nº 1025, Praia do Canto, Vitória – ES, CEP 29055-131
-
-**Telefone:** (27) 3345-8721
-
-**Proprietário:** José Carlos Ceccon Neto
-
 ### Descrição dos usuários
 Os principais usuários desse sistema são as pessoas que trabalham nos setores operacional e administrativo de um estacionamento, incluindo administradores e atendentes.
 
