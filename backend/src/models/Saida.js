@@ -48,7 +48,7 @@ class Saida extends Model {
     });
   }
 
-  /* static associate(models) {
+  static associate(models) {
     this.belongsTo(models.entrada, {
       as: 'entrada',
       foreignKey: {
@@ -69,7 +69,7 @@ class Saida extends Model {
         }
       }
     });
-  } */
+  }
 }
 
 export { Saida };

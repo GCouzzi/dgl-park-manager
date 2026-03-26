@@ -19,9 +19,9 @@ class Servico extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.tipo_servico, {as: 'tipoServico', foreignKey: {name: 'tipoServicoId' , allowNull: false, validate: {notNull: {msg: 'Tipo de serviço deve ser preenchido!'}}}});
-    this.belongsTo(models.usuario, {as: 'prestador', foreignKey: {name: 'usuarioId' , allowNull: false, validate: {notNull: {msg: 'Usuario deve ser definido!'}}}});
-    this.belongsTo(models.usuario, {as: 'entrada', foreignKey: {name: 'entradaId' , allowNull: false, validate: {notNull: {msg: 'Entrada deve ser definido!'}}}});
+    this.belongsTo(models.tipoServico, {as: 'tipoServico', foreignKey: {name: 'tipoServicoId' , allowNull: false, validate: {notNull: {msg: 'Tipo de serviço deve ser preenchido!'}}}});
+    this.belongsTo(models.usuario, {as: 'usuario', foreignKey: {name: 'usuarioId' , allowNull: false, validate: {notNull: {msg: 'Usuario deve ser definido!'}}}});
+    this.belongsTo(models.entrada, {as: 'entrada', foreignKey: {name: 'entradaId' , allowNull: false, validate: {notNull: {msg: 'Entrada deve ser definido!'}}}});
   }
   
 }

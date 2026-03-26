@@ -36,9 +36,6 @@ class TipoServico extends Model {
       }
     }, { sequelize, modelName: 'tipoServico', tableName: 'tiposServico' })
   }
-
-  static associate(models) {
-  }
 }
 
 export { TipoServico };

@@ -46,7 +46,7 @@ class Despesa extends Model {
     });
   }
 
-  /* static associate(models) {
+  static associate(models) {
     this.belongsTo(models.usuario, {
       as: 'usuario',
       foreignKey: {
@@ -57,7 +57,7 @@ class Despesa extends Model {
         }
       }
     });
-  } */
+  }
 }
 
 export { Despesa }

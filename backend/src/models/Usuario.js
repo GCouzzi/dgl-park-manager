@@ -53,10 +53,6 @@ class Usuario extends Model {
       },
     }, { sequelize, modelName: 'usuario', tableName: 'usuarios' })
   }
-
-  static associate(models) {
-  }
-  
 }
 
 export { Usuario };
