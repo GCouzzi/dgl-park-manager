@@ -44,7 +44,7 @@ class Usuario extends Model {
         type: DataTypes.ENUM("FUNCIONARIO", "ADMINISTRADOR"),
         validate: {
           isIn: {
-            args: ["FUNCIONARIO", "ADMINISTRADOR"],
+            args: [["FUNCIONARIO", "ADMINISTRADOR"]],
             msg: "Tipo de usuário deve ser ou funcionário ou administrador."
           },
           notEmpty: { msg: "Tipo de usuário deve ser definido!" }
