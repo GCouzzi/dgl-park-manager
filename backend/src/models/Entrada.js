@@ -16,9 +16,9 @@ class Entrada extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Vaga, { foreignKey: 'vagaId', as: 'vaga' });
-    this.belongsTo(models.Cliente, { foreignKey: 'clienteId', as: 'cliente' });
-    this.belongsTo(models.Veiculo, { foreignKey: 'veiculoId', as: 'veiculo' });
+    this.belongsTo(models.vaga, { foreignKey: 'vagaId', as: 'vaga' });
+    this.belongsTo(models.cliente, { foreignKey: 'clienteId', as: 'cliente' });
+    this.belongsTo(models.veiculo, { foreignKey: 'veiculoId', as: 'veiculo' });
   }
   
 }
