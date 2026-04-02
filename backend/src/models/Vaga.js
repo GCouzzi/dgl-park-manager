@@ -24,7 +24,7 @@ class Vaga extends Model {
           notEmpty: { msg: "O status não pode ser vazio!" },
           isIn: {
             args: [['LIVRE', 'OCUPADA', 'MANUTENCAO']],
-            msg: "O tipo deve ser livre, ocupada ou manutenção!"
+            msg: "O status deve ser livre, ocupada ou manutenção!"
           }
         }
       },
