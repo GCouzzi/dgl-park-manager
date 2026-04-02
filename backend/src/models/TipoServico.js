@@ -1,3 +1,5 @@
+// Diogo
+
 import { Model, DataTypes } from 'sequelize';
 
 class TipoServico extends Model {

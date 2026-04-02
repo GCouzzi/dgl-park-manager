@@ -1,3 +1,5 @@
+// Gabriel
+
 import { Model, DataTypes } from 'sequelize';
 
 class Saida extends Model {

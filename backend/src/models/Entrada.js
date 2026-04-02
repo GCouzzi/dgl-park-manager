@@ -1,3 +1,5 @@
+// Lucas
+
 import { Model, DataTypes } from 'sequelize';
 
 class Entrada extends Model {
