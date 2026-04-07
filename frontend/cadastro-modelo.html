@@ -67,58 +67,60 @@
           </nav>
         </aside>
         <section class="col-12 col-md-10 col-xl-9 col-xxl-10 p-5">
-          <div class="row">
-            <div class="title col-12">
-              <h1 class="display-3">Modelo</h1>
-            </div>
+          <form method="post">
+            <div class="card shadow-sm">
+              <div class="card-header p-4 bg-primary text-white">
+                <h1 class="display-6">Inserir Modelo</h1>
+              </div>
+              <div class="card-body col-12">
+                <div class="row g-3">
+                  <div class="form-floating col-12">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="nome"
+                      placeholder="Nome"
+                    />
+                    <label for="nome"
+                      ><i class="bi bi-person-fill me-2"></i>Nome</label
+                    >
+                  </div>
 
-            <form method="post" class="col-12 py-5">
-              <div class="row g-3">
-                <h2 class="col-12">Inserir Modelo</h2>
-                <div class="form-floating col-12">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="nome"
-                    placeholder="Nome"
-                  />
-                  <label for="nome"
-                    ><i class="bi bi-person-fill me-2"></i>Nome</label
-                  >
-                </div>
+                  <div class="form-floating col-12">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="ano"
+                      placeholder="Ano"
+                    />
+                    <label for="ano"
+                      ><i class="bi bi-calendar-fill me-2"></i>Ano</label
+                    >
+                  </div>
 
-                <div class="form-floating col-12">
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="ano"
-                    placeholder="Ano"
-                  />
-                  <label for="ano"
-                    ><i class="bi bi-calendar-fill me-2"></i>Ano</label
-                  >
-                </div>
-
-                <div class="form-floating col-12">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="marca"
-                    placeholder="Marca"
-                  />
-                  <label for="marca"
-                    ><i class="bi bi-tag-fill me-2"></i>Marca</label
-                  >
+                  <div class="form-floating col-12">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="marca"
+                      placeholder="Marca"
+                    />
+                    <label for="marca"
+                      ><i class="bi bi-tag-fill me-2"></i>Marca</label
+                    >
+                  </div>
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </section>
       </div>
     </main>
 
     <footer class="py-3 bg-primary mt-auto" data-bs-theme="dark">
-      <ul class="nav justify-content-center border-bottom border-primary-subtle shadow-sm pb-3 mb-3 flex-sm-row flex-column align-items-center">
+      <ul
+        class="nav justify-content-center border-bottom border-primary-subtle shadow-sm pb-3 mb-3 flex-sm-row flex-column align-items-center"
+      >
         <li class="nav-item">
           <a href="#" class="nav-link px-2 text-white">Home</a>
         </li>
