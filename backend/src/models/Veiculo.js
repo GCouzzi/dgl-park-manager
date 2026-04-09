@@ -10,8 +10,21 @@ class Veiculo extends Model {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+        set(value) {
+          if (value) {
+            const normalizada = value.toUpperCase();
+            this.setDataValue('placa', normalizada);
+          }
+        },
         validate: {
-          notEmpty: { msg: "A placa deve ser preenchida" }
+          notEmpty: { msg: "A placa deve ser preenchida" },
+          isValidPlaca(value) {
+            const placaAntiga = /^[A-Z]{3}-?\d{4}$/;
+            const placaMercosul = /^[A-Z]{3}\d[A-Z]\d{2}$/;
+            if (!placaAntiga.test(value) && !placaMercosul.test(value)) {
+              throw new Error("Placa inválida (use padrão antigo ou Mercosul)");
+            }
+          }
         }
       },
       cor: {

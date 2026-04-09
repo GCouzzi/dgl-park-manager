@@ -1,4 +1,5 @@
 import { Veiculo } from "../models/Veiculo.js";
+import { Modelo } from "../models/Modelo.js";
 
 class VeiculoService {
 
@@ -14,18 +15,33 @@ class VeiculoService {
   }
 
   static async create(req) {
-    const { placa, modelo, banido, motivo, cor } = req.body;
-    criador = "Mock";
-    const obj = await Veiculo.create({ placa, modelo, banido, motivo, cor });
+    let { placa, modeloId, banido, motivo, cor } = req.body;
+    if(banido == false){
+      motivo = null;
+    }
+    const modelo = await Modelo.findByPk(modeloId);
+    if (!modelo) {
+      throw new Error("Modelo não encontrado");
+    }
+    const obj = await Veiculo.create({ placa, modeloId, banido, motivo, cor });
     return await Veiculo.findByPk(obj.id, { include: { all: true, nested: true } });
   }
 
   static async update(req) {
     const { id } = req.params;
-    const { placa, modelo, banido, motivo, cor } = req.body;
+    let { placa, modeloId, banido, motivo, cor } = req.body;
+    if(banido == false){
+      if(motivo !== undefined){
+        motivo = null;
+      }
+    }
+    const modelo = await Modelo.findByPk(modeloId);
+    if (!modelo) {
+      throw new Error("Modelo não encontrado");
+    }
     const obj = await Veiculo.findByPk(id, { include: { all: true, nested: true } });
     if (obj == null) throw 'Veiculo não encontrado!';
-    Object.assign(obj, { placa, modelo, banido, motivo, cor });
+    Object.assign(obj, { placa, modeloId, banido, motivo, cor });
     await obj.save();
     return await Veiculo.findByPk(obj.id, { include: { all: true, nested: true } });
   }
