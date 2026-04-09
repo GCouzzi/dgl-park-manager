@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Veículo</title>
+  <title>Saída</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 </head>
@@ -26,22 +26,22 @@
             </li>
 
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                 Cadastros
               </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="cadastro-modelo.html">Modelo</a></li>
-                <li><a class="dropdown-item active" href="cadastro-veiculo.html">Veículo</a></li>
+                <li><a class="dropdown-item" href="cadastro-veiculo.html">Veículo</a></li>
                 <li><a class="dropdown-item" href="cadastro-despesa.html">Despesa</a></li>
               </ul>
             </li>
 
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">
                 Processos
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="cadastro-saida.html">Saída</a></li>
+                <li><a class="dropdown-item active" href="cadastro-saida.html">Saída</a></li>
               </ul>
             </li>
 
@@ -64,13 +64,13 @@
     <div class="row flex-grow-1">
       <aside class="col-12 col-md-2 col-xl-3 col-xxl-2 border-end border-1 mb-5 mb-md-0">
         <nav class="d-flex flex-column gap-2 mt-5">
-          <a href="cadastro-veiculo.html" class="btn btn-primary text-start">
+          <a href="cadastro-saida.html" class="btn btn-primary text-start">
             <i class="bi bi-plus-circle-fill me-2"></i>Inserir
           </a>
-          <a href="listar-veiculo.html" class="btn btn-primary text-start">
+          <a href="listar-saida.html" class="btn btn-primary text-start">
             <i class="bi bi-list-ul me-2"></i>Listar
           </a>
-          <a href="buscar-veiculo.html" class="btn btn-primary active text-start">
+          <a href="buscar-saida.html" class="btn btn-primary active text-start">
             <i class="bi bi-search me-2"></i>Buscar
           </a>
         </nav>
@@ -79,7 +79,7 @@
       <section class="col-12 col-md-10 col-xl-9 col-xxl-10 p-5">
         <div class="card shadow-sm">
           <div class="card-header p-4 bg-primary text-white">
-            <h1 class="display-6">Buscar Veículo</h1>
+            <h1 class="display-6">Buscar Saída</h1>
           </div>
           <div class="card-body">
 
@@ -88,10 +88,10 @@
                 <div class="col-12 col-md-8 col-lg-6">
                   <div class="input-group">
                     <span class="input-group-text">
-                      <i class="bi bi-car-front-fill"></i>
+                      <i class="bi bi-hash"></i>
                     </span>
-                    <input type="text" class="form-control" id="placa" name="placa"
-                      placeholder="Digite a placa do veículo" />
+                    <input type="number" class="form-control" id="id" name="id"
+                      placeholder="Digite o ID da saída" min="1" />
                     <button type="button" class="btn btn-primary">
                       <i class="bi bi-search me-1"></i>Buscar
                     </button>
@@ -112,52 +112,59 @@
 
                   <div class="col-12 col-md-6">
                     <label class="form-label fw-semibold">
-                      <i class="bi bi-car-front-fill me-1 text-primary"></i>Placa
+                      <i class="bi bi-car-front-fill me-1 text-primary"></i>Entrada (Placa)
                     </label>
-                    <input type="text" class="form-control" value="ABC-1234" />
+                    <input type="text" class="form-control-plaintext" value="ABC-1234" readonly />
                   </div>
 
                   <div class="col-12 col-md-6">
                     <label class="form-label fw-semibold">
-                      <i class="bi bi-car-front me-1 text-primary"></i>Modelo
+                      <i class="bi bi-percent me-1 text-primary"></i>Desconto
+                    </label>
+                    <input type="number" class="form-control" value="5" step="0.01" min="0" />
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label fw-semibold">
+                      <i class="bi bi-calendar-check-fill me-1 text-primary"></i>Data Saída
+                    </label>
+                    <input type="text" class="form-control-plaintext" value="09/04/2026" readonly />
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label fw-semibold">
+                      <i class="bi bi-credit-card-fill me-1 text-primary"></i>Tipo de Pagamento
                     </label>
                     <select class="form-select">
-                      <option selected>Honda Civic Touring 2021</option>
-                      <option>Toyota Corolla XEi 2022</option>
-                      <option>Volkswagen Gol 1.0 2020</option>
-                      <option>Chevrolet Onix LTZ 2023</option>
-                      <option>Fiat Argo Drive 2022</option>
+                      <option value="debito">Débito</option>
+                      <option value="credito">Crédito</option>
+                      <option value="dinheiro">Dinheiro</option>
+                      <option value="pix" selected>Pix</option>
                     </select>
                   </div>
 
                   <div class="col-12 col-md-6">
                     <label class="form-label fw-semibold">
-                      <i class="bi bi-palette-fill me-1 text-primary"></i>Cor
+                      <i class="bi bi-check-circle-fill me-1 text-primary"></i>Status
                     </label>
                     <select class="form-select">
-                      <option selected>Preto</option>
-                      <option>Branco</option>
-                      <option>Prata</option>
-                      <option>Vermelho</option>
-                      <option>Azul</option>
+                      <option value="pago" selected>Pago</option>
+                      <option value="nao_pago">Não Pago</option>
                     </select>
                   </div>
 
                   <div class="col-12 col-md-6">
                     <label class="form-label fw-semibold">
-                      <i class="bi bi-shield-fill-exclamation me-1 text-primary"></i>Banido
+                      <i class="bi bi-person-fill me-1 text-primary"></i>Criado Por
                     </label>
-                    <select class="form-select">
-                      <option value="sim" selected>Sim</option>
-                      <option value="nao">Não</option>
-                    </select>
+                    <input type="text" class="form-control-plaintext" value="Gabriel" readonly />
                   </div>
 
                   <div class="col-12">
                     <label class="form-label fw-semibold">
-                      <i class="bi bi-exclamation-circle-fill me-1 text-primary"></i>Motivo
+                      <i class="bi bi-chat-left-text-fill me-1 text-primary"></i>Observações
                     </label>
-                    <textarea class="form-control" rows="3">Veículo com débitos pendentes e histórico de infrações no estacionamento.</textarea>
+                    <textarea class="form-control" rows="3">Cliente frequente, aplicado desconto de fidelidade.</textarea>
                   </div>
 
                   <div class="col-12">
@@ -166,7 +173,7 @@
                       <i class="bi bi-save me-2"></i>Salvar
                     </button>
                     <button type="button" class="btn btn-danger">
-                      <i class="bi bi-trash me-2"></i>Excluir Veículo
+                      <i class="bi bi-trash me-2"></i>Excluir Saída
                     </button>
                   </div>
 
