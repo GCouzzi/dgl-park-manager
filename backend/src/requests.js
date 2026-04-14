@@ -97,4 +97,60 @@ export async function deletarDespesa(id) {
   });
 }
 
-// --------
+// Lucas 
+
+export async function listarClientes() {
+  return request("/clientes");
+}
+
+export async function buscarCliente(id) {
+  return request(`/clientes/${id}`);
+}
+
+export async function criarCliente(data) {
+  return request("/clientes", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function atualizarCliente(id, data) {
+  return request(`/clientes/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deletarCliente(id) {
+  return request(`/clientes/${id}`, {
+    method: "DELETE",
+  });
+}
+
+export async function listarVagas() {
+  return request("/vagas");
+}
+
+export async function buscarVaga(id) {
+  return request(`/vagas/${id}`);
+}
+
+export async function criarVaga(data) {
+  return request("/vagas", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function atualizarVaga(id, data) {
+  return request(`/vagas/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deletarVaga(id) {
+  return request(`/vagas/${id}`, {
+    method: "DELETE",
+  });
+}
