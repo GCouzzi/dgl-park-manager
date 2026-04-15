@@ -1,156 +1,378 @@
-const BASE_URL = "http://localhost:3333";
 
-async function request(url, options = {}) {
-  try {
-    const response = await fetch(`${BASE_URL}${url}`, {
-      headers: {
-        "Content-Type": "application/json",
-        ...options.headers,
-      },
-      ...options,
-    });
+const baseURL = "http://localhost:3333";
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw error;
-    }
-
-    return await response.json();
-  } catch (err) {
-    console.error("Erro:", err);
-    throw err;
-  }
+function getModelos() {
+  return fetch(`${baseURL}/modelos`)
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-// Gabriel
-
-export async function listarModelos() {
-  return request("/modelos");
-}
-
-export async function criarModelo(data) {
-  return request("/modelos", {
+function createModelo() {
+  return fetch(`${baseURL}/modelos`, {
     method: "POST",
-    body: JSON.stringify(data),
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nome: "Corolla Altis",
+      marca: "Toyota",
+      ano: 2025
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function deletarModelo(id) {
-  return request(`/modelos/${id}`, {
-    method: "DELETE",
-  });
+function deleteModelo() {
+  return fetch(`${baseURL}/modelos/5`, {
+    method: "DELETE"
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function listarVeiculos() {
-  return request("/veiculos");
-}
-
-export async function buscarVeiculo(id) {
-  return request(`/veiculos/${id}`);
-}
-
-export async function criarVeiculo(data) {
-  return request("/veiculos", {
+function createModelo2() {
+  return fetch(`${baseURL}/modelos`, {
     method: "POST",
-    body: JSON.stringify(data),
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nome: "Corolla Altissssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+      marca: "Toyotaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      ano: "1885"
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function atualizarVeiculo(id, data) {
-  return request(`/veiculos/${id}`, {
+function getVeiculos() {
+  return fetch(`${baseURL}/veiculos`)
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+function getVeiculoById() {
+  return fetch(`${baseURL}/veiculos/4`)
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+function createVeiculo() {
+  return fetch(`${baseURL}/veiculos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      placa: "AZZ1B23",
+      modeloId: 3,
+      banido: false,
+      cor: "PRETO"
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+function updateVeiculo() {
+  return fetch(`${baseURL}/veiculos/3`, {
     method: "PUT",
-    body: JSON.stringify(data),
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      placa: "AZZ1B22",
+      modeloId: 3,
+      banido: false,
+      cor: "PRETO"
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function deletarVeiculo(id) {
-  return request(`/veiculos/${id}`, {
-    method: "DELETE",
-  });
+function deleteVeiculo() {
+  return fetch(`${baseURL}/veiculos/1`, {
+    method: "DELETE"
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function listarDespesas() {
-  return request("/despesas");
-}
-
-export async function buscarDespesa(id) {
-  return request(`/despesas/${id}`);
-}
-
-export async function criarDespesa(data) {
-  return request("/despesas", {
+function createVeiculo2() {
+  return fetch(`${baseURL}/veiculos`, {
     method: "POST",
-    body: JSON.stringify(data),
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      placa: "AZZ1B211",
+      modeloId: 1,
+      banido: false,
+      cor: "PRETOO"
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function atualizarDespesa(id, data) {
-  return request(`/despesas/${id}`, {
-    method: "PUT",
-    body: JSON.stringify(data),
-  });
+function getDespesas() {
+  return fetch(`${baseURL}/despesas`)
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function deletarDespesa(id) {
-  return request(`/despesas/${id}`, {
-    method: "DELETE",
-  });
+function getDespesaById() {
+  return fetch(`${baseURL}/despesas/1`)
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-// Lucas 
-
-export async function listarClientes() {
-  return request("/clientes");
-}
-
-export async function buscarCliente(id) {
-  return request(`/clientes/${id}`);
-}
-
-export async function criarCliente(data) {
-  return request("/clientes", {
+function createDespesa() {
+  return fetch(`${baseURL}/despesas`, {
     method: "POST",
-    body: JSON.stringify(data),
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      descricao: "Conta de luz",
+      valor: 150,
+      vencimento: "2026-04-15",
+      status: "NAO_PAGO"
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function atualizarCliente(id, data) {
-  return request(`/clientes/${id}`, {
+function updateDespesa() {
+  return fetch(`${baseURL}/despesas/1`, {
     method: "PUT",
-    body: JSON.stringify(data),
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      descricao: "Conta de água",
+      valor: 150,
+      vencimento: "2026-04-15",
+      status: "NAO_PAGO"
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function deletarCliente(id) {
-  return request(`/clientes/${id}`, {
-    method: "DELETE",
-  });
+function deleteDespesa() {
+  return fetch(`${baseURL}/despesas/2`, {
+    method: "DELETE"
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function listarVagas() {
-  return request("/vagas");
-}
-
-export async function buscarVaga(id) {
-  return request(`/vagas/${id}`);
-}
-
-export async function criarVaga(data) {
-  return request("/vagas", {
+function createDespesa2() {
+  return fetch(`${baseURL}/despesas`, {
     method: "POST",
-    body: JSON.stringify(data),
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      descricao: "Conta de luzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+      valor: -150,
+      vencimento: "2026-04-15",
+      status: "NAO_PAGOo"
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function atualizarVaga(id, data) {
-  return request(`/vagas/${id}`, {
+function createCliente() {
+  return fetch(`${baseURL}/clientes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nome: "João da Silva",
+      cpf: "12345678901",
+      telefone: "27999999999",
+      tipo: "AVULSO"
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+function getClientes() {
+  return fetch(`${baseURL}/clientes`)
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+function getClienteById() {
+  return fetch(`${baseURL}/clientes/5`)
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+function updateCliente() {
+  return fetch(`${baseURL}/clientes/5`, {
     method: "PUT",
-    body: JSON.stringify(data),
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nome: "João Pedro Paganotti",
+      cpf: "12345678901",
+      telefone: "27999999999",
+      tipo: "MENSALISTA"
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function deletarVaga(id) {
-  return request(`/vagas/${id}`, {
-    method: "DELETE",
-  });
+function deleteCliente() {
+  return fetch(`${baseURL}/clientes/3`, {
+    method: "DELETE"
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
+
+function createClienteErro() {
+  return fetch(`${baseURL}/clientes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nome: "João da Silvasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      cpf: "123456789011",
+      telefone: "279999999994324239",
+      tipo: "AVULSOoooo"
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+function getVagas() {
+  return fetch(`${baseURL}/vagas`)
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+function getVagaById() {
+  return fetch(`${baseURL}/vagas/1`)
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+function createVaga() {
+  return fetch(`${baseURL}/vagas`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      tipo: "CARRO",
+      status: "LIVRE",
+      possuiCobertura: true,
+      preferencial: false
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+function updateVaga() {
+  return fetch(`${baseURL}/vagas/5`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      tipo: "CARRO",
+      status: "LIVRE",
+      possuiCobertura: true,
+      preferencial: true
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+function deleteVaga() {
+  return fetch(`${baseURL}/vagas/5`, {
+    method: "DELETE"
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+function createVagaErro() {
+  return fetch(`${baseURL}/vagas`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      tipo: "CARROo",
+      status: "LIVREe",
+      possuiCobertura: true,
+      preferencial: false
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
+async function runAllTests() {
+  console.log("🚀 INICIANDO TESTES COMPLETOS DA API\n");
+
+  console.log("📦 MODELOS");
+  await createModelo();
+  await getModelos();
+  await createModelo2();
+  await deleteModelo();
+
+  console.log("\n🚗 VEÍCULOS");
+  await createVeiculo();
+  await getVeiculos();
+  await getVeiculoById();
+  await updateVeiculo();
+  await deleteVeiculo();
+  await createVeiculo2();
+
+  console.log("\n💰 DESPESAS");
+  await createDespesa();
+  await getDespesas();
+  await getDespesaById();
+  await updateDespesa();
+  await deleteDespesa();
+  await createDespesa2();
+
+  console.log("\n👤 CLIENTES");
+  await createCliente();
+  await getClientes();
+  await getClienteById();
+  await updateCliente();
+  await deleteCliente();
+  await createClienteErro();
+
+  console.log("\n🅿️ VAGAS");
+  await createVaga();
+  await getVagas();
+  await getVagaById();
+  await updateVaga();
+  await deleteVaga();
+  await createVagaErro();
+
+  console.log("\n✅ TODOS OS TESTES FINALIZADOS!");
+}
+
+runAllTests();

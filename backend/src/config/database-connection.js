@@ -44,16 +44,16 @@ function databaseInserts() {
             const m3 = await Modelo.create({ nome: 'GOL', ano: 2010, marca: 'VW' });
             const m4 = await Modelo.create({ nome: 'ONIX', ano: 2022, marca: 'CHEVROLET' });
 
-            const u1 = await Usuario.create({ nomeUsuario: 'ADMIN', senha: '123', cpf: '111.111.111-11', telefone: '11999999999', endereco: 'RUA A', tipoUsuario: 'ADMINISTRADOR' });
-            const u2 = await Usuario.create({ nomeUsuario: 'OPERADOR1', senha: '123', cpf: '222.222.222-22', telefone: '11888888888', endereco: 'RUA B', tipoUsuario: 'FUNCIONARIO' });
-            const u3 = await Usuario.create({ nomeUsuario: 'OPERADOR2', senha: '123', cpf: '333.333.333-33', telefone: '11777777777', endereco: 'RUA C', tipoUsuario: 'FUNCIONARIO' });
-            const u4 = await Usuario.create({ nomeUsuario: 'GERENTE', senha: '123', cpf: '444.444.444-44', telefone: '11666666666', endereco: 'RUA D', tipoUsuario: 'ADMINISTRADOR' });
+            const u1 = await Usuario.create({ nomeUsuario: 'ADMIN', senha: '123', cpf: '12345678909', telefone: '11999999999', endereco: 'RUA A', tipoUsuario: 'ADMINISTRADOR' });
+            const u2 = await Usuario.create({ nomeUsuario: 'OPERADOR1', senha: '123', cpf: '98765432100', telefone: '11888888888', endereco: 'RUA B', tipoUsuario: 'FUNCIONARIO' });
+            const u3 = await Usuario.create({ nomeUsuario: 'OPERADOR2', senha: '123', cpf: '11144477735', telefone: '11777777777', endereco: 'RUA C', tipoUsuario: 'FUNCIONARIO' });
+            const u4 = await Usuario.create({ nomeUsuario: 'GERENTE', senha: '123', cpf: '52998224725', telefone: '11666666666', endereco: 'RUA D', tipoUsuario: 'ADMINISTRADOR' });
 
-            const c1 = await Cliente.create({ nome: 'JOÃO SILVA', cpf: '555.555.555-55', telefone: '11911111111', tipo: 'MENSALISTA' });
-            const c2 = await Cliente.create({ nome: 'MARIA SOUZA', cpf: '666.666.666-66', telefone: '11922222222', tipo: 'AVULSO' }); // Corrigido para validar
-            const c3 = await Cliente.create({ nome: 'PEDRO ALVES', cpf: '777.777.777-77', telefone: '11933333333', tipo: 'CONVENIADO' });
-            const c4 = await Cliente.create({ nome: 'ANA PAULA', cpf: '888.888.888-88', telefone: '11944444444', tipo: 'AVULSO' });
-
+            const c1 = await Cliente.create({ nome: 'JOÃO SILVA', cpf: '39053344705', telefone: '11911111111', tipo: 'MENSALISTA' });
+            const c2 = await Cliente.create({ nome: 'MARIA SOUZA', cpf: '16899535009', telefone: '11922222222', tipo: 'AVULSO' });
+            const c3 = await Cliente.create({ nome: 'PEDRO ALVES', cpf: '11144477735', telefone: '11933333333', tipo: 'CONVENIADO' });
+            const c4 = await Cliente.create({ nome: 'ANA PAULA', cpf: '52998224725', telefone: '11944444444', tipo: 'AVULSO' });
+            
             const v1 = await Vaga.create({ tipo: 'CARRO', status: 'LIVRE', possuiCobertura: true, preferencial: true });
             const v2 = await Vaga.create({ tipo: 'CARRO', status: 'OCUPADA', possuiCobertura: false, preferencial: false });
             const v3 = await Vaga.create({ tipo: 'MOTO', status: 'LIVRE', possuiCobertura: true, preferencial: false });
