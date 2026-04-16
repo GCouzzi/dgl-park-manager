@@ -25,9 +25,7 @@ Dessa forma, o produto visa otimizar a gestão do estacionamento, reduzir erros 
 ### Descrição dos usuários
 Os principais usuários desse sistema são as pessoas que trabalham nos setores operacional e administrativo de um estacionamento, incluindo administradores e atendentes.
 
-### Administradores
-O grupo de administradores pode envolver gerentes ou o próprio proprietário do estacionamento, que utilizam o produto como forma de controle e acompanhamento das atividades desempenhadas na empresa.
+**Administradores**: O grupo de administradores pode envolver gerentes ou o próprio proprietário do estacionamento, que utilizam o produto como forma de controle e acompanhamento das atividades desempenhadas na empresa.
 
-### Atendentes
-Esse grupo envolve as pessoas que atuam no atendimento aos clientes do estacionamento, essas responsáveis pelo recebimento e, como no caso de estacionamentos de menor porte,  responsáveis por guiar os clientes às vagas designadas e auxiliar os mesmos ao manobrar os veículos. São os principais usuários do sistema visto que atuam no setor operacional, fazendo com que naturalmente despendem maior tempo no uso do sistema quando comparado aos administradores.
+**Atendentes**:Esse grupo envolve as pessoas que atuam no atendimento aos clientes do estacionamento, essas responsáveis pelo recebimento e, como no caso de estacionamentos de menor porte,  responsáveis por guiar os clientes às vagas designadas e auxiliar os mesmos ao manobrar os veículos. São os principais usuários do sistema visto que atuam no setor operacional, fazendo com que naturalmente despendem maior tempo no uso do sistema quando comparado aos administradores.
 
