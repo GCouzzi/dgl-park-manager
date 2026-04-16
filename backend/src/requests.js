@@ -375,6 +375,52 @@ function createTipoServicoErro() {
     .catch(console.error);
 }
 
+export async function getUsuarios() {
+  return request("/usuarios");
+}
+
+export async function getUsuarioById(id) {
+  return request(`/usuarios/${id}`);
+}
+
+export async function createUsuario(data) {
+  return request("/usuarios", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function updateUsuario(id, data) {
+  return request(`/usuarios/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deleteUsuario(id) {
+  return request(`/usuarios/${id}`, {
+    method: "DELETE",
+  });
+}
+
+function createUsuarioErro() {
+  return fetch(`${baseURL}/usuarios`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomeUsuario: "",
+      senha: "",
+      cpf: "123",
+      telefone: "",
+      endereco: "",
+      tipoUsuario: "INVALIDO"
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
 async function runAllTests() {
   console.log("🚀 INICIANDO TESTES COMPLETOS DA API\n");
 
@@ -423,6 +469,14 @@ async function runAllTests() {
   await updateTipoServico();
   await deleteTipoServico();
   await createTipoServicoErro();
+
+  console.log("\nUSUÁRIOS");
+  await createUsuario();
+  await getUsuarios();
+  await getUsuarioById();
+  await updateUsuario();
+  await deleteUsuario();
+  await createUsuarioErro();
 
   console.log("\n✅ TODOS OS TESTES FINALIZADOS!");
 }
