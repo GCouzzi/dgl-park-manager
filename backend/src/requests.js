@@ -331,6 +331,50 @@ function createVagaErro() {
     .catch(console.error);
 }
 
+export async function getTipoServico() {
+  return request("/tipo-servico");
+}
+
+export async function getTipoServicoById(id) {
+  return request(`/tipo-servico/${id}`);
+}
+
+export async function createTipoServico(data) {
+  return request("/tipo-servico", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function updateTipoServico(id, data) {
+  return request(`/tipo-servico/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deleteTipoServico(id) {
+  return request(`/tipo-servico/${id}`, {
+    method: "DELETE",
+  });
+}
+
+function createTipoServicoErro() {
+  return fetch(`${baseURL}/tipo-servico`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nome: "",
+      descricao: "Lavagem interna e TOP do veículo",
+      valor: 50,
+      descontoAtivo: 10.5
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
+}
+
 async function runAllTests() {
   console.log("🚀 INICIANDO TESTES COMPLETOS DA API\n");
 
@@ -371,6 +415,14 @@ async function runAllTests() {
   await updateVaga();
   await deleteVaga();
   await createVagaErro();
+
+  console.log("\nTIPOS DE SERVIÇO");
+  await createTipoServico();
+  await getTipoServico();
+  await getTipoServicoById();
+  await updateTipoServico();
+  await deleteTipoServico();
+  await createTipoServicoErro();
 
   console.log("\n✅ TODOS OS TESTES FINALIZADOS!");
 }

@@ -4,6 +4,7 @@ import { VeiculoController } from "./controllers/VeiculoController.js";
 import { DespesaController } from "./controllers/DespesaController.js";
 import { ClienteController } from "./controllers/ClienteController.js";
 import { VagaController } from "./controllers/VagaController.js";
+import { TipoServicoController } from "./controllers/TipoServicoController.js";
 
 
 const routes = express.Router();
@@ -35,5 +36,11 @@ routes.get('/vagas/:id', VagaController.findByPk);
 routes.post('/vagas', VagaController.create);
 routes.delete('/vagas/:id', VagaController.delete);
 routes.put('/vagas/:id', VagaController.update);
+
+routes.get('/tipo-servico', TipoServicoController.findAll);
+routes.get('/tipo-servico/:id', TipoServicoController.findByPk);
+routes.post('/tipo-servico', TipoServicoController.create);
+routes.delete('/tipo-servico/:id', TipoServicoController.delete);
+routes.put('/tipo-servico/:id', TipoServicoController.update);
 
 export default routes;
