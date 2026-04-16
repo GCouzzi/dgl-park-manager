@@ -332,31 +332,58 @@ function createVagaErro() {
 }
 
 export async function getTipoServico() {
-  return request("/tipo-servico");
+    return fetch(`${baseURL}/tipo-servico`)
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
 export async function getTipoServicoById(id) {
-  return request(`/tipo-servico/${id}`);
+    return fetch(`${baseURL}/tipo-servico/${id}`)
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function createTipoServico(data) {
-  return request("/tipo-servico", {
+export async function createTipoServico() {
+  return fetch(`${baseURL}/tipo-servico`, {
     method: "POST",
-    body: JSON.stringify(data),
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nome: "Serviço Muito TOP",
+      descricao: "Lavagem interna e TOP do veículo",
+      valor: 50,
+      descontoAtivo: 10.5
+    })
+  })
+  .then(res => res.text())
+  .then(console.log)
+  .catch(console.error);
 }
 
-export async function updateTipoServico(id, data) {
-  return request(`/tipo-servico/${id}`, {
+export async function updateTipoServico(id) {
+  return fetch(`${baseURL}/tipo-servico/${id}`, {
     method: "PUT",
-    body: JSON.stringify(data),
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nome: "Serviço Extremamente TOP",
+      descricao: "TOP, muito TOP",
+      valor: 200,
+      descontoAtivo: 0
+    })
+  })
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
 export async function deleteTipoServico(id) {
-  return request(`/tipo-servico/${id}`, {
-    method: "DELETE",
-  });
+  return fetch(`${baseURL}/tipo-servico/${id}`, {
+    method: "DELETE"
+  })
+  .then(res => res.text())
+  .then(console.log)
+  .catch(console.error);
 }
 
 function createTipoServicoErro() {
@@ -365,42 +392,75 @@ function createTipoServicoErro() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       nome: "",
-      descricao: "Lavagem interna e TOP do veículo",
-      valor: 50,
-      descontoAtivo: 10.5
+      descricao: "",
+      valor: -1,
+      descontoAtivo: -1
     })
   })
+  .then(res => res.text())
+  .then(console.log)
+  .catch(console.error);
+}
+
+export async function getUsuarios() {
+  return fetch(`${baseURL}/usuarios`)
     .then(res => res.text())
     .then(console.log)
     .catch(console.error);
 }
 
-export async function getUsuarios() {
-  return request("/usuarios");
-}
-
 export async function getUsuarioById(id) {
-  return request(`/usuarios/${id}`);
+
+  return fetch(`${baseURL}/usuarios/${id}`)
+    .then(res => res.text())
+    .then(console.log)
+    .catch(console.error);
 }
 
-export async function createUsuario(data) {
-  return request("/usuarios", {
+export async function createUsuario() {
+  return fetch(`${baseURL}/usuarios`, {
     method: "POST",
-    body: JSON.stringify(data),
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomeUsuario: "ADM Legal",
+      senha: "123456",
+      cpf: "18053068049",
+      telefone: "27999349499",
+      endereco: "Rua A, 123",
+      tipoUsuario: "ADMINISTRADOR"
+    })
+  })
+  .then(res => res.text())
+  .then(console.log)
+  .catch(console.error);
 }
 
-export async function updateUsuario(id, data) {
-  return request(`/usuarios/${id}`, {
+export async function updateUsuario(id) {
+
+    return fetch(`${baseURL}/usuarios/${id}`, {
     method: "PUT",
-    body: JSON.stringify(data),
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomeUsuario: "Carinha que mora logo ali",
+      senha: "123456",
+      cpf: "18053068049",
+      telefone: "27999349499",
+      endereco: "Rua A, 123",
+      tipoUsuario: "FUNCIONARIO"
+    })
+  })
+  .then(res => res.text())
+  .then(console.log)
+  .catch(console.error);
 }
 
 export async function deleteUsuario(id) {
-  return request(`/usuarios/${id}`, {
-    method: "DELETE",
-  });
+  return fetch(`${baseURL}/usuarios/${id}`, {
+    method: "DELETE"
+  })
+  .then(res => res.text())
+  .then(console.log)
+  .catch(console.error);
 }
 
 function createUsuarioErro() {
@@ -465,17 +525,17 @@ async function runAllTests() {
   console.log("\nTIPOS DE SERVIÇO");
   await createTipoServico();
   await getTipoServico();
-  await getTipoServicoById();
-  await updateTipoServico();
-  await deleteTipoServico();
+  await getTipoServicoById(5);
+  await updateTipoServico(5);
+  await deleteTipoServico(5);
   await createTipoServicoErro();
 
   console.log("\nUSUÁRIOS");
   await createUsuario();
   await getUsuarios();
-  await getUsuarioById();
-  await updateUsuario();
-  await deleteUsuario();
+  await getUsuarioById(1);
+  await updateUsuario(1);
+  await deleteUsuario(5);
   await createUsuarioErro();
 
   console.log("\n✅ TODOS OS TESTES FINALIZADOS!");
