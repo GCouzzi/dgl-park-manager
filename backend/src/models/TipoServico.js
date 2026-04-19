@@ -25,14 +25,14 @@ class TipoServico extends Model {
       valor: { 
         type: DataTypes.INTEGER, 
         validate: {
-          min: 0
+          min: { args: [0], msg: "O valor não pode ser negativo" }
         },
         allowNull: false
       },
       descontoAtivo: { 
         type: DataTypes.DOUBLE, 
         validate: {
-            min: 0
+          min: { args: [0], msg: "O desconto ativo não pode ser negativo" }
         },
         allowNull: true
       }
