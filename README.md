@@ -1,5 +1,10 @@
 # Sistema de Gestão de Estacionamento
 
+## Membros do Grupo
+- Lucas Vianna Silva Sartorato
+- Gabriel de Salles Couzzi
+- Diogo Tosta Silva
+
 ## Visão Geral
 
 O sistema de gestão de estacionamento tem como objetivo principal organizar e controlar o uso das vagas de um estacionamento, bem como o registro de veículos, a oferta de serviços adicionais e o cálculo automático de cobrança, proporcionando maior eficiência operacional, controle financeiro e melhor experiência para os usuários e administradores.
