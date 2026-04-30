@@ -14,6 +14,17 @@ class VeiculoService {
     return obj;
   }
 
+  static async findByPlaca(req) {
+    const { placa } = req.params;
+    
+    const obj = await Veiculo.findAll({
+      where: {
+        placa: placa
+      }
+    });
+    return obj;
+  }
+
   static async create(req) {
     let { placa, modeloId, banido, motivo, cor } = req.body;
     if(banido == false){
