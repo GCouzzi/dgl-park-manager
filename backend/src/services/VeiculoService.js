@@ -16,7 +16,6 @@ class VeiculoService {
 
   static async findByPlaca(req) {
     const { placa } = req.params;
-    
     const obj = await Veiculo.findAll({
       where: {
         placa: placa

@@ -1,8 +1,10 @@
 import { Saida, Servico } from "../models/Servico";
-import { Veiculo } from "./VeiculoService"
+import { UsuarioService } from "./UsuarioService";
+import { VeiculoService } from "./VeiculoService";
+import { TipoServicoService } from "./TipoServicoService";
 import { saidaRegrasDeNegocio } from "../utils/SaidaRegrasDeNegocio";
 
-class SaidaService {
+class ServicoService {
 
   static async findAll() {
     const objs = await Servico.findAll({ include: { all: true, nested: true } });
@@ -17,32 +19,47 @@ class SaidaService {
 
   static async create(req) {
     // prestador, tipo de serviço, desconto, placa, Data serviço (automaticamente add)
-    let { prestadorId, tipoDeServico, desconto, placa } = req.body;
-
+    let { prestadorId, tipoDeServicoId, desconto, placa } = req.body;
 
     const usuarioId = 1; // mock
 
     const t = await sequelize.transaction();
 
     try {
-      const entrada = await Entrada.findByPlaca(placa);
-      if (!entrada) {
-        throw new Error("Entrada não encontrada");
+      let parameterObj = {params:{
+          id: tipoDeServicoId
+        }
+      };
+      const tipoDeServicoEncontrado = TipoServicoService.findByPk(parameterObj);
+      if(!tipoDeServicoEncontrado){
+        throw "Tipo de serviço não encontrado.";
+      };
+      
+      parameterObj = {params:{
+          placa: placa
+        }
+      };
+      // Trocar VeiculoService para um método no service da entrada
+      const entradaEncontrada = VeiculoService.findByPlaca(parameterObj);
+      if (!veiculoEncontrado) {
+        throw "Veículo não encontrado.";
+      };
+
+      parameterObj = {params:{
+          id: prestadorId
+        }
+      };
+      const funcionarioEncontrado = UsuarioService.findByPk(parameterObj);
+      if(!funcionarioEncontrado){
+        throw "Funcionário não encontrado.";
       }
 
-      const clienteId = entrada.clienteId;
-
-      const descontoRegra = await saidaRegrasDeNegocio(clienteId);
-
-      if(descontoRegra === 100){
-         desconto = descontoRegra 
-      } else { 
-        desconto += descontoRegra
-      }
-
-      const obj = await Saida.create(
+      /*
+      const obj = await Servico.create(
         {
-          entradaId: entrada.id,
+          prestadorId: funcionarioEncontrado.id,
+          tipoServicoId: tipoDeServicoEncontrado.id,
+          ,
           desconto,
           tipoPagamento,
           statusPagamento,
@@ -51,7 +68,7 @@ class SaidaService {
         },
         { transaction: t }
       );
-
+      */
       await t.commit();
 
       return await Saida.findByPk(obj.id, {
