@@ -6,6 +6,8 @@ import { ClienteController } from "./controllers/ClienteController.js";
 import { VagaController } from "./controllers/VagaController.js";
 import { TipoServicoController } from "./controllers/TipoServicoController.js";
 import { UsuarioController } from "./controllers/UsuarioController.js";
+import { SaidaController } from "./controllers/SaidaController.js";
+import { EntradaController } from "./controllers/EntradaController.js";
 
 
 const routes = express.Router();
@@ -49,5 +51,17 @@ routes.get('/usuarios/:id', UsuarioController.findByPk);
 routes.post('/usuarios', UsuarioController.create);
 routes.delete('/usuarios/:id', UsuarioController.delete);
 routes.put('/usuarios/:id', UsuarioController.update);
+
+routes.get('/entradas', EntradaController.findAll);
+routes.get('/entradas/:id', EntradaController.findByPk);
+routes.post('/entradas', EntradaController.create);
+routes.delete('/entradas/:id', EntradaController.delete);
+routes.put('/entradas/:id', EntradaController.update);
+
+routes.get('/saidas', SaidaController.findAll);
+routes.get('/saidas/:id', SaidaController.findByPk);
+routes.post('/saidas', SaidaController.create);
+routes.delete('/saidas/:id', SaidaController.delete);
+routes.put('/saidas/:id', SaidaController.update);
 
 export default routes;

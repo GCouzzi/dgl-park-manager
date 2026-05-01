@@ -2,7 +2,7 @@ import { Saida, Servico } from "../models/Servico";
 import { UsuarioService } from "./UsuarioService";
 import { VeiculoService } from "./VeiculoService";
 import { TipoServicoService } from "./TipoServicoService";
-import { saidaRegrasDeNegocio } from "../utils/SaidaRegrasDeNegocio";
+import sequelize from "../config/database-connection.js";
 
 class ServicoService {
 
@@ -128,4 +128,4 @@ class ServicoService {
   }
 }
 
-export { SaidaService };
+export { ServicoService };

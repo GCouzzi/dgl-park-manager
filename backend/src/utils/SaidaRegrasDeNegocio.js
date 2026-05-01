@@ -1,38 +1,43 @@
-import { SaidaService } from "../services/SaidaService";
-import { ClienteService } from "../services/ClienteService"
-import { UsuarioService } from "../services/UsuarioService"
+import { SaidaService } from "../services/SaidaService.js";
+import { ClienteService } from "../services/ClienteService.js"
+import { UsuarioService } from "../services/UsuarioService.js"
 
-export function saidaRegrasDeNegocio(clienteId){
+export async function saidaRegrasDeNegocio(clienteId) {
 
-  desconto = regraNumeroSaidas();
-  desconto2 = regraCpfClienteUsuarioIguais();
+  const desconto = await regraNumeroSaidas(clienteId);
+  const desconto2 = await regraCpfClienteUsuarioIguais(clienteId);
 
   return desconto > desconto2 ? desconto : desconto2;
 }
 
-function regraNumeroSaidas(clienteId){
+async function regraNumeroSaidas(clienteId) {
   let desconto = 0;
-  const numeroSaidas = SaidaService.findNumeroSaidas(clienteId);
+  const numeroSaidas = await SaidaService.findNumeroSaidas(clienteId);
 
-  if(numeroSaidas % 10 == 0){
+  if (numeroSaidas > 0 && numeroSaidas % 10 === 0) {
     desconto = 0.1;
   }
 
   return desconto;
 }
 
-function regraCpfClienteUsuarioIguais(clienteId){
+async function regraCpfClienteUsuarioIguais(clienteId) {
   let desconto = 0;
-  const cliente = ClienteService.findByPk(clienteId);
-  const usuario = UsuarioService.findByCpf(cliente.cpf);
+  const cliente = await ClienteService.findByPk({ params: { id: clienteId } });
 
-  if(!usuario){
+  if (!cliente) {
     return desconto;
   }
 
-  if(cliente.cpf === usuario.cpf){
+  const usuario = await UsuarioService.findByCpf(cliente.cpf);
+
+  if (!usuario) {
+    return desconto;
+  }
+
+  if (cliente.cpf === usuario.cpf) {
     desconto = 1;
   }
 
-  return desconto; 
+  return desconto;
 }

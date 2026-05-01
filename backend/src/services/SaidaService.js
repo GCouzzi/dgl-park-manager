@@ -1,40 +1,50 @@
-import { Saida } from "../models/Saida";
-import { Entrada } from "../models/Entrada";
-import { saidaRegrasDeNegocio } from "../utils/SaidaRegrasDeNegocio";
+import { Saida } from "../models/Saida.js";
+import { Entrada } from "../models/Entrada.js";
+import { saidaRegrasDeNegocio } from "../utils/SaidaRegrasDeNegocio.js";
+import sequelize from "../config/database-connection.js";
+import { EntradaService } from "./EntradaService.js";
 
 class SaidaService {
-
   static async findAll() {
-    const objs = await Saida.findAll({ include: { all: true, nested: true } });
+    const objs = await Saida.findAll();
     return objs;
   }
 
   static async findByPk(req) {
     const { id } = req.params;
-    const obj = await Saida.findByPk(id, { include: { all: true, nested: true } });
+    const obj = await Saida.findByPk(id);
     return obj;
   }
 
   static async create(req) {
-    let { entradaId, desconto, tipoPagamento, statusPagamento, observacoes } = req.body;
+    let { entradaId, desconto, tipoPagamento, statusPagamento, observacoes } =
+      req.body;
+
+    if (desconto > 1) {
+      throw "O desconto deve ser um valor entre 0 e 1, representando a porcentagem de desconto. Exemplo: 0.1 para 10% de desconto.";
+    }
 
     const usuarioId = 1; // mock
 
     const t = await sequelize.transaction();
 
     try {
-
-      const entrada = await Entrada.findByPk(entradaId);
+      const entrada = await EntradaService.findByPk({
+        params: { id: entradaId },
+      });
       if (!entrada) throw "Entrada não encontrada";
 
       const clienteId = entrada.clienteId;
 
       const descontoRegra = await saidaRegrasDeNegocio(clienteId);
 
-      if (descontoRegra === 100) {
-        desconto = descontoRegra
+      if (descontoRegra === 1) {
+        desconto = 1;
       } else {
-        desconto += descontoRegra
+        desconto = Math.min(
+          1,
+          Math.round(((desconto || 0) + descontoRegra) * 100) / 100,
+        );
       }
 
       const obj = await Saida.create(
@@ -44,20 +54,17 @@ class SaidaService {
           tipoPagamento,
           statusPagamento,
           observacoes,
-          usuarioId
+          usuarioId,
         },
-        { transaction: t }
+        { transaction: t },
       );
 
       await t.commit();
 
-      return await Saida.findByPk(obj.id, {
-        include: { all: true, nested: true }
-      });
-
+      return await Saida.findByPk(obj.id);
     } catch (error) {
       await t.rollback();
-      throw "Erro ao criar saída";
+      throw error;
     }
   }
 
@@ -65,30 +72,29 @@ class SaidaService {
     const { id } = req.params;
     let { desconto, tipoPagamento, statusPagamento, observacoes } = req.body;
 
+    if (desconto > 1) {
+      throw "O desconto deve ser um valor entre 0 e 1, representando a porcentagem de desconto. Exemplo: 0.1 para 10% de desconto.";
+    }
+
     const t = await sequelize.transaction();
 
     try {
-      const obj = await Saida.findByPk(id, {
-        include: { all: true, nested: true }
-      });
+      const obj = await Saida.findByPk(id);
 
-      if (obj == null) throw 'Saída não encontrada!';
+      if (obj == null) throw "Saída não encontrada!";
 
       Object.assign(obj, {
         desconto,
         tipoPagamento,
         statusPagamento,
-        observacoes
+        observacoes,
       });
 
       await obj.save({ transaction: t });
 
       await t.commit();
 
-      return await Saida.findByPk(obj.id, {
-        include: { all: true, nested: true }
-      });
-
+      return await Saida.findByPk(obj.id);
     } catch (error) {
       await t.rollback();
       throw "Erro ao atualizar saída";
@@ -98,7 +104,7 @@ class SaidaService {
   static async delete(req) {
     const { id } = req.params;
     const obj = await Saida.findByPk(id);
-    if (obj == null) throw 'Saida não encontrada!';
+    if (obj == null) throw "Saida não encontrada!";
     try {
       await obj.destroy();
       return obj;
@@ -112,13 +118,13 @@ class SaidaService {
       include: [
         {
           model: Entrada,
-          as: 'entrada',
+          as: "entrada",
           required: true,
-          where: { clienteId }
-        }
+          where: { clienteId },
+        },
       ],
       distinct: true,
-      col: 'saida.id'
+      col: "id",
     });
 
     return num;
@@ -128,7 +134,6 @@ class SaidaService {
     // implementar
     return 1;
   }
-
 }
 
 export { SaidaService };

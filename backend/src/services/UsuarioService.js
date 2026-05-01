@@ -50,6 +50,11 @@ class UsuarioService {
     return await Usuario.findByPk(obj.id, { include: { all: true, nested: true } });
   }
 
+  static async findByCpf(cpf) {
+    const obj = await Usuario.findOne({ where: { cpf }, include: { all: true, nested: true } });
+    return obj;
+  }
+
   static async delete(req) {
     const { id } = req.params;
 
