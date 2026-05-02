@@ -1,4 +1,5 @@
 import { Entrada } from "../models/Entrada.js";
+import { Veiculo } from "../models/Veiculo.js";
 
 class EntradaService {
 
@@ -10,6 +11,23 @@ class EntradaService {
   static async findByPk(req) {
     const { id } = req.params;
     const obj = await Entrada.findByPk(id, { include: { all: true, nested: true } });
+    return obj;
+  }
+
+  static async findLatestByPlaca(req) {
+    const { placa } = req.params;
+
+    const obj = await Entrada.findOne({
+      include: [
+        {
+          model: Veiculo,
+          as: 'veiculo',
+          where: { placa }
+        }
+      ],
+      order: [['horario', 'DESC']]
+    });
+
     return obj;
   }
 

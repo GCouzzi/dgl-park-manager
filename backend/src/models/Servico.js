@@ -14,7 +14,8 @@ class Servico extends Model {
         allowNull: true
       },
       dataServico: { 
-        type: DataTypes.NOW,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
         allowNull: false
       }
     }, { sequelize, modelName: 'servico', tableName: 'servicos' })
