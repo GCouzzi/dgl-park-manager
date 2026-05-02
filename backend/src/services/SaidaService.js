@@ -21,7 +21,7 @@ class SaidaService {
     const { entradaId } = req.params;
 
     const obj = await Saida.findOne({
-      where: { entradaId }
+      where: { entradaId },
     });
 
     return obj;
@@ -148,9 +148,52 @@ class SaidaService {
     return num;
   }
 
+  static async calcular(req, res) {
+    const { entradaId, saidaId } = req.query;
+
+    if (!entradaId) {
+      throw "entradaId é obrigatório";
+    }
+
+    if (!saidaId) {
+      throw "saidaId é obrigatório";
+    }
+
+    const entrada = await EntradaService.findByPk({
+      params: { id: entradaId },
+    });
+    const saida = await SaidaService.findByPk({
+      params: { id: saidaId },
+    });
+
+    const total = await SaidaService.calcularValorTotal(entrada, saida);
+
+    return total;
+  }
+
   static async calcularValorTotal(entrada, saida) {
-    // implementar
-    return 1;
+    const dataEntrada = new Date(entrada.horario);
+    const dataSaida = new Date(saida?.dataSaida || new Date());
+
+    const diffMs = dataSaida - dataEntrada;
+
+    if (diffMs <= 0) {
+      throw "Data de saída inválida";
+    }
+
+    const diffHoras = diffMs / (1000 * 60 * 60);
+
+    const valorHora = 10;
+
+    const horasCobradas = Math.max(1, Math.ceil(diffHoras));
+
+    const totalBruto = horasCobradas * valorHora;
+
+    const desconto = saida.desconto;
+
+    const totalComDesconto = totalBruto * (1 - desconto);
+
+    return Math.round(totalComDesconto * 100) / 100;
   }
 }
 

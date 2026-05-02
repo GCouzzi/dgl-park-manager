@@ -60,6 +60,7 @@ routes.delete('/entradas/:id', EntradaController.delete);
 routes.put('/entradas/:id', EntradaController.update);
 
 routes.get('/saidas', SaidaController.findAll);
+routes.get('/saidas/calculo', SaidaController.calcular);
 routes.get('/saidas/:id', SaidaController.findByPk);
 routes.post('/saidas', SaidaController.create);
 routes.delete('/saidas/:id', SaidaController.delete);

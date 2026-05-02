@@ -25,10 +25,11 @@ function prettyPrint(text) {
  */
 function logRequisicao(method, endpoint, descricao = "") {
   console.log("\n" + "─".repeat(60));
-  console.log(`🔹 ${method.toUpperCase()} ${endpoint}${descricao ? `  →  ${descricao}` : ""}`);
+  console.log(
+    `🔹 ${method.toUpperCase()} ${endpoint}${descricao ? `  →  ${descricao}` : ""}`,
+  );
   console.log("─".repeat(60));
 }
-
 
 // ============================================================
 // MODELOS
@@ -37,7 +38,7 @@ function logRequisicao(method, endpoint, descricao = "") {
 function getModelos() {
   logRequisicao("GET", "/modelos", "Listar todos os modelos");
   return fetch(`${baseURL}/modelos`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -50,10 +51,10 @@ function createModelo() {
     body: JSON.stringify({
       nome: "Corolla Altis",
       marca: "Toyota",
-      ano: 2025
-    })
+      ano: 2025,
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -61,30 +62,34 @@ function createModelo() {
 function deleteModelo() {
   logRequisicao("DELETE", "/modelos/5", "Deletar modelo por ID");
   return fetch(`${baseURL}/modelos/5`, {
-    method: "DELETE"
+    method: "DELETE",
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
 
 /** Testa validação: nome/marca muito longos e ano inválido */
 function createModelo2() {
-  logRequisicao("POST", "/modelos", "❌ Criar modelo com dados inválidos (validação)");
+  logRequisicao(
+    "POST",
+    "/modelos",
+    "❌ Criar modelo com dados inválidos (validação)",
+  );
   return fetch(`${baseURL}/modelos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       nome: "Corolla Altissssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-      marca: "Toyotaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      ano: "1885"
-    })
+      marca:
+        "Toyotaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      ano: "1885",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
-
 
 // ============================================================
 // VEÍCULOS
@@ -93,7 +98,7 @@ function createModelo2() {
 function getVeiculos() {
   logRequisicao("GET", "/veiculos", "Listar todos os veículos");
   return fetch(`${baseURL}/veiculos`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -101,7 +106,7 @@ function getVeiculos() {
 function getVeiculoById() {
   logRequisicao("GET", "/veiculos/4", "Buscar veículo por ID");
   return fetch(`${baseURL}/veiculos/4`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -115,10 +120,10 @@ function createVeiculo() {
       placa: "AZZ1B23",
       modeloId: 3,
       banido: false,
-      cor: "PRETO"
-    })
+      cor: "PRETO",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -132,10 +137,10 @@ function updateVeiculo() {
       placa: "AZZ1B22",
       modeloId: 3,
       banido: false,
-      cor: "PRETO"
-    })
+      cor: "PRETO",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -143,16 +148,20 @@ function updateVeiculo() {
 function deleteVeiculo() {
   logRequisicao("DELETE", "/veiculos/1", "Deletar veículo por ID");
   return fetch(`${baseURL}/veiculos/1`, {
-    method: "DELETE"
+    method: "DELETE",
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
 
 /** Testa validação: placa muito longa e cor inválida */
 function createVeiculo2() {
-  logRequisicao("POST", "/veiculos", "❌ Criar veículo com dados inválidos (validação)");
+  logRequisicao(
+    "POST",
+    "/veiculos",
+    "❌ Criar veículo com dados inválidos (validação)",
+  );
   return fetch(`${baseURL}/veiculos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -160,14 +169,13 @@ function createVeiculo2() {
       placa: "AZZ1B211",
       modeloId: 1,
       banido: false,
-      cor: "PRETOO"
-    })
+      cor: "PRETOO",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
-
 
 // ============================================================
 // DESPESAS
@@ -176,7 +184,7 @@ function createVeiculo2() {
 function getDespesas() {
   logRequisicao("GET", "/despesas", "Listar todas as despesas");
   return fetch(`${baseURL}/despesas`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -184,7 +192,7 @@ function getDespesas() {
 function getDespesaById() {
   logRequisicao("GET", "/despesas/1", "Buscar despesa por ID");
   return fetch(`${baseURL}/despesas/1`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -198,10 +206,10 @@ function createDespesa() {
       descricao: "Conta de luz",
       valor: 150,
       vencimento: "2026-04-15",
-      status: "NAO_PAGO"
-    })
+      status: "NAO_PAGO",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -215,10 +223,10 @@ function updateDespesa() {
       descricao: "Conta de água",
       valor: 150,
       vencimento: "2026-04-15",
-      status: "NAO_PAGO"
-    })
+      status: "NAO_PAGO",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -226,31 +234,35 @@ function updateDespesa() {
 function deleteDespesa() {
   logRequisicao("DELETE", "/despesas/2", "Deletar despesa por ID");
   return fetch(`${baseURL}/despesas/2`, {
-    method: "DELETE"
+    method: "DELETE",
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
 
 /** Testa validação: descrição longa, valor negativo e status inválido */
 function createDespesa2() {
-  logRequisicao("POST", "/despesas", "❌ Criar despesa com dados inválidos (validação)");
+  logRequisicao(
+    "POST",
+    "/despesas",
+    "❌ Criar despesa com dados inválidos (validação)",
+  );
   return fetch(`${baseURL}/despesas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      descricao: "Conta de luzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+      descricao:
+        "Conta de luzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
       valor: -150,
       vencimento: "2026-04-15",
-      status: "NAO_PAGOo"
-    })
+      status: "NAO_PAGOo",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
-
 
 // ============================================================
 // CLIENTES
@@ -259,7 +271,7 @@ function createDespesa2() {
 function getClientes() {
   logRequisicao("GET", "/clientes", "Listar todos os clientes");
   return fetch(`${baseURL}/clientes`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -267,7 +279,7 @@ function getClientes() {
 function getClienteById() {
   logRequisicao("GET", "/clientes/5", "Buscar cliente por ID");
   return fetch(`${baseURL}/clientes/5`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -281,10 +293,10 @@ function createCliente() {
       nome: "João da Silva",
       cpf: "12345678901",
       telefone: "27999999999",
-      tipo: "AVULSO"
-    })
+      tipo: "AVULSO",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -298,10 +310,10 @@ function updateCliente() {
       nome: "João Pedro Paganotti",
       cpf: "12345678901",
       telefone: "27999999999",
-      tipo: "MENSALISTA"
-    })
+      tipo: "MENSALISTA",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -309,16 +321,20 @@ function updateCliente() {
 function deleteCliente() {
   logRequisicao("DELETE", "/clientes/3", "Deletar cliente por ID");
   return fetch(`${baseURL}/clientes/3`, {
-    method: "DELETE"
+    method: "DELETE",
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
 
 /** Testa validação: nome longo, CPF com dígitos a mais, telefone inválido, tipo errado */
 function createClienteErro() {
-  logRequisicao("POST", "/clientes", "❌ Criar cliente com dados inválidos (validação)");
+  logRequisicao(
+    "POST",
+    "/clientes",
+    "❌ Criar cliente com dados inválidos (validação)",
+  );
   return fetch(`${baseURL}/clientes`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -326,14 +342,13 @@ function createClienteErro() {
       nome: "João da Silvasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       cpf: "123456789011",
       telefone: "279999999994324239",
-      tipo: "AVULSOoooo"
-    })
+      tipo: "AVULSOoooo",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
-
 
 // ============================================================
 // VAGAS
@@ -342,7 +357,7 @@ function createClienteErro() {
 function getVagas() {
   logRequisicao("GET", "/vagas", "Listar todas as vagas");
   return fetch(`${baseURL}/vagas`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -350,7 +365,7 @@ function getVagas() {
 function getVagaById() {
   logRequisicao("GET", "/vagas/1", "Buscar vaga por ID");
   return fetch(`${baseURL}/vagas/1`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -364,10 +379,10 @@ function createVaga() {
       tipo: "CARRO",
       status: "LIVRE",
       possuiCobertura: true,
-      preferencial: false
-    })
+      preferencial: false,
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -381,10 +396,10 @@ function updateVaga() {
       tipo: "CARRO",
       status: "LIVRE",
       possuiCobertura: true,
-      preferencial: true
-    })
+      preferencial: true,
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -392,16 +407,20 @@ function updateVaga() {
 function deleteVaga() {
   logRequisicao("DELETE", "/vagas/5", "Deletar vaga por ID");
   return fetch(`${baseURL}/vagas/5`, {
-    method: "DELETE"
+    method: "DELETE",
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
 
 /** Testa validação: tipo e status com valores inválidos */
 function createVagaErro() {
-  logRequisicao("POST", "/vagas", "❌ Criar vaga com dados inválidos (validação)");
+  logRequisicao(
+    "POST",
+    "/vagas",
+    "❌ Criar vaga com dados inválidos (validação)",
+  );
   return fetch(`${baseURL}/vagas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -409,14 +428,13 @@ function createVagaErro() {
       tipo: "CARROo",
       status: "LIVREe",
       possuiCobertura: true,
-      preferencial: false
-    })
+      preferencial: false,
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
-
 
 // ============================================================
 // TIPOS DE SERVIÇO
@@ -425,7 +443,7 @@ function createVagaErro() {
 export async function getTipoServico() {
   logRequisicao("GET", "/tipo-servico", "Listar todos os tipos de serviço");
   return fetch(`${baseURL}/tipo-servico`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -433,7 +451,7 @@ export async function getTipoServico() {
 export async function getTipoServicoById(id) {
   logRequisicao("GET", `/tipo-servico/${id}`, "Buscar tipo de serviço por ID");
   return fetch(`${baseURL}/tipo-servico/${id}`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -447,16 +465,20 @@ export async function createTipoServico() {
       nome: "Serviço Muito TOP",
       descricao: "Lavagem interna e TOP do veículo",
       valor: 50,
-      descontoAtivo: 10.5
-    })
+      descontoAtivo: 10.5,
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
 
 export async function updateTipoServico(id) {
-  logRequisicao("PUT", `/tipo-servico/${id}`, "Atualizar tipo de serviço por ID");
+  logRequisicao(
+    "PUT",
+    `/tipo-servico/${id}`,
+    "Atualizar tipo de serviço por ID",
+  );
   return fetch(`${baseURL}/tipo-servico/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -464,27 +486,35 @@ export async function updateTipoServico(id) {
       nome: "Serviço Extremamente TOP",
       descricao: "TOP, muito TOP",
       valor: 200,
-      descontoAtivo: 0
-    })
+      descontoAtivo: 0,
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
 
 export async function deleteTipoServico(id) {
-  logRequisicao("DELETE", `/tipo-servico/${id}`, "Deletar tipo de serviço por ID");
+  logRequisicao(
+    "DELETE",
+    `/tipo-servico/${id}`,
+    "Deletar tipo de serviço por ID",
+  );
   return fetch(`${baseURL}/tipo-servico/${id}`, {
-    method: "DELETE"
+    method: "DELETE",
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
 
 /** Testa validação: nome/descrição vazios, valor e desconto negativos */
 function createTipoServicoErro() {
-  logRequisicao("POST", "/tipo-servico", "❌ Criar tipo de serviço com dados inválidos (validação)");
+  logRequisicao(
+    "POST",
+    "/tipo-servico",
+    "❌ Criar tipo de serviço com dados inválidos (validação)",
+  );
   return fetch(`${baseURL}/tipo-servico`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -492,14 +522,13 @@ function createTipoServicoErro() {
       nome: "",
       descricao: "",
       valor: -1,
-      descontoAtivo: -1
-    })
+      descontoAtivo: -1,
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
-
 
 // ============================================================
 // USUÁRIOS
@@ -508,7 +537,7 @@ function createTipoServicoErro() {
 export async function getUsuarios() {
   logRequisicao("GET", "/usuarios", "Listar todos os usuários");
   return fetch(`${baseURL}/usuarios`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -516,7 +545,7 @@ export async function getUsuarios() {
 export async function getUsuarioById(id) {
   logRequisicao("GET", `/usuarios/${id}`, "Buscar usuário por ID");
   return fetch(`${baseURL}/usuarios/${id}`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -532,10 +561,10 @@ export async function createUsuario() {
       cpf: "18053068049",
       telefone: "27999349499",
       endereco: "Rua A, 123",
-      tipoUsuario: "ADMINISTRADOR"
-    })
+      tipoUsuario: "ADMINISTRADOR",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -551,10 +580,10 @@ export async function updateUsuario(id) {
       cpf: "18053068049",
       telefone: "27999349499",
       endereco: "Rua A, 123",
-      tipoUsuario: "FUNCIONARIO"
-    })
+      tipoUsuario: "FUNCIONARIO",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -562,16 +591,20 @@ export async function updateUsuario(id) {
 export async function deleteUsuario(id) {
   logRequisicao("DELETE", `/usuarios/${id}`, "Deletar usuário por ID");
   return fetch(`${baseURL}/usuarios/${id}`, {
-    method: "DELETE"
+    method: "DELETE",
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
 
 /** Testa validação: nome/senha vazios, CPF curto, tipo inválido */
 function createUsuarioErro() {
-  logRequisicao("POST", "/usuarios", "❌ Criar usuário com dados inválidos (validação)");
+  logRequisicao(
+    "POST",
+    "/usuarios",
+    "❌ Criar usuário com dados inválidos (validação)",
+  );
   return fetch(`${baseURL}/usuarios`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -581,14 +614,13 @@ function createUsuarioErro() {
       cpf: "123",
       telefone: "",
       endereco: "",
-      tipoUsuario: "INVALIDO"
-    })
+      tipoUsuario: "INVALIDO",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
-
 
 // ============================================================
 // SAÍDAS
@@ -597,7 +629,7 @@ function createUsuarioErro() {
 function getSaidas() {
   logRequisicao("GET", "/saidas", "Listar todas as saídas");
   return fetch(`${baseURL}/saidas`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -605,7 +637,7 @@ function getSaidas() {
 function getSaidaById(id) {
   logRequisicao("GET", `/saidas/${id}`, "Buscar saída por ID");
   return fetch(`${baseURL}/saidas/${id}`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -618,25 +650,43 @@ function getSaidaById(id) {
  * 4. Cria a saída referenciando a entrada
  */
 async function createSaida() {
-  logRequisicao("POST", "/saidas", "Criar saída válida (com vaga, veículo e entrada)");
+  logRequisicao(
+    "POST",
+    "/saidas",
+    "Criar saída válida (com vaga, veículo e entrada)",
+  );
 
   const vagaRes = await fetch(`${baseURL}/vagas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ tipo: "CARRO", status: "LIVRE", possuiCobertura: false, preferencial: false })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      tipo: "CARRO",
+      status: "LIVRE",
+      possuiCobertura: false,
+      preferencial: false,
+    }),
+  }).then((res) => res.json());
 
   const veiculoRes = await fetch(`${baseURL}/veiculos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ placa: "TST1A23", modeloId: 1, banido: false, cor: "AZUL" })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      placa: "TST1A23",
+      modeloId: 1,
+      banido: false,
+      cor: "AZUL",
+    }),
+  }).then((res) => res.json());
 
   const entradaRes = await fetch(`${baseURL}/entradas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ clienteId: 1, vagaId: vagaRes.id, veiculoId: veiculoRes.id })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      clienteId: 1,
+      vagaId: vagaRes.id,
+      veiculoId: veiculoRes.id,
+    }),
+  }).then((res) => res.json());
 
   return fetch(`${baseURL}/saidas`, {
     method: "POST",
@@ -646,10 +696,10 @@ async function createSaida() {
       desconto: 0,
       tipoPagamento: "PIX",
       statusPagamento: "PAGO",
-      observacoes: "Saída normal"
-    })
+      observacoes: "Saída normal",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -663,10 +713,10 @@ function updateSaida(id) {
       desconto: 0.05,
       tipoPagamento: "CREDITO",
       statusPagamento: "PAGO",
-      observacoes: "Saída atualizada"
-    })
+      observacoes: "Saída atualizada",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -674,9 +724,9 @@ function updateSaida(id) {
 function deleteSaida(id) {
   logRequisicao("DELETE", `/saidas/${id}`, "Deletar saída por ID");
   return fetch(`${baseURL}/saidas/${id}`, {
-    method: "DELETE"
+    method: "DELETE",
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -686,25 +736,43 @@ function deleteSaida(id) {
  * desconto negativo, tipoPagamento inválido, statusPagamento inválido, observações vazias
  */
 async function createSaidaErro() {
-  logRequisicao("POST", "/saidas", "❌ Criar saída com dados inválidos (validação)");
+  logRequisicao(
+    "POST",
+    "/saidas",
+    "❌ Criar saída com dados inválidos (validação)",
+  );
 
   const vagaRes = await fetch(`${baseURL}/vagas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ tipo: "CARRO", status: "LIVRE", possuiCobertura: false, preferencial: false })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      tipo: "CARRO",
+      status: "LIVRE",
+      possuiCobertura: false,
+      preferencial: false,
+    }),
+  }).then((res) => res.json());
 
   const veiculoRes = await fetch(`${baseURL}/veiculos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ placa: "TST2B44", modeloId: 1, banido: false, cor: "VERDE" })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      placa: "TST2B44",
+      modeloId: 1,
+      banido: false,
+      cor: "VERDE",
+    }),
+  }).then((res) => res.json());
 
   const entradaRes = await fetch(`${baseURL}/entradas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ clienteId: 1, vagaId: vagaRes.id, veiculoId: veiculoRes.id })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      clienteId: 1,
+      vagaId: vagaRes.id,
+      veiculoId: veiculoRes.id,
+    }),
+  }).then((res) => res.json());
 
   return fetch(`${baseURL}/saidas`, {
     method: "POST",
@@ -714,14 +782,13 @@ async function createSaidaErro() {
       desconto: -10,
       tipoPagamento: "INVALIDO",
       statusPagamento: "INVALIDO",
-      observacoes: ""
-    })
+      observacoes: "",
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
-
 
 // ============================================================
 // REGRAS DE NEGÓCIO — SAÍDAS
@@ -748,9 +815,9 @@ async function testeRegra10Saidas() {
       nome: "Cliente Teste 10 Saidas",
       cpf: "74682489070",
       telefone: "27999888777",
-      tipo: "AVULSO"
-    })
-  }).then(res => res.json());
+      tipo: "AVULSO",
+    }),
+  }).then((res) => res.json());
   const clienteId = clienteRes.id;
   console.log(`  ✔ Cliente criado com ID: ${clienteId}`);
 
@@ -758,8 +825,13 @@ async function testeRegra10Saidas() {
   const vagaRes = await fetch(`${baseURL}/vagas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ tipo: "CARRO", status: "LIVRE", possuiCobertura: false, preferencial: false })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      tipo: "CARRO",
+      status: "LIVRE",
+      possuiCobertura: false,
+      preferencial: false,
+    }),
+  }).then((res) => res.json());
   const vagaId = vagaRes.id;
   console.log(`  ✔ Vaga criada com ID: ${vagaId}`);
 
@@ -767,8 +839,13 @@ async function testeRegra10Saidas() {
   const veiculoRes = await fetch(`${baseURL}/veiculos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ placa: "TST0A00", modeloId: 1, banido: false, cor: "BRANCO" })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      placa: "TST0A00",
+      modeloId: 1,
+      banido: false,
+      cor: "BRANCO",
+    }),
+  }).then((res) => res.json());
   const veiculoId = veiculoRes.id;
   console.log(`  ✔ Veículo criado com ID: ${veiculoId}`);
 
@@ -778,8 +855,8 @@ async function testeRegra10Saidas() {
     const entradaRes = await fetch(`${baseURL}/entradas`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ clienteId, vagaId, veiculoId })
-    }).then(res => res.json());
+      body: JSON.stringify({ clienteId, vagaId, veiculoId }),
+    }).then((res) => res.json());
 
     const saidaRes = await fetch(`${baseURL}/saidas`, {
       method: "POST",
@@ -789,12 +866,14 @@ async function testeRegra10Saidas() {
         desconto: 0.02,
         tipoPagamento: "DINHEIRO",
         statusPagamento: "PAGO",
-        observacoes: `Saída ${i} - teste regra 10 saídas`
-      })
-    }).then(res => res.text());
+        observacoes: `Saída ${i} - teste regra 10 saídas`,
+      }),
+    }).then((res) => res.text());
 
     if (i === 11) {
-      console.log(`  ✅ 11ª saída — desconto esperado: ~12% (0.02 passado na saída + 0.10 da regra)`);
+      console.log(
+        `  ✅ 11ª saída — desconto esperado: ~12% (0.02 passado na saída + 0.10 da regra)`,
+      );
       prettyPrint(saidaRes);
     } else {
       console.log(`  [${i}/10] Entrada ${entradaRes.id} → saída criada`);
@@ -829,9 +908,9 @@ async function testeRegraCpfIgualUsuario() {
       cpf: cpfCompartilhado,
       telefone: "27999111222",
       endereco: "Rua Teste, 100",
-      tipoUsuario: "FUNCIONARIO"
-    })
-  }).then(res => res.json());
+      tipoUsuario: "FUNCIONARIO",
+    }),
+  }).then((res) => res.json());
   console.log(`  ✔ Usuário criado com ID: ${usuarioRes.id}`);
 
   console.log("\n  → Criando cliente com o MESMO CPF do usuário...");
@@ -842,9 +921,9 @@ async function testeRegraCpfIgualUsuario() {
       nome: "Cliente Funcionário",
       cpf: cpfCompartilhado,
       telefone: "27999111222",
-      tipo: "MENSALISTA"
-    })
-  }).then(res => res.json());
+      tipo: "MENSALISTA",
+    }),
+  }).then((res) => res.json());
   const clienteId = clienteRes.id;
   console.log(`  ✔ Cliente criado com ID: ${clienteId}`);
 
@@ -852,24 +931,38 @@ async function testeRegraCpfIgualUsuario() {
   const vagaRes = await fetch(`${baseURL}/vagas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ tipo: "CARRO", status: "LIVRE", possuiCobertura: false, preferencial: false })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      tipo: "CARRO",
+      status: "LIVRE",
+      possuiCobertura: false,
+      preferencial: false,
+    }),
+  }).then((res) => res.json());
   console.log(`  ✔ Vaga criada com ID: ${vagaRes.id}`);
 
   console.log("\n  → Criando veículo...");
   const veiculoRes = await fetch(`${baseURL}/veiculos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ placa: "CPF0X99", modeloId: 1, banido: false, cor: "VERMELHO" })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      placa: "CPF0X99",
+      modeloId: 1,
+      banido: false,
+      cor: "VERMELHO",
+    }),
+  }).then((res) => res.json());
   console.log(`  ✔ Veículo criado com ID: ${veiculoRes.id}`);
 
   console.log("\n  → Criando entrada para o cliente...");
   const entradaRes = await fetch(`${baseURL}/entradas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ clienteId, vagaId: vagaRes.id, veiculoId: veiculoRes.id })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      clienteId,
+      vagaId: vagaRes.id,
+      veiculoId: veiculoRes.id,
+    }),
+  }).then((res) => res.json());
   console.log(`  ✔ Entrada criada com ID: ${entradaRes.id}`);
 
   console.log("\n  → Criando saída (desconto esperado: 100%)...");
@@ -881,14 +974,70 @@ async function testeRegraCpfIgualUsuario() {
       desconto: 0,
       tipoPagamento: "PIX",
       statusPagamento: "PAGO",
-      observacoes: "Teste regra CPF igual ao de um usuário"
-    })
-  }).then(res => res.text());
+      observacoes: "Teste regra CPF igual ao de um usuário",
+    }),
+  }).then((res) => res.text());
 
   console.log("\n  ✅ Saída criada — desconto esperado: 100%");
   prettyPrint(saidaRes);
 }
 
+async function testeCalculoSaida() {
+  logRequisicao("GET", "/saidas/calculo", "Testar cálculo de valor da saída");
+
+  const vagaRes = await fetch(`${baseURL}/vagas`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      tipo: "CARRO",
+      status: "LIVRE",
+      possuiCobertura: false,
+      preferencial: false,
+    }),
+  }).then((res) => res.json());
+
+  const veiculoRes = await fetch(`${baseURL}/veiculos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      placa: "CALC123",
+      modeloId: 1,
+      banido: false,
+      cor: "PRETO",
+    }),
+  }).then((res) => res.json());
+
+  const entradaRes = await fetch(`${baseURL}/entradas`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      clienteId: 1,
+      vagaId: vagaRes.id,
+      veiculoId: veiculoRes.id,
+    }),
+  }).then((res) => res.json());
+
+  await new Promise((r) => setTimeout(r, 2000));
+
+  const saidaRes = await fetch(`${baseURL}/saidas`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      entradaId: entradaRes.id,
+      desconto: 0.1,
+      tipoPagamento: "PIX",
+      statusPagamento: "PAGO",
+      observacoes: "Teste cálculo",
+    }),
+  }).then((res) => res.json());
+
+  return fetch(
+    `${baseURL}/saidas/calculo?entradaId=${entradaRes.id}&saidaId=${saidaRes.id}`,
+  )
+    .then((res) => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
 
 // ============================================================
 // SERVIÇOS
@@ -897,7 +1046,7 @@ async function testeRegraCpfIgualUsuario() {
 export async function getServicos() {
   logRequisicao("GET", "/servicos", "Listar todos os serviços");
   return fetch(`${baseURL}/servicos`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -905,7 +1054,7 @@ export async function getServicos() {
 export async function getServicoById(id) {
   logRequisicao("GET", `/servicos/${id}`, "Buscar serviço por ID");
   return fetch(`${baseURL}/servicos/${id}`)
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -921,30 +1070,44 @@ export async function createServico() {
       nome: "Cliente do servico",
       cpf: "73496467045",
       telefone: "1140028922",
-      tipo: "MENSALISTA"
-    })
-  }).then(res => res.json());
+      tipo: "MENSALISTA",
+    }),
+  }).then((res) => res.json());
 
   // Criando um veículo para dar entrada no estacionamento.
   const veiculoRes = await fetch(`${baseURL}/veiculos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ placa: "BOB0800", modeloId: 1, banido: false, cor: "VERMELHO" })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      placa: "BOB0800",
+      modeloId: 1,
+      banido: false,
+      cor: "VERMELHO",
+    }),
+  }).then((res) => res.json());
 
   // Criando vaga para que o veículo seja associado à ela
   const vagaRes = await fetch(`${baseURL}/vagas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ tipo: "CARRO", status: "LIVRE", possuiCobertura: false, preferencial: false })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      tipo: "CARRO",
+      status: "LIVRE",
+      possuiCobertura: false,
+      preferencial: false,
+    }),
+  }).then((res) => res.json());
 
   // Registrando a entrada do cliente com o veículo no estacionamento
   const entradaRes = await fetch(`${baseURL}/entradas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ clienteId: clienteRes.id, vagaId: vagaRes.id, veiculoId: veiculoRes.id })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      clienteId: clienteRes.id,
+      vagaId: vagaRes.id,
+      veiculoId: veiculoRes.id,
+    }),
+  }).then((res) => res.json());
 
   // Criando o usuario que irá prestar o serviço
   const usuarioRes = await fetch(`${baseURL}/usuarios`, {
@@ -956,9 +1119,9 @@ export async function createServico() {
       cpf: "05553302064",
       telefone: "08001234",
       endereco: "Rua Bonita, 1000",
-      tipoUsuario: "FUNCIONARIO"
-    })
-  }).then(res => res.json());
+      tipoUsuario: "FUNCIONARIO",
+    }),
+  }).then((res) => res.json());
 
   // Registrando a prestação de serviço
   return fetch(`${baseURL}/servicos`, {
@@ -969,9 +1132,9 @@ export async function createServico() {
       tipoDeServicoId: 1,
       desconto: 0.5,
       placa: veiculoRes.placa,
-    })
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -990,30 +1153,44 @@ export async function updateServico(id) {
       nome: "Outro Cliente do servico",
       cpf: "71917142048",
       telefone: "1140028922",
-      tipo: "MENSALISTA"
-    })
-  }).then(res => res.json());
+      tipo: "MENSALISTA",
+    }),
+  }).then((res) => res.json());
 
   // Criando outro veículo para dar entrada no estacionamento.
   const veiculoRes = await fetch(`${baseURL}/veiculos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ placa: "BOB4002", modeloId: 1, banido: false, cor: "AZUL" })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      placa: "BOB4002",
+      modeloId: 1,
+      banido: false,
+      cor: "AZUL",
+    }),
+  }).then((res) => res.json());
 
   // Criando outra vaga para que o veículo seja associado à ela
   const vagaRes = await fetch(`${baseURL}/vagas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ tipo: "CARRO", status: "LIVRE", possuiCobertura: true, preferencial: false })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      tipo: "CARRO",
+      status: "LIVRE",
+      possuiCobertura: true,
+      preferencial: false,
+    }),
+  }).then((res) => res.json());
 
   // Registrando a entrada do cliente com o veículo no estacionamento
   const entradaRes = await fetch(`${baseURL}/entradas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ clienteId: clienteRes.id, vagaId: vagaRes.id, veiculoId: veiculoRes.id })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      clienteId: clienteRes.id,
+      vagaId: vagaRes.id,
+      veiculoId: veiculoRes.id,
+    }),
+  }).then((res) => res.json());
 
   // Criando outro usuario que irá prestar o serviço
   const usuarioRes = await fetch(`${baseURL}/usuarios`, {
@@ -1025,9 +1202,9 @@ export async function updateServico(id) {
       cpf: "89994596080",
       telefone: "40028922",
       endereco: "Rua Bonita, 9999",
-      tipoUsuario: "FUNCIONARIO"
-    })
-  }).then(res => res.json());
+      tipoUsuario: "FUNCIONARIO",
+    }),
+  }).then((res) => res.json());
 
   // Atualizando tipo de serviço, prestador do serviço, desconto e entrada
   // (identificada pela placa no backend).
@@ -1039,9 +1216,9 @@ export async function updateServico(id) {
       tipoDeServicoId: 2,
       desconto: 0.1,
       placa: veiculoRes.placa,
-    })
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -1049,15 +1226,19 @@ export async function updateServico(id) {
 export async function deleteServico(id) {
   logRequisicao("DELETE", `/servicos/${id}`, "Deletar serviço por ID");
   return fetch(`${baseURL}/servicos/${id}`, {
-    method: "DELETE"
+    method: "DELETE",
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
 
 async function createServicoErro() {
-  logRequisicao("POST", "/servicos", "Induzir erros de validação (sem chave estrangeira)");
+  logRequisicao(
+    "POST",
+    "/servicos",
+    "Induzir erros de validação (sem chave estrangeira)",
+  );
   await fetch(`${baseURL}/servicos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -1066,9 +1247,9 @@ async function createServicoErro() {
       tipoDeServicoId: 1,
       desconto: -1,
       placa: "BOB4002",
-    })
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 
@@ -1081,13 +1262,17 @@ async function createServicoErro() {
       tipoDeServicoId: 1,
       desconto: 0.5,
       placa: "BOB4002",
-    })
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 
-  logRequisicao("POST", "/servicos", "Induzir erros de validação (FK Tipo de Serviço)");
+  logRequisicao(
+    "POST",
+    "/servicos",
+    "Induzir erros de validação (FK Tipo de Serviço)",
+  );
   await fetch(`${baseURL}/servicos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -1096,9 +1281,9 @@ async function createServicoErro() {
       tipoDeServicoId: 99999,
       desconto: 0.5,
       placa: "BOB4002",
-    })
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 
@@ -1111,9 +1296,9 @@ async function createServicoErro() {
       tipoDeServicoId: 1,
       desconto: 0.5,
       placa: "NAOEXISTE123",
-    })
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
@@ -1122,10 +1307,13 @@ async function createServicoErro() {
 // REGRAS DE NEGÓCIO — SERVIÇOS
 // ============================================================
 
-async function regraSomenteUmaPrestacaoDoMesmoTipoDeServicoPorEntrada(){
+async function regraSomenteUmaPrestacaoDoMesmoTipoDeServicoPorEntrada() {
   // Um tipo de serviço só pode ser prestado apenas uma vez por estadia.
-  logRequisicao("REGRA DE NEGÓCIO 1", "/servicos", "Um tipo de serviço só pode ser prestado ao mesmo veículo apenas uma vez por estadia.");
-
+  logRequisicao(
+    "REGRA DE NEGÓCIO 1",
+    "/servicos",
+    "Um tipo de serviço só pode ser prestado ao mesmo veículo apenas uma vez por estadia.",
+  );
 
   // ---------------------------------------------------------------------------
   // Realizando o setup de entrada de um veículo dentro do estacionamento.
@@ -1139,30 +1327,44 @@ async function regraSomenteUmaPrestacaoDoMesmoTipoDeServicoPorEntrada(){
       nome: "Cliente Here We Go Again",
       cpf: "61180341090",
       telefone: "2840028922",
-      tipo: "MENSALISTA"
-    })
-  }).then(res => res.json());
+      tipo: "MENSALISTA",
+    }),
+  }).then((res) => res.json());
 
   // Criando um veículo para dar entrada no estacionamento.
   const veiculoRes = await fetch(`${baseURL}/veiculos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ placa: "API3K21", modeloId: 1, banido: false, cor: "VERMELHO" })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      placa: "API3K21",
+      modeloId: 1,
+      banido: false,
+      cor: "VERMELHO",
+    }),
+  }).then((res) => res.json());
 
   // Criando vaga para que o veículo seja associado à ela
   const vagaRes = await fetch(`${baseURL}/vagas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ tipo: "CARRO", status: "LIVRE", possuiCobertura: false, preferencial: false })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      tipo: "CARRO",
+      status: "LIVRE",
+      possuiCobertura: false,
+      preferencial: false,
+    }),
+  }).then((res) => res.json());
 
   // Registrando a entrada do cliente com o veículo no estacionamento
   const entradaRes = await fetch(`${baseURL}/entradas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ clienteId: clienteRes.id, vagaId: vagaRes.id, veiculoId: veiculoRes.id })
-  }).then(res => res.json());
+    body: JSON.stringify({
+      clienteId: clienteRes.id,
+      vagaId: vagaRes.id,
+      veiculoId: veiculoRes.id,
+    }),
+  }).then((res) => res.json());
 
   // Criando o usuario que irá prestar o serviço
   const usuarioRes = await fetch(`${baseURL}/usuarios`, {
@@ -1174,9 +1376,9 @@ async function regraSomenteUmaPrestacaoDoMesmoTipoDeServicoPorEntrada(){
       cpf: "87706610063",
       telefone: "11123456789",
       endereco: "Rua Repetida, 999",
-      tipoUsuario: "FUNCIONARIO"
-    })
-  }).then(res => res.json());
+      tipoUsuario: "FUNCIONARIO",
+    }),
+  }).then((res) => res.json());
 
   // ---------------------------------------------------------------------------
   // Colocando o funcionário para registrar um mesmo tipo de serviço duas vezes
@@ -1184,7 +1386,11 @@ async function regraSomenteUmaPrestacaoDoMesmoTipoDeServicoPorEntrada(){
   // ---------------------------------------------------------------------------
 
   // Registrando a primeira prestação de serviço
-  logRequisicao("REGRA DE NEGÓCIO 1", "/servicos", "Registrando a primeira prestação de serviço.");
+  logRequisicao(
+    "REGRA DE NEGÓCIO 1",
+    "/servicos",
+    "Registrando a primeira prestação de serviço.",
+  );
   await fetch(`${baseURL}/servicos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -1193,14 +1399,18 @@ async function regraSomenteUmaPrestacaoDoMesmoTipoDeServicoPorEntrada(){
       tipoDeServicoId: 1,
       desconto: 0.5,
       placa: veiculoRes.placa,
-    })
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 
   // Registrando a segunda prestação de serviço
-  logRequisicao("REGRA DE NEGÓCIO 1", "/servicos", "Registrando a segunda prestação de serviço, com o mesmo tipo de serviço, para o mesmo veículo, durante a mesma estadia");
+  logRequisicao(
+    "REGRA DE NEGÓCIO 1",
+    "/servicos",
+    "Registrando a segunda prestação de serviço, com o mesmo tipo de serviço, para o mesmo veículo, durante a mesma estadia",
+  );
   await fetch(`${baseURL}/servicos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -1209,16 +1419,20 @@ async function regraSomenteUmaPrestacaoDoMesmoTipoDeServicoPorEntrada(){
       tipoDeServicoId: 1,
       desconto: 0.5,
       placa: veiculoRes.placa,
-    })
+    }),
   })
-    .then(res => res.text())
+    .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
 }
 
-async function regraUsuarioJaPrestou10ServicosHoje(){
+async function regraUsuarioJaPrestou10ServicosHoje() {
   // Um usuário só pode prestar no máximo 10 serviços por dia.
-  logRequisicao("REGRA DE NEGÓCIO 2", "/servicos", "Um usuário só pode prestar no máximo 10 serviços por dia.");
+  logRequisicao(
+    "REGRA DE NEGÓCIO 2",
+    "/servicos",
+    "Um usuário só pode prestar no máximo 10 serviços por dia.",
+  );
 
   // Criando o usuario que irá prestar os serviços
   const usuarioRes = await fetch(`${baseURL}/usuarios`, {
@@ -1230,9 +1444,9 @@ async function regraUsuarioJaPrestou10ServicosHoje(){
       cpf: "37375483078",
       telefone: "11123456789",
       endereco: "Rua Cansada, 999",
-      tipoUsuario: "FUNCIONARIO"
-    })
-  }).then(res => res.json());
+      tipoUsuario: "FUNCIONARIO",
+    }),
+  }).then((res) => res.json());
 
   const cpfs = [
     "55277602046",
@@ -1245,7 +1459,7 @@ async function regraUsuarioJaPrestou10ServicosHoje(){
     "08905607063",
     "29516785093",
     "70607192020",
-    "94775492071"
+    "94775492071",
   ];
 
   const placas = [
@@ -1259,11 +1473,11 @@ async function regraUsuarioJaPrestou10ServicosHoje(){
     "ZZZ0H00",
     "NOP0I01",
     "DBX7L42",
-    "NAD4J04"
+    "NAD4J04",
   ];
 
   // Colocar o usuário para prestar 11 serviços, um atrás do outro.
-  for(let i = 0; i < 11; i++){
+  for (let i = 0; i < 11; i++) {
     // Criando o cliente que irá dar entrada no estacionamento.
     const clienteRes = await fetch(`${baseURL}/clientes`, {
       method: "POST",
@@ -1272,33 +1486,50 @@ async function regraUsuarioJaPrestou10ServicosHoje(){
         nome: "Cliente gastador",
         cpf: cpfs[i],
         telefone: "2840028922",
-        tipo: "MENSALISTA"
-      })
-    }).then(res => res.json());
+        tipo: "MENSALISTA",
+      }),
+    }).then((res) => res.json());
 
     // Criando um veículo para dar entrada no estacionamento.
     const veiculoRes = await fetch(`${baseURL}/veiculos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ placa: placas[i], modeloId: 1, banido: false, cor: "VERMELHO" })
-    }).then(res => res.json());
+      body: JSON.stringify({
+        placa: placas[i],
+        modeloId: 1,
+        banido: false,
+        cor: "VERMELHO",
+      }),
+    }).then((res) => res.json());
 
     // Criando vaga para que o veículo seja associado à ela
     const vagaRes = await fetch(`${baseURL}/vagas`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ tipo: "CARRO", status: "LIVRE", possuiCobertura: false, preferencial: false })
-    }).then(res => res.json());
+      body: JSON.stringify({
+        tipo: "CARRO",
+        status: "LIVRE",
+        possuiCobertura: false,
+        preferencial: false,
+      }),
+    }).then((res) => res.json());
 
     // Registrando a entrada do cliente com o veículo no estacionamento
     const entradaRes = await fetch(`${baseURL}/entradas`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ clienteId: clienteRes.id, vagaId: vagaRes.id, veiculoId: veiculoRes.id })
-    }).then(res => res.json());
+      body: JSON.stringify({
+        clienteId: clienteRes.id,
+        vagaId: vagaRes.id,
+        veiculoId: veiculoRes.id,
+      }),
+    }).then((res) => res.json());
 
-
-    logRequisicao("REGRA DE NEGÓCIO 2", "/servicos", "Registrando o " + (i + 1) + "º serviço do usuário no mesmo dia");
+    logRequisicao(
+      "REGRA DE NEGÓCIO 2",
+      "/servicos",
+      "Registrando o " + (i + 1) + "º serviço do usuário no mesmo dia",
+    );
     // Registrando a prestação de serviço
     await fetch(`${baseURL}/servicos`, {
       method: "POST",
@@ -1308,9 +1539,9 @@ async function regraUsuarioJaPrestou10ServicosHoje(){
         tipoDeServicoId: 1,
         desconto: 0.5,
         placa: veiculoRes.placa,
-      })
+      }),
     })
-      .then(res => res.text())
+      .then((res) => res.text())
       .then(prettyPrint)
       .catch(console.error);
   }
@@ -1392,6 +1623,7 @@ async function runAllTests() {
   await updateSaida(1);
   await deleteSaida(1);
   await createSaidaErro();
+  await testeCalculoSaida();
 
   // ── Regras de negócio ────────────────────────────────────
   console.log("\n\n📐 ══════ REGRAS DE NEGÓCIO — SAÍDAS ══════");
