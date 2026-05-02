@@ -1,8 +1,10 @@
-import { Saida, Servico } from "../models/Servico";
-import { UsuarioService } from "./UsuarioService";
-import { VeiculoService } from "./VeiculoService";
-import { TipoServicoService } from "./TipoServicoService";
+import { Servico } from "../models/Servico.js";
+import { UsuarioService } from "./UsuarioService.js";
+import { EntradaService } from "./EntradaService.js";
+import { TipoServicoService } from "./TipoServicoService.js";
+import { usuarioJaPrestou10ServicosHoje, existeTipoServicoNaEntrada } from "../utils/ServicoRegrasDeNegocio.js";
 import sequelize from "../config/database-connection.js";
+import { Op, Sequelize } from 'sequelize';
 
 class ServicoService {
 
@@ -17,20 +19,52 @@ class ServicoService {
     return obj;
   }
 
+  static async findByEntradaId(req) {
+    const { entradaId } = req.params;
+
+    const objs = await Servico.findAll({
+      where: { entradaId },
+      include: { all: true, nested: true }
+    });
+
+    return objs;
+  }
+
+  static async findByPrestadorHoje(req) {
+    const { prestadorId } = req.params;
+
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const objs = await Servico.findAll({
+      where: {
+        usuarioId: prestadorId,
+        dataServico: {
+          [Op.between]: [startOfDay, endOfDay]
+        }
+      },
+      include: { all: true, nested: true }
+    });
+
+    return objs;
+  }
+
   static async create(req) {
     // prestador, tipo de serviço, desconto, placa, Data serviço (automaticamente add)
     let { prestadorId, tipoDeServicoId, desconto, placa } = req.body;
 
-    const usuarioId = 1; // mock
-
     const t = await sequelize.transaction();
 
     try {
+      // buscar tipo de serviço
       let parameterObj = {params:{
           id: tipoDeServicoId
         }
       };
-      const tipoDeServicoEncontrado = TipoServicoService.findByPk(parameterObj);
+      const tipoDeServicoEncontrado = await TipoServicoService.findByPk(parameterObj);
       if(!tipoDeServicoEncontrado){
         throw "Tipo de serviço não encontrado.";
       };
@@ -39,79 +73,124 @@ class ServicoService {
           placa: placa
         }
       };
-      // Trocar VeiculoService para um método no service da entrada
-      const entradaEncontrada = VeiculoService.findByPlaca(parameterObj);
-      if (!veiculoEncontrado) {
-        throw "Veículo não encontrado.";
+      // Buscar entrada
+      const entradaEncontrada = await EntradaService.findLatestByPlaca(parameterObj);
+      if (!entradaEncontrada) {
+        throw "Nenhuma entrada encontrada para a referida placa.";
       };
 
       parameterObj = {params:{
           id: prestadorId
         }
       };
-      const funcionarioEncontrado = UsuarioService.findByPk(parameterObj);
-      if(!funcionarioEncontrado){
-        throw "Funcionário não encontrado.";
+      // Buscar usuário
+      const usuarioEncontrado = await UsuarioService.findByPk(parameterObj);
+      if(!usuarioEncontrado){
+        throw "Prestador não encontrado.";
+      }
+      const idEncontrado = usuarioEncontrado.id
+
+      if(await usuarioJaPrestou10ServicosHoje(prestadorId)){
+        throw "O Prestador indicado já prestou 10 serviços por hoje. Selecione outro";
       }
 
-      /*
+      if(await existeTipoServicoNaEntrada(entradaEncontrada.id, tipoDeServicoId)){
+        throw "Não pode realizar o mesmo tipo de serviço duas vezes durante a mesma estadia";
+      }
+
+      // inserir no banco de dados
       const obj = await Servico.create(
         {
-          prestadorId: funcionarioEncontrado.id,
+          usuarioId: usuarioEncontrado.id,
           tipoServicoId: tipoDeServicoEncontrado.id,
-          ,
-          desconto,
-          tipoPagamento,
-          statusPagamento,
-          observacoes,
-          usuarioId
+          entradaId: entradaEncontrada.id,
+          desconto
         },
         { transaction: t }
       );
-      */
+
       await t.commit();
 
-      return await Saida.findByPk(obj.id, {
+      return await Servico.findByPk(obj.id, {
         include: { all: true, nested: true }
       });
-
     } catch (error) {
       await t.rollback();
-      throw "Erro ao criar serviço";
+      throw error;
     }
   }
 
   static async update(req) {
     const { id } = req.params;
-    let { desconto, tipoPagamento, statusPagamento, observacoes } = req.body;
+    let { prestadorId, tipoDeServicoId, desconto, placa } = req.body;
 
     const t = await sequelize.transaction();
 
     try {
+      // buscar tipo de serviço
+      let parameterObj = {params:{
+          id: tipoDeServicoId
+        }
+      };
+      const tipoDeServicoEncontrado = await TipoServicoService.findByPk(parameterObj);
+      if(!tipoDeServicoEncontrado){
+        throw "Tipo de serviço não encontrado.";
+      };
+      
+      parameterObj = {params:{
+          placa: placa
+        }
+      };
+      // Buscar entrada
+      const entradaEncontrada = await EntradaService.findLatestByPlaca(parameterObj);
+      if (!entradaEncontrada) {
+        throw "Nenhuma entrada encontrada para a referida placa.";
+      };
+
+      parameterObj = {params:{
+          id: prestadorId
+        }
+      };
+      // Buscar usuário
+      const usuarioEncontrado = await UsuarioService.findByPk(parameterObj);
+      if(!usuarioEncontrado){
+        throw "Prestador não encontrado.";
+      }
+
+      if(await existeTipoServicoNaEntrada(entradaEncontrada.id, tipoDeServicoId)){
+        throw "Não pode realizar o mesmo tipo de serviço duas vezes durante a mesma estadia";
+      }
+
       const obj = await Servico.findByPk(id, {
         include: { all: true, nested: true }
       });
 
+      if(prestadorId != obj.usuarioId && (await usuarioJaPrestou10ServicosHoje(prestadorId))){
+        throw "O Prestador indicado já prestou 10 serviços por hoje. Selecione outro";
+      }
+
       if (obj == null) throw 'Serviço não encontrado!';
 
       Object.assign(obj, {
-        desconto,
-        tipoPagamento,
-        statusPagamento,
-        observacoes
-      });
+          usuarioId: usuarioEncontrado.id,
+          tipoServicoId: tipoDeServicoEncontrado.id,
+          entradaId: entradaEncontrada.id,
+          dataServico: new Date(),
+          desconto
+        }
+      );
 
       await obj.save({ transaction: t });
 
       await t.commit();
 
-      return await Saida.findByPk(obj.id, {
+      return await Servico.findByPk(obj.id, {
         include: { all: true, nested: true }
       });
 
     } catch (error) {
       await t.rollback();
-      throw "Erro ao atualizar serviço";
+      throw error;
     }
   }
 

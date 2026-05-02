@@ -891,6 +891,445 @@ async function testeRegraCpfIgualUsuario() {
 
 
 // ============================================================
+// SERVIÇOS
+// ============================================================
+
+export async function getServicos() {
+  logRequisicao("GET", "/servicos", "Listar todos os serviços");
+  return fetch(`${baseURL}/servicos`)
+    .then(res => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+export async function getServicoById(id) {
+  logRequisicao("GET", `/servicos/${id}`, "Buscar serviço por ID");
+  return fetch(`${baseURL}/servicos/${id}`)
+    .then(res => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+export async function createServico() {
+  logRequisicao("POST", "/servicos", "Criar serviço válido");
+
+  // Criando o cliente que irá dar entrada no estacionamento.
+  const clienteRes = await fetch(`${baseURL}/clientes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nome: "Cliente do servico",
+      cpf: "73496467045",
+      telefone: "1140028922",
+      tipo: "MENSALISTA"
+    })
+  }).then(res => res.json());
+
+  // Criando um veículo para dar entrada no estacionamento.
+  const veiculoRes = await fetch(`${baseURL}/veiculos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ placa: "BOB0800", modeloId: 1, banido: false, cor: "VERMELHO" })
+  }).then(res => res.json());
+
+  // Criando vaga para que o veículo seja associado à ela
+  const vagaRes = await fetch(`${baseURL}/vagas`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tipo: "CARRO", status: "LIVRE", possuiCobertura: false, preferencial: false })
+  }).then(res => res.json());
+
+  // Registrando a entrada do cliente com o veículo no estacionamento
+  const entradaRes = await fetch(`${baseURL}/entradas`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ clienteId: clienteRes.id, vagaId: vagaRes.id, veiculoId: veiculoRes.id })
+  }).then(res => res.json());
+
+  // Criando o usuario que irá prestar o serviço
+  const usuarioRes = await fetch(`${baseURL}/usuarios`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomeUsuario: "Funcionário do servico",
+      senha: "40028922",
+      cpf: "05553302064",
+      telefone: "08001234",
+      endereco: "Rua Bonita, 1000",
+      tipoUsuario: "FUNCIONARIO"
+    })
+  }).then(res => res.json());
+
+  // Registrando a prestação de serviço
+  return fetch(`${baseURL}/servicos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prestadorId: usuarioRes.id,
+      tipoDeServicoId: 1,
+      desconto: 0.5,
+      placa: veiculoRes.placa,
+    })
+  })
+    .then(res => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+export async function updateServico(id) {
+  logRequisicao("PUT", `/servicos/${id}`, "Atualizar serviço por ID");
+
+  // Gerando novo veículo, cliente, entrada e usuário para
+  // alterar o registro de serviço.
+
+  // Criando outro cliente que irá dar entrada no estacionamento.
+  const clienteRes = await fetch(`${baseURL}/clientes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nome: "Outro Cliente do servico",
+      cpf: "71917142048",
+      telefone: "1140028922",
+      tipo: "MENSALISTA"
+    })
+  }).then(res => res.json());
+
+  // Criando outro veículo para dar entrada no estacionamento.
+  const veiculoRes = await fetch(`${baseURL}/veiculos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ placa: "BOB4002", modeloId: 1, banido: false, cor: "AZUL" })
+  }).then(res => res.json());
+
+  // Criando outra vaga para que o veículo seja associado à ela
+  const vagaRes = await fetch(`${baseURL}/vagas`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tipo: "CARRO", status: "LIVRE", possuiCobertura: true, preferencial: false })
+  }).then(res => res.json());
+
+  // Registrando a entrada do cliente com o veículo no estacionamento
+  const entradaRes = await fetch(`${baseURL}/entradas`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ clienteId: clienteRes.id, vagaId: vagaRes.id, veiculoId: veiculoRes.id })
+  }).then(res => res.json());
+
+  // Criando outro usuario que irá prestar o serviço
+  const usuarioRes = await fetch(`${baseURL}/usuarios`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomeUsuario: "Outro Funcionário do servico",
+      senha: "uwuyudiplay2",
+      cpf: "89994596080",
+      telefone: "40028922",
+      endereco: "Rua Bonita, 9999",
+      tipoUsuario: "FUNCIONARIO"
+    })
+  }).then(res => res.json());
+
+  // Atualizando tipo de serviço, prestador do serviço, desconto e entrada
+  // (identificada pela placa no backend).
+  return fetch(`${baseURL}/servicos/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prestadorId: usuarioRes.id,
+      tipoDeServicoId: 2,
+      desconto: 0.1,
+      placa: veiculoRes.placa,
+    })
+  })
+    .then(res => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+export async function deleteServico(id) {
+  logRequisicao("DELETE", `/servicos/${id}`, "Deletar serviço por ID");
+  return fetch(`${baseURL}/servicos/${id}`, {
+    method: "DELETE"
+  })
+    .then(res => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+async function createServicoErro() {
+  logRequisicao("POST", "/servicos", "Induzir erros de validação (sem chave estrangeira)");
+  await fetch(`${baseURL}/servicos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prestadorId: 2,
+      tipoDeServicoId: 1,
+      desconto: -1,
+      placa: "BOB4002",
+    })
+  })
+    .then(res => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+
+  logRequisicao("POST", "/servicos", "Induzir erros de validação (FK Usuário)");
+  await fetch(`${baseURL}/servicos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prestadorId: 99999,
+      tipoDeServicoId: 1,
+      desconto: 0.5,
+      placa: "BOB4002",
+    })
+  })
+    .then(res => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+
+  logRequisicao("POST", "/servicos", "Induzir erros de validação (FK Tipo de Serviço)");
+  await fetch(`${baseURL}/servicos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prestadorId: 2,
+      tipoDeServicoId: 99999,
+      desconto: 0.5,
+      placa: "BOB4002",
+    })
+  })
+    .then(res => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+
+  logRequisicao("POST", "/servicos", "Induzir erros de validação (FK Entrada)");
+  await fetch(`${baseURL}/servicos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prestadorId: 2,
+      tipoDeServicoId: 1,
+      desconto: 0.5,
+      placa: "NAOEXISTE123",
+    })
+  })
+    .then(res => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+// ============================================================
+// REGRAS DE NEGÓCIO — SERVIÇOS
+// ============================================================
+
+async function regraSomenteUmaPrestacaoDoMesmoTipoDeServicoPorEntrada(){
+  // Um tipo de serviço só pode ser prestado apenas uma vez por estadia.
+  logRequisicao("REGRA DE NEGÓCIO 1", "/servicos", "Um tipo de serviço só pode ser prestado ao mesmo veículo apenas uma vez por estadia.");
+
+
+  // ---------------------------------------------------------------------------
+  // Realizando o setup de entrada de um veículo dentro do estacionamento.
+  // ---------------------------------------------------------------------------
+
+  // Criando o cliente que irá dar entrada no estacionamento.
+  const clienteRes = await fetch(`${baseURL}/clientes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nome: "Cliente Here We Go Again",
+      cpf: "61180341090",
+      telefone: "2840028922",
+      tipo: "MENSALISTA"
+    })
+  }).then(res => res.json());
+
+  // Criando um veículo para dar entrada no estacionamento.
+  const veiculoRes = await fetch(`${baseURL}/veiculos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ placa: "API3K21", modeloId: 1, banido: false, cor: "VERMELHO" })
+  }).then(res => res.json());
+
+  // Criando vaga para que o veículo seja associado à ela
+  const vagaRes = await fetch(`${baseURL}/vagas`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tipo: "CARRO", status: "LIVRE", possuiCobertura: false, preferencial: false })
+  }).then(res => res.json());
+
+  // Registrando a entrada do cliente com o veículo no estacionamento
+  const entradaRes = await fetch(`${baseURL}/entradas`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ clienteId: clienteRes.id, vagaId: vagaRes.id, veiculoId: veiculoRes.id })
+  }).then(res => res.json());
+
+  // Criando o usuario que irá prestar o serviço
+  const usuarioRes = await fetch(`${baseURL}/usuarios`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomeUsuario: "Funcionário Repetidor",
+      senha: "herewegoagain123",
+      cpf: "87706610063",
+      telefone: "11123456789",
+      endereco: "Rua Repetida, 999",
+      tipoUsuario: "FUNCIONARIO"
+    })
+  }).then(res => res.json());
+
+  // ---------------------------------------------------------------------------
+  // Colocando o funcionário para registrar um mesmo tipo de serviço duas vezes
+  // para o mesmo veículo durante a mesma estadia.
+  // ---------------------------------------------------------------------------
+
+  // Registrando a primeira prestação de serviço
+  logRequisicao("REGRA DE NEGÓCIO 1", "/servicos", "Registrando a primeira prestação de serviço.");
+  await fetch(`${baseURL}/servicos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prestadorId: usuarioRes.id,
+      tipoDeServicoId: 1,
+      desconto: 0.5,
+      placa: veiculoRes.placa,
+    })
+  })
+    .then(res => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+
+  // Registrando a segunda prestação de serviço
+  logRequisicao("REGRA DE NEGÓCIO 1", "/servicos", "Registrando a segunda prestação de serviço, com o mesmo tipo de serviço, para o mesmo veículo, durante a mesma estadia");
+  await fetch(`${baseURL}/servicos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prestadorId: usuarioRes.id,
+      tipoDeServicoId: 1,
+      desconto: 0.5,
+      placa: veiculoRes.placa,
+    })
+  })
+    .then(res => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+async function regraUsuarioJaPrestou10ServicosHoje(){
+  // Um usuário só pode prestar no máximo 10 serviços por dia.
+  logRequisicao("REGRA DE NEGÓCIO 2", "/servicos", "Um usuário só pode prestar no máximo 10 serviços por dia.");
+
+  // Criando o usuario que irá prestar os serviços
+  const usuarioRes = await fetch(`${baseURL}/usuarios`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomeUsuario: "Funcionário Cansado",
+      senha: "soninhopegado123",
+      cpf: "37375483078",
+      telefone: "11123456789",
+      endereco: "Rua Cansada, 999",
+      tipoUsuario: "FUNCIONARIO"
+    })
+  }).then(res => res.json());
+
+  const cpfs = [
+    "55277602046",
+    "38997299000",
+    "14154632043",
+    "30654829080",
+    "09905545034",
+    "11236644042",
+    "68368823056",
+    "08905607063",
+    "29516785093",
+    "70607192020",
+    "94775492071"
+  ];
+
+  /*const placas = [
+    "DEV-404",
+    "BUG-0001",
+    "LOL-2025",
+    "OPS-1234",
+    "RAM-9999",
+    "CPU-100%",
+    "GAS-0KM",
+    "Zzz-0000",
+    "N0P-0001",
+    "404-NADA"
+  ];*/
+
+  const placas = [
+    "DEV4A04",
+    "BUG0B01",
+    "LOL2C25",
+    "OPS1D34",
+    "RAM9E99",
+    "CPU1F00",
+    "GAS0G00",
+    "ZZZ0H00",
+    "NOP0I01",
+    "DBX7L42",
+    "NAD4J04"
+  ];
+
+  // Colocar o usuário para prestar 11 serviços, um atrás do outro.
+  for(let i = 0; i < 11; i++){
+    // Criando o cliente que irá dar entrada no estacionamento.
+    const clienteRes = await fetch(`${baseURL}/clientes`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nome: "Cliente gastador",
+        cpf: cpfs[i],
+        telefone: "2840028922",
+        tipo: "MENSALISTA"
+      })
+    }).then(res => res.json());
+
+    // Criando um veículo para dar entrada no estacionamento.
+    const veiculoRes = await fetch(`${baseURL}/veiculos`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ placa: placas[i], modeloId: 1, banido: false, cor: "VERMELHO" })
+    }).then(res => res.json());
+
+    // Criando vaga para que o veículo seja associado à ela
+    const vagaRes = await fetch(`${baseURL}/vagas`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tipo: "CARRO", status: "LIVRE", possuiCobertura: false, preferencial: false })
+    }).then(res => res.json());
+
+    // Registrando a entrada do cliente com o veículo no estacionamento
+    const entradaRes = await fetch(`${baseURL}/entradas`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ clienteId: clienteRes.id, vagaId: vagaRes.id, veiculoId: veiculoRes.id })
+    }).then(res => res.json());
+
+
+    logRequisicao("REGRA DE NEGÓCIO 2", "/servicos", "Registrando o " + (i + 1) + "º serviço do usuário no mesmo dia");
+    // Registrando a prestação de serviço
+    await fetch(`${baseURL}/servicos`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prestadorId: usuarioRes.id,
+        tipoDeServicoId: 1,
+        desconto: 0.5,
+        placa: veiculoRes.placa,
+      })
+    })
+      .then(res => res.text())
+      .then(prettyPrint)
+      .catch(console.error);
+  }
+}
+
+// ============================================================
 // RUNNER PRINCIPAL
 // ============================================================
 
@@ -971,6 +1410,18 @@ async function runAllTests() {
   console.log("\n\n📐 ══════ REGRAS DE NEGÓCIO — SAÍDAS ══════");
   await testeRegra10Saidas();
   await testeRegraCpfIgualUsuario();
+
+  console.log("\n\n ══════ SERVIÇOS ══════");
+  await createServico();
+  await getServicos();
+  await getServicoById(5);
+  await updateServico(5);
+  await deleteServico(5);
+  await createServicoErro();
+
+  console.log("\n\n ══════ REGRAS DE NEGÓCIO — SERVIÇOS ══════");
+  await regraSomenteUmaPrestacaoDoMesmoTipoDeServicoPorEntrada();
+  await regraUsuarioJaPrestou10ServicosHoje();
 
   console.log("\n\n✅ TODOS OS TESTES FINALIZADOS!");
 }
