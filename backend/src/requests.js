@@ -1248,19 +1248,6 @@ async function regraUsuarioJaPrestou10ServicosHoje(){
     "94775492071"
   ];
 
-  /*const placas = [
-    "DEV-404",
-    "BUG-0001",
-    "LOL-2025",
-    "OPS-1234",
-    "RAM-9999",
-    "CPU-100%",
-    "GAS-0KM",
-    "Zzz-0000",
-    "N0P-0001",
-    "404-NADA"
-  ];*/
-
   const placas = [
     "DEV4A04",
     "BUG0B01",

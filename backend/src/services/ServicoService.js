@@ -100,7 +100,6 @@ class ServicoService {
       if(!usuarioEncontrado){
         throw "Prestador não encontrado.";
       }
-      const idEncontrado = usuarioEncontrado.id
 
       if(await usuarioJaPrestou10ServicosHoje(prestadorId)){
         throw "O Prestador indicado já prestou 10 serviços por hoje. Selecione outro";
