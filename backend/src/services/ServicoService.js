@@ -2,6 +2,7 @@ import { Servico } from "../models/Servico.js";
 import { UsuarioService } from "./UsuarioService.js";
 import { EntradaService } from "./EntradaService.js";
 import { TipoServicoService } from "./TipoServicoService.js";
+import { SaidaService } from "./SaidaService.js";
 import { usuarioJaPrestou10ServicosHoje, existeTipoServicoNaEntrada } from "../utils/ServicoRegrasDeNegocio.js";
 import sequelize from "../config/database-connection.js";
 import { Op, Sequelize } from 'sequelize';
@@ -78,6 +79,17 @@ class ServicoService {
       if (!entradaEncontrada) {
         throw "Nenhuma entrada encontrada para a referida placa.";
       };
+
+      // Verificar se a entrada encontrada possui uma saida
+      // (isto é, se o veículo já saiu do estacionamento)
+      parameterObj = {params:{
+          entradaId: entradaEncontrada.id
+        }
+      };
+      const saidaEncontrada = await SaidaService.findByEntradaId(parameterObj);
+      if(saidaEncontrada){
+        throw "O veículo com a referida placa não se encontra dentro do estacionamento.";
+      }
 
       parameterObj = {params:{
           id: prestadorId

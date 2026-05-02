@@ -16,6 +16,16 @@ class SaidaService {
     return obj;
   }
 
+  static async findByEntradaId(req) {
+    const { entradaId } = req.params;
+
+    const obj = await Saida.findOne({
+      where: { entradaId }
+    });
+
+    return obj;
+  }
+
   static async create(req) {
     let { entradaId, desconto, tipoPagamento, statusPagamento, observacoes } =
       req.body;
