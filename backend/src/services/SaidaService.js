@@ -3,6 +3,7 @@ import { Entrada } from "../models/Entrada.js";
 import { saidaRegrasDeNegocio } from "../utils/SaidaRegrasDeNegocio.js";
 import sequelize from "../config/database-connection.js";
 import { EntradaService } from "./EntradaService.js";
+import { Vaga } from "../models/Vaga.js";
 
 class SaidaService {
   static async findAll() {
@@ -58,6 +59,13 @@ class SaidaService {
         },
         { transaction: t },
       );
+
+      const vaga = await Vaga.findByPk(entrada.vagaId, { transaction: t });
+
+      if (!vaga) throw "Vaga não encontrada";
+
+      vaga.status = "LIVRE";
+      await vaga.save({ transaction: t });
 
       await t.commit();
 
