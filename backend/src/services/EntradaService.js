@@ -35,6 +35,11 @@ class EntradaService {
     return obj;
   }
 
+  static async findByCliente(clienteId) {
+    const objs = await Entrada.findAll({ where: { clienteId } });
+    return objs;
+  }
+
   static async create(req) {
     const { clienteId, vagaId, veiculoId } = req.body;
     const horario = new Date();

@@ -7,6 +7,10 @@ class VagaService {
     return objs;
   }
 
+  static async findVagaLivre() {
+    return await Vaga.findOne({ where: { status: 'LIVRE' } });
+  }
+
   static async findByPk(req) {
     const { id } = req.params;
     const obj = await Vaga.findByPk(id, { include: { all: true, nested: true } });
