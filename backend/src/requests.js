@@ -31,6 +31,112 @@ function logRequisicao(method, endpoint, descricao = "") {
   console.log("─".repeat(60));
 }
 
+/**
+ * Faz uma requisição e tenta converter a resposta para JSON.
+ * Se a API retornar texto puro em caso de erro, não quebra a execução do teste.
+ */
+async function requestJson(endpoint, options = {}) {
+  const res = await fetch(`${baseURL}${endpoint}`, options);
+  const text = await res.text();
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { erro: text };
+  }
+}
+
+let contadorEntradaTeste = 0;
+
+/**
+ * Gera um CPF válido para evitar conflito de unique nos testes.
+ */
+function gerarCpfValido() {
+  const n = [];
+
+  for (let i = 0; i < 9; i++) {
+    n.push(Math.floor(Math.random() * 10));
+  }
+
+  let soma = 0;
+  for (let i = 0; i < 9; i++) {
+    soma += n[i] * (10 - i);
+  }
+
+  let d1 = 11 - (soma % 11);
+  if (d1 >= 10) d1 = 0;
+  n.push(d1);
+
+  soma = 0;
+  for (let i = 0; i < 10; i++) {
+    soma += n[i] * (11 - i);
+  }
+
+  let d2 = 11 - (soma % 11);
+  if (d2 >= 10) d2 = 0;
+  n.push(d2);
+
+  return n.join("");
+}
+
+/**
+ * Gera placa no padrão Mercosul: ABC1D23.
+ * O prefixo precisa ter 3 letras.
+ */
+function gerarPlacaEntrada(prefixo = "ENT") {
+  contadorEntradaTeste++;
+  const numero = String(Date.now() + contadorEntradaTeste).slice(-3);
+  return `${prefixo}${numero[0]}A${numero.slice(1)}`;
+}
+
+/**
+ * Cria um cliente próprio para testes de Entrada.
+ */
+async function criarClienteTesteEntrada(nome = "Cliente Teste Entrada") {
+  return requestJson("/clientes", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nome,
+      cpf: gerarCpfValido(),
+      telefone: "27999999999",
+      tipo: "AVULSO",
+    }),
+  });
+}
+
+/**
+ * Cria um veículo próprio para testes de Entrada.
+ */
+async function criarVeiculoTesteEntrada(prefixoPlaca = "ENT") {
+  return requestJson("/veiculos", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      placa: gerarPlacaEntrada(prefixoPlaca),
+      modeloId: 1,
+      banido: false,
+      cor: "PRETO",
+    }),
+  });
+}
+
+/**
+ * Cria uma vaga própria para testes de Entrada.
+ */
+async function criarVagaTesteEntrada(status = "LIVRE") {
+  return requestJson("/vagas", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      tipo: "CARRO",
+      status,
+      possuiCobertura: false,
+      preferencial: false,
+    }),
+  });
+}
+
 // ============================================================
 // MODELOS
 // ============================================================
@@ -620,6 +726,232 @@ function createUsuarioErro() {
     .then((res) => res.text())
     .then(prettyPrint)
     .catch(console.error);
+}
+
+// ============================================================
+// ENTRADAS
+// ============================================================
+
+function getEntradas() {
+  logRequisicao("GET", "/entradas", "Listar todas as entradas");
+  return fetch(`${baseURL}/entradas`)
+    .then((res) => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+function getEntradaById(id) {
+  logRequisicao("GET", `/entradas/${id}`, "Buscar entrada por ID");
+  return fetch(`${baseURL}/entradas/${id}`)
+    .then((res) => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+async function createEntrada() {
+  logRequisicao("POST", "/entradas", "Criar entrada válida");
+
+  const clienteRes = await criarClienteTesteEntrada("Cliente Entrada Válida");
+  const veiculoRes = await criarVeiculoTesteEntrada("ENT");
+  const vagaRes = await criarVagaTesteEntrada("LIVRE");
+
+  const entradaRes = await requestJson("/entradas", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      clienteId: clienteRes.id,
+      vagaId: vagaRes.id,
+      veiculoId: veiculoRes.id,
+    }),
+  });
+
+  prettyPrint(JSON.stringify(entradaRes));
+
+  logRequisicao(
+    "GET",
+    `/vagas/${vagaRes.id}`,
+    "Conferir se a vaga foi alterada para OCUPADA",
+  );
+  const vagaAtualizada = await requestJson(`/vagas/${vagaRes.id}`);
+  prettyPrint(JSON.stringify(vagaAtualizada));
+
+  return entradaRes;
+}
+
+async function updateEntrada(id) {
+  logRequisicao("PUT", `/entradas/${id}`, "Atualizar entrada por ID");
+
+  const clienteRes = await criarClienteTesteEntrada("Cliente Entrada Atualizada");
+  const veiculoRes = await criarVeiculoTesteEntrada("EUP");
+  const vagaRes = await criarVagaTesteEntrada("LIVRE");
+
+  return fetch(`${baseURL}/entradas/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      clienteId: clienteRes.id,
+      vagaId: vagaRes.id,
+      veiculoId: veiculoRes.id,
+    }),
+  })
+    .then((res) => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+function deleteEntrada(id) {
+  logRequisicao("DELETE", `/entradas/${id}`, "Deletar entrada por ID");
+  return fetch(`${baseURL}/entradas/${id}`, {
+    method: "DELETE",
+  })
+    .then((res) => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+async function createEntradaErroCamposBasicos() {
+  logRequisicao(
+    "POST",
+    "/entradas",
+    "❌ Criar entrada com campo obrigatório ausente",
+  );
+
+  const clienteRes = await criarClienteTesteEntrada("Cliente Entrada Erro Campo");
+  const veiculoRes = await criarVeiculoTesteEntrada("EEC");
+
+  return fetch(`${baseURL}/entradas`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      clienteId: clienteRes.id,
+      veiculoId: veiculoRes.id,
+    }),
+  })
+    .then((res) => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+// ============================================================
+// REGRAS DE NEGÓCIO — ENTRADAS
+// ============================================================
+
+/**
+ * Regra 1:
+ * Não permitir entrada quando não existir nenhuma vaga LIVRE.
+ *
+ * Para não prejudicar o restante do request.js, este teste:
+ * 1. salva as vagas que estavam LIVRES;
+ * 2. muda temporariamente essas vagas para MANUTENCAO;
+ * 3. tenta criar entrada;
+ * 4. restaura as vagas ao status original no final.
+ */
+async function regraTodasVagasOcupadas() {
+  logRequisicao(
+    "REGRA DE NEGÓCIO 1",
+    "/entradas",
+    "Não permitir entrada quando não houver vagas livres",
+  );
+
+  const vagas = await requestJson("/vagas");
+  const vagasAlteradas = [];
+
+  try {
+    if (Array.isArray(vagas)) {
+      for (const vaga of vagas) {
+        if (vaga.status === "LIVRE") {
+          vagasAlteradas.push(vaga);
+
+          await requestJson(`/vagas/${vaga.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              tipo: vaga.tipo,
+              status: "MANUTENCAO",
+              possuiCobertura: vaga.possuiCobertura,
+              preferencial: vaga.preferencial,
+            }),
+          });
+        }
+      }
+    }
+
+    const clienteRes = await criarClienteTesteEntrada("Cliente Sem Vaga Livre");
+    const veiculoRes = await criarVeiculoTesteEntrada("ESV");
+    const vagaOcupadaRes = await criarVagaTesteEntrada("OCUPADA");
+
+    const entradaRes = await requestJson("/entradas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        clienteId: clienteRes.id,
+        vagaId: vagaOcupadaRes.id,
+        veiculoId: veiculoRes.id,
+      }),
+    });
+
+    console.log("\nResultado esperado: Não há vagas livres no estacionamento!");
+    prettyPrint(JSON.stringify(entradaRes));
+  } finally {
+    for (const vaga of vagasAlteradas) {
+      await requestJson(`/vagas/${vaga.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tipo: vaga.tipo,
+          status: vaga.status,
+          possuiCobertura: vaga.possuiCobertura,
+          preferencial: vaga.preferencial,
+        }),
+      });
+    }
+  }
+}
+
+/**
+ * Regra 2:
+ * Não permitir que o mesmo cliente tenha duas entradas ativas.
+ */
+async function regraClienteComEntradaAtiva() {
+  logRequisicao(
+    "REGRA DE NEGÓCIO 2",
+    "/entradas",
+    "Não permitir duas entradas ativas para o mesmo cliente",
+  );
+
+  const clienteRes = await criarClienteTesteEntrada("Cliente Entrada Ativa");
+
+  const veiculo1Res = await criarVeiculoTesteEntrada("EAU");
+  const vaga1Res = await criarVagaTesteEntrada("LIVRE");
+
+  console.log("\n→ Criando primeira entrada do cliente...");
+  const primeiraEntradaRes = await requestJson("/entradas", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      clienteId: clienteRes.id,
+      vagaId: vaga1Res.id,
+      veiculoId: veiculo1Res.id,
+    }),
+  });
+  prettyPrint(JSON.stringify(primeiraEntradaRes));
+
+  const veiculo2Res = await criarVeiculoTesteEntrada("EAD");
+  const vaga2Res = await criarVagaTesteEntrada("LIVRE");
+
+  console.log("\n→ Tentando criar segunda entrada ativa para o mesmo cliente...");
+  const segundaEntradaRes = await requestJson("/entradas", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      clienteId: clienteRes.id,
+      vagaId: vaga2Res.id,
+      veiculoId: veiculo2Res.id,
+    }),
+  });
+
+  console.log("\nResultado esperado: Este cliente já possui uma entrada ativa!");
+  prettyPrint(JSON.stringify(segundaEntradaRes));
 }
 
 // ============================================================
@@ -1614,6 +1946,24 @@ async function runAllTests() {
   await updateUsuario(1);
   await deleteUsuario(5);
   await createUsuarioErro();
+
+  // ── Entradas ─────────────────────────────────────────────
+  console.log("\n\n🚗🅿️ ══════ ENTRADAS ══════");
+  const entradaCriada = await createEntrada();
+  await getEntradas();
+
+  if (entradaCriada?.id) {
+    await getEntradaById(entradaCriada.id);
+    await updateEntrada(entradaCriada.id);
+    await deleteEntrada(entradaCriada.id);
+  }
+
+  await createEntradaErroCamposBasicos();
+
+  // ── Regras de negócio — Entradas ─────────────────────────
+  console.log("\n\n📐 ══════ REGRAS DE NEGÓCIO — ENTRADAS ══════");
+  await regraTodasVagasOcupadas();
+  await regraClienteComEntradaAtiva();
 
   // ── Saídas ───────────────────────────────────────────────
   console.log("\n\n🚪 ══════ SAÍDAS ══════");

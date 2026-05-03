@@ -53,9 +53,9 @@ function databaseInserts() {
             const c2 = await Cliente.create({ nome: 'MARIA SOUZA', cpf: '16899535009', telefone: '11922222222', tipo: 'AVULSO' });
             const c3 = await Cliente.create({ nome: 'PEDRO ALVES', cpf: '11144477735', telefone: '11933333333', tipo: 'CONVENIADO' });
             const c4 = await Cliente.create({ nome: 'ANA PAULA', cpf: '52998224725', telefone: '11944444444', tipo: 'AVULSO' });
-            
+
             const v1 = await Vaga.create({ tipo: 'CARRO', status: 'LIVRE', possuiCobertura: true, preferencial: true });
-            const v2 = await Vaga.create({ tipo: 'CARRO', status: 'OCUPADA', possuiCobertura: false, preferencial: false });
+            const v2 = await Vaga.create({ tipo: 'CARRO', status: 'LIVRE', possuiCobertura: false, preferencial: false });
             const v3 = await Vaga.create({ tipo: 'MOTO', status: 'LIVRE', possuiCobertura: true, preferencial: false });
             const v4 = await Vaga.create({ tipo: 'CARRO', status: 'LIVRE', possuiCobertura: true, preferencial: false });
 
