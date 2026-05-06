@@ -56,12 +56,14 @@ class EntradaService {
     const vagaExistente = await Vaga.findByPk(vagaId);
     if (!vagaExistente) throw 'Vaga não encontrada!';
 
-    // Validar se a vaga escolhida está livre
-    if (vagaExistente.status !== 'LIVRE') throw 'A vaga selecionada não está livre!';
-
     // REGRA DE NEGÓCIO 1: Verificar se há vagas livres no estacionamento
     if (await todasVagasOcupadas()) {
       throw 'Não há vagas livres no estacionamento!';
+    }
+
+    // Validar se a vaga escolhida está livre
+    if (vagaExistente.status !== 'LIVRE') {
+      throw 'A vaga selecionada não está livre!';
     }
 
     // REGRA DE NEGÓCIO 2: Não permitir que o mesmo cliente tenha 2 entradas ativas

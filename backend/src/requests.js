@@ -857,6 +857,7 @@ async function regraTodasVagasOcupadas() {
   const vagasAlteradas = [];
 
   try {
+    // 1. Deixa todas as vagas LIVRES temporariamente como MANUTENCAO
     if (Array.isArray(vagas)) {
       for (const vaga of vagas) {
         if (vaga.status === "LIVRE") {
@@ -876,9 +877,20 @@ async function regraTodasVagasOcupadas() {
       }
     }
 
+    // 2. Cria os dados necessários para tentar registrar uma entrada
     const clienteRes = await criarClienteTesteEntrada("Cliente Sem Vaga Livre");
     const veiculoRes = await criarVeiculoTesteEntrada("ESV");
+
+    // Cria uma vaga já OCUPADA apenas para ter um vagaId válido.
+    // Como não existe nenhuma vaga LIVRE, a regra 1 deve ser ativada.
     const vagaOcupadaRes = await criarVagaTesteEntrada("OCUPADA");
+
+    // 3. REQUISIÇÃO PRINCIPAL DO TESTE DA REGRA 1
+    logRequisicao(
+      "POST",
+      "/entradas",
+      "Tentando criar entrada sem nenhuma vaga LIVRE",
+    );
 
     const entradaRes = await requestJson("/entradas", {
       method: "POST",
@@ -893,6 +905,7 @@ async function regraTodasVagasOcupadas() {
     console.log("\nResultado esperado: Não há vagas livres no estacionamento!");
     prettyPrint(JSON.stringify(entradaRes));
   } finally {
+    // 4. Restaura as vagas que estavam LIVRES antes do teste
     for (const vaga of vagasAlteradas) {
       await requestJson(`/vagas/${vaga.id}`, {
         method: "PUT",
@@ -919,12 +932,19 @@ async function regraClienteComEntradaAtiva() {
     "Não permitir duas entradas ativas para o mesmo cliente",
   );
 
+  // 1. Cria dados para a primeira entrada
   const clienteRes = await criarClienteTesteEntrada("Cliente Entrada Ativa");
 
   const veiculo1Res = await criarVeiculoTesteEntrada("EAU");
   const vaga1Res = await criarVagaTesteEntrada("LIVRE");
 
-  console.log("\n→ Criando primeira entrada do cliente...");
+  // 2. Cria a primeira entrada do cliente
+  logRequisicao(
+    "POST",
+    "/entradas",
+    "Criando primeira entrada ativa do cliente",
+  );
+
   const primeiraEntradaRes = await requestJson("/entradas", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -934,12 +954,24 @@ async function regraClienteComEntradaAtiva() {
       veiculoId: veiculo1Res.id,
     }),
   });
+
   prettyPrint(JSON.stringify(primeiraEntradaRes));
 
+  // Importante:
+  // Não criamos saída para essa entrada.
+  // Portanto, essa entrada continua ativa.
+
+  // 3. Cria novos dados para tentar uma segunda entrada
   const veiculo2Res = await criarVeiculoTesteEntrada("EAD");
   const vaga2Res = await criarVagaTesteEntrada("LIVRE");
 
-  console.log("\n→ Tentando criar segunda entrada ativa para o mesmo cliente...");
+  // 4. REQUISIÇÃO PRINCIPAL DO TESTE DA REGRA 2
+  logRequisicao(
+    "POST",
+    "/entradas",
+    "Tentando criar segunda entrada ativa para o mesmo cliente",
+  );
+
   const segundaEntradaRes = await requestJson("/entradas", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -953,7 +985,6 @@ async function regraClienteComEntradaAtiva() {
   console.log("\nResultado esperado: Este cliente já possui uma entrada ativa!");
   prettyPrint(JSON.stringify(segundaEntradaRes));
 }
-
 // ============================================================
 // SAÍDAS
 // ============================================================
