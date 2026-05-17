@@ -9,6 +9,8 @@ import { UsuarioController } from "./controllers/UsuarioController.js";
 import { SaidaController } from "./controllers/SaidaController.js";
 import { EntradaController } from "./controllers/EntradaController.js";
 import { ServicoController } from "./controllers/ServicoController.js";
+import { RelatorioCarrosBanidosController } from "./controllers/RelatorioCarrosBanidosController.js";
+import { RelatorioFinanceiroController } from "./controllers/RelatorioFinanceiroController.js";
 
 
 const routes = express.Router();
@@ -71,5 +73,8 @@ routes.get('/servicos/:id', ServicoController.findByPk);
 routes.post('/servicos', ServicoController.create);
 routes.delete('/servicos/:id', ServicoController.delete);
 routes.put('/servicos/:id', ServicoController.update);
+
+routes.get('/relatorios/carros-banidos', RelatorioCarrosBanidosController.generate);
+routes.get('/relatorios/financeiro', RelatorioFinanceiroController.generate);
 
 export default routes;

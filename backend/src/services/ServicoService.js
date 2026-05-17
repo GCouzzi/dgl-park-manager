@@ -216,6 +216,19 @@ class ServicoService {
       throw "Erro ao excluir serviço.";
     }
   }
+
+  static calcularValorTotal(servico) {
+    const valorBase = servico.tipoServico.valor;
+    let desconto;
+    if(servico.desconto == null){
+      desconto = servico.tipoServico.descontoAtivo;
+    } else{
+      desconto = servico.desconto
+    }
+    
+    const valorTotal = valorBase - (valorBase * desconto);
+    return parseFloat(valorTotal.toFixed(2));
+  }
 }
 
 export { ServicoService };
