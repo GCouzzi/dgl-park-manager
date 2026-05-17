@@ -11,6 +11,8 @@ import { EntradaController } from "./controllers/EntradaController.js";
 import { ServicoController } from "./controllers/ServicoController.js";
 import { RelatorioCarrosBanidosController } from "./controllers/RelatorioCarrosBanidosController.js";
 import { RelatorioFinanceiroController } from "./controllers/RelatorioFinanceiroController.js";
+import { RelatorioEntradasVeiculosController } from "./controllers/RelatorioEntradasVeiculosController.js";
+import { RelatorioUsuariosEntradasController } from "./controllers/RelatorioUsuariosEntradasController.js";
 
 
 const routes = express.Router();
@@ -76,5 +78,7 @@ routes.put('/servicos/:id', ServicoController.update);
 
 routes.get('/relatorios/carros-banidos', RelatorioCarrosBanidosController.generate);
 routes.get('/relatorios/financeiro', RelatorioFinanceiroController.generate);
+routes.get('/relatorios/entradas-veiculos', RelatorioEntradasVeiculosController.generate);
+routes.get('/relatorios/usuarios-entradas', RelatorioUsuariosEntradasController.generate);
 
 export default routes;

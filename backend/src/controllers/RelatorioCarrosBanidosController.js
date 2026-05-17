@@ -1,4 +1,4 @@
-import { RelatorioCarrosBanidosService } from "../services/RelatorioCarrosBanidosService";
+import { RelatorioCarrosBanidosService } from "../services/RelatorioCarrosBanidosService.js";
 
 class RelatorioCarrosBanidosController {
   

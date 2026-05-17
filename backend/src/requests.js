@@ -1911,6 +1911,66 @@ async function regraUsuarioJaPrestou10ServicosHoje() {
 }
 
 // ============================================================
+// RELATÓRIOS
+// ============================================================
+
+function getRelatorioEntradasVeiculosTodos() {
+  logRequisicao(
+    "GET",
+    "/relatorios/entradas-veiculos",
+    "Relatório entradas por tipo de veículo (todos os tipos)",
+  );
+  return fetch(
+    `${baseURL}/relatorios/entradas-veiculos?dataInicial=2026-01-01&dataFinal=2026-12-31`,
+  )
+    .then((res) => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+function getRelatorioEntradasVeiculosCarro() {
+  logRequisicao(
+    "GET",
+    "/relatorios/entradas-veiculos?tipoVeiculo=CARRO",
+    "Relatório entradas filtrado por CARRO",
+  );
+  return fetch(
+    `${baseURL}/relatorios/entradas-veiculos?dataInicial=2026-01-01&dataFinal=2026-12-31&tipoVeiculo=CARRO`,
+  )
+    .then((res) => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+function getRelatorioEntradasVeiculosMoto() {
+  logRequisicao(
+    "GET",
+    "/relatorios/entradas-veiculos?tipoVeiculo=MOTO",
+    "Relatório entradas filtrado por MOTO",
+  );
+  return fetch(
+    `${baseURL}/relatorios/entradas-veiculos?dataInicial=2026-01-01&dataFinal=2026-12-31&tipoVeiculo=MOTO`,
+  )
+    .then((res) => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+function getRelatorioUsuariosEntradas() {
+  logRequisicao(
+    "GET",
+    "/relatorios/usuarios-entradas",
+    "Relatório quantidade de entradas por usuário",
+  );
+  return fetch(
+    `${baseURL}/relatorios/usuarios-entradas?dataInicial=2026-01-01&dataFinal=2026-12-31`,
+  )
+    .then((res) => res.text())
+    .then(prettyPrint)
+    .catch(console.error);
+}
+
+// ============================================================
 // RUNNER PRINCIPAL
 // ============================================================
 
@@ -2023,7 +2083,15 @@ async function runAllTests() {
   await regraSomenteUmaPrestacaoDoMesmoTipoDeServicoPorEntrada();
   await regraUsuarioJaPrestou10ServicosHoje();
 
+  // ── Relatórios ───────────────────────────────────────────
+  console.log("\n\n📊 ══════ RELATÓRIOS ══════");
+  await getRelatorioEntradasVeiculosTodos();
+  await getRelatorioEntradasVeiculosCarro();
+  await getRelatorioEntradasVeiculosMoto();
+  await getRelatorioUsuariosEntradas();
+
   console.log("\n\n✅ TODOS OS TESTES FINALIZADOS!");
 }
 
 runAllTests();
+

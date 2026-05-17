@@ -64,10 +64,10 @@ function databaseInserts() {
             const v_e3 = await Veiculo.create({ placa: 'KJG4H22', cor: 'PRATA', modeloId: m3.id });
             const v_e4 = await Veiculo.create({ placa: 'OPI0M11', cor: 'AZUL', modeloId: m4.id });
 
-            const e1 = await Entrada.create({ horario: new Date(), clienteId: c1.id, veiculoId: v_e1.id, vagaId: v1.id });
-            const e2 = await Entrada.create({ horario: new Date(), clienteId: c2.id, veiculoId: v_e2.id, vagaId: v2.id });
-            const e3 = await Entrada.create({ horario: new Date(), clienteId: c3.id, veiculoId: v_e3.id, vagaId: v3.id });
-            const e4 = await Entrada.create({ horario: new Date(), clienteId: c4.id, veiculoId: v_e4.id, vagaId: v4.id });
+            const e1 = await Entrada.create({ horario: new Date(), clienteId: c1.id, veiculoId: v_e1.id, vagaId: v1.id, usuarioId: u2.id });
+            const e2 = await Entrada.create({ horario: new Date(), clienteId: c2.id, veiculoId: v_e2.id, vagaId: v2.id, usuarioId: u2.id });
+            const e3 = await Entrada.create({ horario: new Date(), clienteId: c3.id, veiculoId: v_e3.id, vagaId: v3.id, usuarioId: u3.id });
+            const e4 = await Entrada.create({ horario: new Date(), clienteId: c4.id, veiculoId: v_e4.id, vagaId: v4.id, usuarioId: u3.id });
 
             const ts1 = await TipoServico.create({ nome: 'LAVAGEM SIMPLES', descricao: 'LAVAGEM EXTERNA', valor: 30, descontoAtivo: 0 });
             const ts2 = await TipoServico.create({ nome: 'LAVAGEM COMPLETA', descricao: 'INTERNA E EXTERNA', valor: 60, descontoAtivo: 5 });

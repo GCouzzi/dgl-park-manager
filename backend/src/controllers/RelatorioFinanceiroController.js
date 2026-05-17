@@ -1,4 +1,4 @@
-import { RelatorioFinanceiroService } from "../services/RelatorioFinanceiroService";
+import { RelatorioFinanceiroService } from "../services/RelatorioFinanceiroService.js";
 
 class RelatorioFinanceiroController {
   

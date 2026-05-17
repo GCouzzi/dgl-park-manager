@@ -2775,6 +2775,148 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "relatorios-entradas-veiculos",
+			"item": [
+				{
+					"name": "Relatório Entradas por Tipo de Veículo (todos os tipos)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/relatorios/entradas-veiculos?dataInicial=2026-01-01&dataFinal=2026-12-31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"relatorios",
+								"entradas-veiculos"
+							],
+							"query": [
+								{
+									"key": "dataInicial",
+									"value": "2026-01-01"
+								},
+								{
+									"key": "dataFinal",
+									"value": "2026-12-31"
+								}
+							]
+						},
+						"description": "Retorna o total de entradas de veículos agrupadas por tipo (CARRO, MOTO) dentro do período informado. Exemplo de resposta: [{\"tipo\": \"CARRO\", \"entradas\": 7}, {\"tipo\": \"MOTO\", \"entradas\": 13}]"
+					},
+					"response": []
+				},
+				{
+					"name": "Relatório Entradas por Tipo de Veículo (filtrado por CARRO)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/relatorios/entradas-veiculos?dataInicial=2026-01-01&dataFinal=2026-12-31&tipoVeiculo=CARRO",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"relatorios",
+								"entradas-veiculos"
+							],
+							"query": [
+								{
+									"key": "dataInicial",
+									"value": "2026-01-01"
+								},
+								{
+									"key": "dataFinal",
+									"value": "2026-12-31"
+								},
+								{
+									"key": "tipoVeiculo",
+									"value": "CARRO"
+								}
+							]
+						},
+						"description": "Retorna o total de entradas filtradas apenas pelo tipo CARRO dentro do período informado. Exemplo de resposta: [{\"tipo\": \"CARRO\", \"entradas\": 7}]"
+					},
+					"response": []
+				},
+				{
+					"name": "Relatório Entradas por Tipo de Veículo (filtrado por MOTO)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/relatorios/entradas-veiculos?dataInicial=2026-01-01&dataFinal=2026-12-31&tipoVeiculo=MOTO",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"relatorios",
+								"entradas-veiculos"
+							],
+							"query": [
+								{
+									"key": "dataInicial",
+									"value": "2026-01-01"
+								},
+								{
+									"key": "dataFinal",
+									"value": "2026-12-31"
+								},
+								{
+									"key": "tipoVeiculo",
+									"value": "MOTO"
+								}
+							]
+						},
+						"description": "Retorna o total de entradas filtradas apenas pelo tipo MOTO dentro do período informado. Exemplo de resposta: [{\"tipo\": \"MOTO\", \"entradas\": 13}]"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "relatorios-usuarios-entradas",
+			"item": [
+				{
+					"name": "Relatório Quantidade de Entradas por Usuário",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/relatorios/usuarios-entradas?dataInicial=2026-01-01&dataFinal=2026-12-31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"relatorios",
+								"usuarios-entradas"
+							],
+							"query": [
+								{
+									"key": "dataInicial",
+									"value": "2026-01-01"
+								},
+								{
+									"key": "dataFinal",
+									"value": "2026-12-31"
+								}
+							]
+						},
+						"description": "Retorna a quantidade de entradas que cada usuário registrou no estacionamento dentro do período informado. Exemplo de resposta: [{\"usuario\": \"OPERADOR1\", \"entradas\": 21}, {\"usuario\": \"OPERADOR2\", \"entradas\": 7}]"
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
