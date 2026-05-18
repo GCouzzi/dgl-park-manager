@@ -80,8 +80,8 @@ function databaseInserts() {
             await Despesa.create({ descricao: 'ALUGUEL', valor: 2000, vencimento: new Date(), status: 'NAO_PAGO', usuarioId: u1.id });
 
             await Saida.create({ desconto: 0, tipoPagamento: 'PIX', statusPagamento: 'PAGO', entradaId: e1.id, usuarioId: u2.id });
-            await Saida.create({ desconto: 5, tipoPagamento: 'DEBITO', statusPagamento: 'PAGO', entradaId: e2.id, usuarioId: u2.id });
-            await Saida.create({ desconto: 10, tipoPagamento: 'CREDITO', statusPagamento: 'NAO_PAGO', entradaId: e3.id, usuarioId: u3.id });
+            await Saida.create({ desconto: 0.05, tipoPagamento: 'DEBITO', statusPagamento: 'PAGO', entradaId: e2.id, usuarioId: u2.id });
+            await Saida.create({ desconto: 0.10, tipoPagamento: 'CREDITO', statusPagamento: 'NAO_PAGO', entradaId: e3.id, usuarioId: u3.id });
             await Saida.create({ desconto: 0, tipoPagamento: 'DINHEIRO', statusPagamento: 'PAGO', entradaId: e4.id, usuarioId: u3.id });
 
             await Servico.create({ desconto: 0, dataServico: new Date(), tipoServicoId: ts1.id, usuarioId: u2.id, entradaId: e1.id });

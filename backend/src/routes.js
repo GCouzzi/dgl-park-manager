@@ -13,6 +13,8 @@ import { RelatorioCarrosBanidosController } from "./controllers/RelatorioCarrosB
 import { RelatorioFinanceiroController } from "./controllers/RelatorioFinanceiroController.js";
 import { RelatorioEntradasVeiculosController } from "./controllers/RelatorioEntradasVeiculosController.js";
 import { RelatorioUsuariosEntradasController } from "./controllers/RelatorioUsuariosEntradasController.js";
+import { RelatorioUsuariosSaidasController } from "./controllers/RelatorioUsuariosSaidasController.js";
+import { RelatorioClientesMediaSaidaController } from "./controllers/RelatorioClientesMediaSaidaController.js";
 
 
 const routes = express.Router();
@@ -80,5 +82,7 @@ routes.get('/relatorios/carros-banidos', RelatorioCarrosBanidosController.genera
 routes.get('/relatorios/financeiro', RelatorioFinanceiroController.generate);
 routes.get('/relatorios/entradas-veiculos', RelatorioEntradasVeiculosController.generate);
 routes.get('/relatorios/usuarios-entradas', RelatorioUsuariosEntradasController.generate);
+routes.get('/relatorios/usuarios-saidas', RelatorioUsuariosSaidasController.generate);
+routes.get('/relatorios/clientes-media-saida', RelatorioClientesMediaSaidaController.generate);
 
 export default routes;
