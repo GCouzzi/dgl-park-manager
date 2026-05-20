@@ -226,7 +226,7 @@ class ServicoService {
       desconto = servico.desconto
     }
     
-    const valorTotal = valorBase - (valorBase * desconto);
+    const valorTotal = valorBase - (valorBase * (desconto / 100));
     return parseFloat(valorTotal.toFixed(2));
   }
 }

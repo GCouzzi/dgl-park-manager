@@ -7,9 +7,13 @@ import { Vaga } from "../models/Vaga.js";
 import { Op } from "sequelize";
 import { ServicoService } from "./ServicoService.js";
 
+import { Servico } from "../models/Servico.js";
+import { Despesa } from "../models/Despesa.js";
+import { SaidaService } from "./SaidaService.js";
+
 class RelatorioFinanceiroService {
   static async generate(req) {
-    let { dataInicial, dataFinal } = req.body;
+    let { dataInicial, dataFinal } = req.query;
 
     const whereServico = {};
     const whereSaida = {};
@@ -39,7 +43,7 @@ class RelatorioFinanceiroService {
         }
     
         // include full day
-        fim.setHours(23, 59, 59, 999);
+        fim.setUTCHours(23, 59, 59, 999);
     
         whereServico.dataServico[Op.lte] = fim;
         whereSaida.dataSaida[Op.lte] = fim;
@@ -75,20 +79,28 @@ class RelatorioFinanceiroService {
       order: [['vencimento', 'DESC']]
     });
 
-    const relatorio = [];
+    const relatorio = {};
+    relatorio.itens = [];
+    let totalReceitas = 0;
     for (const saida of saidas) {
       const totalSaida = await SaidaService.calcularValorTotal(saida.entrada, saida);
-      relatorio.push({tipo: "Receita", item: "Pagamento de estacionamento", valor: totalSaida});
+      relatorio.itens.push({tipo: "Receita", item: "Pagamento de estacionamento", valor: totalSaida, data: saida.dataSaida});
+      totalReceitas += totalSaida;
     }
 
     for(const servico of servicos) {
       const totalServico = ServicoService.calcularValorTotal(servico);
-      relatorio.push({tipo: "Receita", item: servico.tipoServico.nome, total: totalServico});
+      relatorio.itens.push({tipo: "Receita", item: servico.tipoServico.nome, total: totalServico, data: servico.dataServico});
+      totalReceitas += totalServico;
     }
 
+    let totalDespesas = 0;
     for(const despesa of despesas) {
-      relatorio.push({tipo: "Despesa", item: despesa.descricao, valor: despesa.valor});
+      relatorio.itens.push({tipo: "Despesa", item: despesa.descricao, valor: despesa.valor, data: despesa.vencimento});
+      totalDespesas += despesa.valor;
     }
+
+    relatorio.totais = {totalReceitas, totalDespesas}
 
     return relatorio;
   }
