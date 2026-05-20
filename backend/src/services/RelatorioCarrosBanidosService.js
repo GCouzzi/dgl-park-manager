@@ -2,7 +2,7 @@ import { Veiculo } from "../models/Veiculo.js";
 
 class RelatorioCarrosBanidosService {
   static async generate(req) {
-    let { modelo } = req.body;
+    let { modelo } = req.query;
 
     let veiculos;
     let total;
@@ -24,7 +24,7 @@ class RelatorioCarrosBanidosService {
         include: { all: true, nested: true },
         where: {
           banido: true,
-          '$modelo.nome$': 'Civic'
+          '$modelo.nome$': modelo
         }
       });
 
@@ -32,10 +32,10 @@ class RelatorioCarrosBanidosService {
         include: { all: true, nested: true },
         where: {
           banido: true,
-          '$modelo.nome$': 'Civic'
+          '$modelo.nome$': modelo
         },
         distinct: true,
-        col: 'veiculo.id'
+        col: 'id'
       });
     }
 

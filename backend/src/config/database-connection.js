@@ -63,6 +63,9 @@ function databaseInserts() {
             const v_e2 = await Veiculo.create({ placa: 'XYZ9K88', cor: 'PRETO', modeloId: m2.id });
             const v_e3 = await Veiculo.create({ placa: 'KJG4H22', cor: 'PRATA', modeloId: m3.id });
             const v_e4 = await Veiculo.create({ placa: 'OPI0M11', cor: 'AZUL', modeloId: m4.id });
+            const v_e5 = await Veiculo.create({ placa: 'OHI0M29', cor: 'BRANCO', modeloId: m1.id , banido: true});
+            const v_e6 = await Veiculo.create({ placa: 'ORI0N78', cor: 'BRANCO', modeloId: m4.id , banido: true, motivo: "Levantou a antena de um Kwid estacionado."});
+
 
             const e1 = await Entrada.create({ horario: new Date(), clienteId: c1.id, veiculoId: v_e1.id, vagaId: v1.id, usuarioId: u2.id });
             const e2 = await Entrada.create({ horario: new Date(), clienteId: c2.id, veiculoId: v_e2.id, vagaId: v2.id, usuarioId: u2.id });
