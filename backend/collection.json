@@ -1,347 +1,455 @@
 {
-	"info": {
-		"_postman_id": "83071bf2-8701-4672-8324-0e60108d8409",
-		"name": "scv-backend",
-		"description": "Sistema de Controle da Videolocadora",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "4048967"
-	},
-	"item": [
-		{
-			"name": "relatorios-entradas-veiculos",
-			"item": [
-				{
-					"name": "Relatório Entradas por Tipo de Veículo (todos os tipos)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3333/relatorios/entradas-veiculos?dataInicial=2026-01-01&dataFinal=2026-12-31",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3333",
-							"path": [
-								"relatorios",
-								"entradas-veiculos"
-							],
-							"query": [
-								{
-									"key": "dataInicial",
-									"value": "2026-01-01"
-								},
-								{
-									"key": "dataFinal",
-									"value": "2026-12-31"
-								}
-							]
-						},
-						"description": "Retorna o total de entradas de veículos agrupadas por tipo (CARRO, MOTO) dentro do período informado. Exemplo de resposta: [{\"tipo\": \"CARRO\", \"entradas\": 7}, {\"tipo\": \"MOTO\", \"entradas\": 13}]"
-					},
-					"response": []
-				},
-				{
-					"name": "Relatório Entradas por Tipo de Veículo (filtrado por CARRO)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3333/relatorios/entradas-veiculos?dataInicial=2026-01-01&dataFinal=2026-12-31&tipoVeiculo=CARRO",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3333",
-							"path": [
-								"relatorios",
-								"entradas-veiculos"
-							],
-							"query": [
-								{
-									"key": "dataInicial",
-									"value": "2026-01-01"
-								},
-								{
-									"key": "dataFinal",
-									"value": "2026-12-31"
-								},
-								{
-									"key": "tipoVeiculo",
-									"value": "CARRO"
-								}
-							]
-						},
-						"description": "Retorna o total de entradas filtradas apenas pelo tipo CARRO dentro do período informado. Exemplo de resposta: [{\"tipo\": \"CARRO\", \"entradas\": 7}]"
-					},
-					"response": []
-				},
-				{
-					"name": "Relatório Entradas por Tipo de Veículo (filtrado por MOTO)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3333/relatorios/entradas-veiculos?dataInicial=2026-01-01&dataFinal=2026-12-31&tipoVeiculo=MOTO",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3333",
-							"path": [
-								"relatorios",
-								"entradas-veiculos"
-							],
-							"query": [
-								{
-									"key": "dataInicial",
-									"value": "2026-01-01"
-								},
-								{
-									"key": "dataFinal",
-									"value": "2026-12-31"
-								},
-								{
-									"key": "tipoVeiculo",
-									"value": "MOTO"
-								}
-							]
-						},
-						"description": "Retorna o total de entradas filtradas apenas pelo tipo MOTO dentro do período informado. Exemplo de resposta: [{\"tipo\": \"MOTO\", \"entradas\": 13}]"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "relatorios-usuarios-entradas",
-			"item": [
-				{
-					"name": "Relatório Quantidade de Entradas por Usuário",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3333/relatorios/usuarios-entradas?dataInicial=2026-01-01&dataFinal=2026-12-31",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3333",
-							"path": [
-								"relatorios",
-								"usuarios-entradas"
-							],
-							"query": [
-								{
-									"key": "dataInicial",
-									"value": "2026-01-01"
-								},
-								{
-									"key": "dataFinal",
-									"value": "2026-12-31"
-								}
-							]
-						},
-						"description": "Retorna a quantidade de entradas que cada usuário registrou no estacionamento dentro do período informado. Exemplo de resposta: [{\"usuario\": \"OPERADOR1\", \"entradas\": 21}, {\"usuario\": \"OPERADOR2\", \"entradas\": 7}]"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "relatorios-clientes-total-saidas",
-			"item": [
-				{
-					"name": "Relatório Total Gasto por Cliente nas Saídas (todos os clientes, sem filtro de data)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3333/relatorios/usuarios-saidas",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3333",
-							"path": [
-								"relatorios",
-								"usuarios-saidas"
-							]
-						},
-						"description": "Retorna o valor total gasto por cada cliente nas saídas do estacionamento. Sem parâmetros, considera todas as saídas registradas até o momento atual. Exemplo de resposta: [{\"cliente\": \"JOÃO SILVA\", \"totalGasto\": 10.0, \"numeroDeSaidas\": 1}]"
-					},
-					"response": []
-				},
-				{
-					"name": "Relatório Total Gasto por Cliente nas Saídas (com filtro de data)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3333/relatorios/usuarios-saidas?dataInicial=2026-01-01&dataFinal=2026-12-31",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3333",
-							"path": [
-								"relatorios",
-								"usuarios-saidas"
-							],
-							"query": [
-								{
-									"key": "dataInicial",
-									"value": "2026-01-01"
-								},
-								{
-									"key": "dataFinal",
-									"value": "2026-12-31"
-								}
-							]
-						},
-						"description": "Retorna o valor total gasto por cada cliente nas saídas dentro do período informado. Exemplo de resposta: [{\"cliente\": \"JOÃO SILVA\", \"totalGasto\": 10.0, \"numeroDeSaidas\": 1}, {\"cliente\": \"MARIA SOUZA\", \"totalGasto\": 9.5, \"numeroDeSaidas\": 1}]"
-					},
-					"response": []
-				},
-				{
-					"name": "Relatório Total Gasto por Cliente nas Saídas (filtrado por nome do cliente)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3333/relatorios/usuarios-saidas?cliente=JOÃO",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3333",
-							"path": [
-								"relatorios",
-								"usuarios-saidas"
-							],
-							"query": [
-								{
-									"key": "cliente",
-									"value": "JOÃO"
-								}
-							]
-						},
-						"description": "Retorna o total gasto apenas pelos clientes cujo nome contenha o valor informado no parâmetro 'cliente' (busca parcial, case-insensitive no SQLite). Exemplo: ?cliente=JOÃO retorna apenas clientes com 'JOÃO' no nome."
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "relatorios-clientes-media-saida",
-			"item": [
-				{
-					"name": "Relatório Valor Médio por Saída por Cliente (todos os clientes, sem filtro de data)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3333/relatorios/clientes-media-saida",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3333",
-							"path": [
-								"relatorios",
-								"clientes-media-saida"
-							]
-						},
-						"description": "Retorna o valor médio gasto por cliente por saída (totalGasto / numeroDeSaidas), considerando todas as saídas até o momento atual. Exemplo de resposta: [{\"cliente\": \"JOÃO SILVA\", \"numeroDeSaidas\": 2, \"mediaPorSaida\": 10.0}]"
-					},
-					"response": []
-				},
-				{
-					"name": "Relatório Valor Médio por Saída por Cliente (com filtro de data)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3333/relatorios/clientes-media-saida?dataInicial=2026-01-01&dataFinal=2026-12-31",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3333",
-							"path": [
-								"relatorios",
-								"clientes-media-saida"
-							],
-							"query": [
-								{
-									"key": "dataInicial",
-									"value": "2026-01-01"
-								},
-								{
-									"key": "dataFinal",
-									"value": "2026-12-31"
-								}
-							]
-						},
-						"description": "Retorna o valor médio gasto por cliente por saída dentro do período informado. Exemplo de resposta: [{\"cliente\": \"JOÃO SILVA\", \"numeroDeSaidas\": 1, \"mediaPorSaida\": 10.0}, {\"cliente\": \"MARIA SOUZA\", \"numeroDeSaidas\": 1, \"mediaPorSaida\": 9.5}]"
-					},
-					"response": []
-				},
-				{
-					"name": "Relatório Valor Médio por Saída por Cliente (filtrado por nome do cliente)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3333/relatorios/clientes-media-saida?cliente=MARIA",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3333",
-							"path": [
-								"relatorios",
-								"clientes-media-saida"
-							],
-							"query": [
-								{
-									"key": "cliente",
-									"value": "MARIA"
-								}
-							]
-						},
-						"description": "Retorna a média por saída apenas dos clientes cujo nome contenha o valor informado no parâmetro 'cliente'. Pode ser combinado com dataInicial e dataFinal para restringir o período."
-					},
-					"response": []
-				}
-			]
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "scv-port",
-			"value": "8080"
-		}
-	]
+  "info": {
+    "_postman_id": "f95be9c9-9dc2-4d66-bb69-4ea9ffc90ea9",
+    "name": "scv-backend",
+    "description": "Sistema de Controle da Videolocadora",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54078628",
+    "_collection_link": "https://go.postman.co/collection/54078628-f95be9c9-9dc2-4d66-bb69-4ea9ffc90ea9?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "relatorios-entradas-veiculos",
+      "item": [
+        {
+          "name": "Relatório Entradas por Tipo de Veículo (todos os tipos)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/entradas-veiculos?dataInicial=2026-01-01&dataFinal=2026-12-31",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "entradas-veiculos"
+              ],
+              "query": [
+                {
+                  "key": "dataInicial",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "dataFinal",
+                  "value": "2026-12-31"
+                }
+              ]
+            },
+            "description": "Retorna o total de entradas de veículos agrupadas por tipo (CARRO, MOTO) dentro do período informado. Exemplo de resposta: [{\"tipo\": \"CARRO\", \"entradas\": 7}, {\"tipo\": \"MOTO\", \"entradas\": 13}]"
+          },
+          "response": []
+        },
+        {
+          "name": "Relatório Entradas por Tipo de Veículo (filtrado por CARRO)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/entradas-veiculos?dataInicial=2026-01-01&dataFinal=2026-12-31&tipoVeiculo=CARRO",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "entradas-veiculos"
+              ],
+              "query": [
+                {
+                  "key": "dataInicial",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "dataFinal",
+                  "value": "2026-12-31"
+                },
+                {
+                  "key": "tipoVeiculo",
+                  "value": "CARRO"
+                }
+              ]
+            },
+            "description": "Retorna o total de entradas filtradas apenas pelo tipo CARRO dentro do período informado. Exemplo de resposta: [{\"tipo\": \"CARRO\", \"entradas\": 7}]"
+          },
+          "response": []
+        },
+        {
+          "name": "Relatório Entradas por Tipo de Veículo (filtrado por MOTO)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/entradas-veiculos?dataInicial=2026-01-01&dataFinal=2026-12-31&tipoVeiculo=MOTO",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "entradas-veiculos"
+              ],
+              "query": [
+                {
+                  "key": "dataInicial",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "dataFinal",
+                  "value": "2026-12-31"
+                },
+                {
+                  "key": "tipoVeiculo",
+                  "value": "MOTO"
+                }
+              ]
+            },
+            "description": "Retorna o total de entradas filtradas apenas pelo tipo MOTO dentro do período informado. Exemplo de resposta: [{\"tipo\": \"MOTO\", \"entradas\": 13}]"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "relatorios-usuarios-entradas",
+      "item": [
+        {
+          "name": "Relatório Quantidade de Entradas por Usuário",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/usuarios-entradas?dataInicial=2026-01-01&dataFinal=2026-12-31",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "usuarios-entradas"
+              ],
+              "query": [
+                {
+                  "key": "dataInicial",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "dataFinal",
+                  "value": "2026-12-31"
+                }
+              ]
+            },
+            "description": "Retorna a quantidade de entradas que cada usuário registrou no estacionamento dentro do período informado. Exemplo de resposta: [{\"usuario\": \"OPERADOR1\", \"entradas\": 21}, {\"usuario\": \"OPERADOR2\", \"entradas\": 7}]"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "relatorios-clientes-total-saidas",
+      "item": [
+        {
+          "name": "Relatório Total Gasto por Cliente nas Saídas (todos os clientes, sem filtro de data)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/usuarios-saidas",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "usuarios-saidas"
+              ]
+            },
+            "description": "Retorna o valor total gasto por cada cliente nas saídas do estacionamento. Sem parâmetros, considera todas as saídas registradas até o momento atual. Exemplo de resposta: [{\"cliente\": \"JOÃO SILVA\", \"totalGasto\": 10.0, \"numeroDeSaidas\": 1}]"
+          },
+          "response": []
+        },
+        {
+          "name": "Relatório Total Gasto por Cliente nas Saídas (com filtro de data)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/usuarios-saidas?dataInicial=2026-01-01&dataFinal=2026-12-31",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "usuarios-saidas"
+              ],
+              "query": [
+                {
+                  "key": "dataInicial",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "dataFinal",
+                  "value": "2026-12-31"
+                }
+              ]
+            },
+            "description": "Retorna o valor total gasto por cada cliente nas saídas dentro do período informado. Exemplo de resposta: [{\"cliente\": \"JOÃO SILVA\", \"totalGasto\": 10.0, \"numeroDeSaidas\": 1}, {\"cliente\": \"MARIA SOUZA\", \"totalGasto\": 9.5, \"numeroDeSaidas\": 1}]"
+          },
+          "response": []
+        },
+        {
+          "name": "Relatório Total Gasto por Cliente nas Saídas (filtrado por nome do cliente)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/usuarios-saidas?cliente=JOÃO",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "usuarios-saidas"
+              ],
+              "query": [
+                {
+                  "key": "cliente",
+                  "value": "JOÃO"
+                }
+              ]
+            },
+            "description": "Retorna o total gasto apenas pelos clientes cujo nome contenha o valor informado no parâmetro 'cliente' (busca parcial, case-insensitive no SQLite). Exemplo: ?cliente=JOÃO retorna apenas clientes com 'JOÃO' no nome."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "relatorios-clientes-media-saida",
+      "item": [
+        {
+          "name": "Relatório Valor Médio por Saída por Cliente (todos os clientes, sem filtro de data)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/clientes-media-saida",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "clientes-media-saida"
+              ]
+            },
+            "description": "Retorna o valor médio gasto por cliente por saída (totalGasto / numeroDeSaidas), considerando todas as saídas até o momento atual. Exemplo de resposta: [{\"cliente\": \"JOÃO SILVA\", \"numeroDeSaidas\": 2, \"mediaPorSaida\": 10.0}]"
+          },
+          "response": []
+        },
+        {
+          "name": "Relatório Valor Médio por Saída por Cliente (com filtro de data)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/clientes-media-saida?dataInicial=2026-01-01&dataFinal=2026-12-31",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "clientes-media-saida"
+              ],
+              "query": [
+                {
+                  "key": "dataInicial",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "dataFinal",
+                  "value": "2026-12-31"
+                }
+              ]
+            },
+            "description": "Retorna o valor médio gasto por cliente por saída dentro do período informado. Exemplo de resposta: [{\"cliente\": \"JOÃO SILVA\", \"numeroDeSaidas\": 1, \"mediaPorSaida\": 10.0}, {\"cliente\": \"MARIA SOUZA\", \"numeroDeSaidas\": 1, \"mediaPorSaida\": 9.5}]"
+          },
+          "response": []
+        },
+        {
+          "name": "Relatório Valor Médio por Saída por Cliente (filtrado por nome do cliente)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/clientes-media-saida?cliente=MARIA",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "clientes-media-saida"
+              ],
+              "query": [
+                {
+                  "key": "cliente",
+                  "value": "MARIA"
+                }
+              ]
+            },
+            "description": "Retorna a média por saída apenas dos clientes cujo nome contenha o valor informado no parâmetro 'cliente'. Pode ser combinado com dataInicial e dataFinal para restringir o período."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "relatorios-veiculos-banidos",
+      "item": [
+        {
+          "name": "Relatorio Veiculos Banidos (sem filtragem)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/carros-banidos",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "carros-banidos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Relatorio Veiculos Banidos (com filtragem por modelo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/carros-banidos?modelo=ONIX",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "carros-banidos"
+              ],
+              "query": [
+                {
+                  "key": "modelo",
+                  "value": "ONIX"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "relatorios-financeiros",
+      "item": [
+        {
+          "name": "Relatorio Financeiro (sem filtragem)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/financeiro",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "financeiro"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Relatorio Financeiro (com filtragem de data inicial e final)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/relatorios/financeiro?dataInicial=2026-05-01&dataFinal=2026-12-01",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "relatorios",
+                "financeiro"
+              ],
+              "query": [
+                {
+                  "key": "dataInicial",
+                  "value": "2026-05-01"
+                },
+                {
+                  "key": "dataFinal",
+                  "value": "2026-12-01"
+                }
+              ]
+            },
+            "description": "**Nota:** O filtro de data funciona a nível de dias."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "scv-port",
+      "value": "8080"
+    }
+  ]
 }
