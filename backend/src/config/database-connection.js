@@ -36,7 +36,9 @@ databaseInserts();
 function databaseInserts() {
     (async () => {
         try {
-            await sequelize.sync({ force: true });
+            await sequelize.sync();
+
+            /*
             console.log("--- Iniciando inserções individuais ---");
 
             const m1 = await Modelo.create({ nome: 'COROLLA', ano: 2024, marca: 'TOYOTA' });
@@ -93,6 +95,7 @@ function databaseInserts() {
             await Servico.create({ desconto: 0, dataServico: new Date(), tipoServicoId: ts4.id, usuarioId: u3.id, entradaId: e4.id });
 
             console.log("✅ Todos os registros individuais foram inseridos com sucesso!");
+            */
         } catch (error) {
             console.error("❌ ERRO DE VALIDAÇÃO DETECTADO:");
             if (error.errors) {
