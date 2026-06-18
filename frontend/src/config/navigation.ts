@@ -10,7 +10,7 @@ export type ResourceKey =
   | 'vaga'
   | 'veiculo';
 
-export type CrudActionKey = 'insert' | 'list' | 'search';
+export type CrudActionKey = 'insert' | 'list' | 'edit';
 
 export type Role = 'funcionario' | 'administrador';
 
@@ -50,17 +50,17 @@ export const RESOURCE_ROUTES: Record<ResourceKey, Partial<Record<CrudActionKey, 
   cliente: {
     insert: '/cadastro-cliente',
     list: '/listar-cliente',
-    search: '/buscar-cliente',
+    edit: '/alterar-cliente',
   },
   despesa: {
     insert: '/cadastro-despesa',
     list: '/listar-despesa',
-    search: '/buscar-despesa',
+    edit: '/alterar-despesa',
   },
   entrada: {
     insert: '/processo-entrada',
     list: '/listar-entrada',
-    search: '/buscar-entrada',
+    edit: '/alterar-entrada',
   },
   modelo: {
     insert: '/cadastro-modelo',
@@ -69,36 +69,38 @@ export const RESOURCE_ROUTES: Record<ResourceKey, Partial<Record<CrudActionKey, 
   saida: {
     insert: '/cadastro-saida',
     list: '/listar-saida',
-    search: '/buscar-saida',
+    edit: '/alterar-saida',
   },
   servico: {
     insert: '/cadastro-servico',
     list: '/listar-servico',
+    edit: '/alterar-servico',
   },
   'tipo-servico': {
     insert: '/cadastro-tipo-servico',
     list: '/listar-tipo-servico',
+    edit: '/alterar-tipo-servico',
   },
   usuario: {
     insert: '/cadastro-usuario',
     list: '/listar-usuario',
+    edit: '/alterar-usuario',
   },
   vaga: {
     insert: '/cadastro-vaga',
     list: '/listar-vaga',
-    search: '/buscar-vaga',
+    edit: '/alterar-vaga',
   },
   veiculo: {
     insert: '/cadastro-veiculo',
     list: '/listar-veiculo',
-    search: '/buscar-veiculo',
+    edit: '/alterar-veiculo',
   },
 };
 
 export const CRUD_ACTIONS: Array<{ key: CrudActionKey; label: string; icon: string }> = [
   { key: 'insert', label: 'Inserir', icon: 'bi-plus-circle-fill' },
   { key: 'list', label: 'Listar', icon: 'bi-list-ul' },
-  { key: 'search', label: 'Buscar', icon: 'bi-search' },
 ];
 
 export const NAVIGATION_BY_ROLE: Record<Role, NavigationItem[]> = {
@@ -111,7 +113,6 @@ export const NAVIGATION_BY_ROLE: Record<Role, NavigationItem[]> = {
       items: [
         { label: 'Modelo', to: '/cadastro-modelo' },
         { label: 'Veículo', to: '/cadastro-veiculo' },
-        { label: 'Despesa', to: '/cadastro-despesa' },
         { label: 'Cliente', to: '/cadastro-cliente' },
         { label: 'Vaga', to: '/cadastro-vaga' },
         { label: 'Tipo de Serviço', to: '/cadastro-tipo-servico' },
@@ -147,8 +148,23 @@ export const NAVIGATION_BY_ROLE: Record<Role, NavigationItem[]> = {
       key: 'cadastros',
       label: 'Cadastros',
       items: [
+        { label: 'Modelo', to: '/cadastro-modelo' },
+        { label: 'Veículo', to: '/cadastro-veiculo' },
+        { label: 'Cliente', to: '/cadastro-cliente' },
+        { label: 'Vaga', to: '/cadastro-vaga' },
+        { label: 'Tipo de Serviço', to: '/cadastro-tipo-servico' },
         { label: 'Usuário', to: '/cadastro-usuario' },
         { label: 'Despesa', to: '/cadastro-despesa' },
+      ],
+    },
+    {
+      type: 'dropdown',
+      key: 'processos',
+      label: 'Processos',
+      items: [
+        { label: 'Entrada', to: '/processo-entrada' },
+        { label: 'Saída', to: '/cadastro-saida' },
+        { label: 'Serviço', to: '/cadastro-servico' },
       ],
     },
     {
@@ -156,6 +172,11 @@ export const NAVIGATION_BY_ROLE: Record<Role, NavigationItem[]> = {
       key: 'relatorios',
       label: 'Relatórios',
       items: [
+        { label: 'Média por Saída', to: '/relatorio-media-saida' },
+        { label: 'Total por Usuário', to: '/relatorio-total-usuario' },
+        { label: 'Entradas por Veículo', to: '/relatorio-entradas-veiculos' },
+        { label: 'Entradas por Usuário', to: '/relatorio-entradas-usuarios' },
+        { label: 'Carros Banidos', to: '/relatorio-carros-banidos' },
         { label: 'Financeiro', to: '/relatorio-financeiro' },
       ],
     },

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
 import { NAVIGATION_BY_ROLE, ROLE_DETAILS, type NavigationDropdown, type Role, type RouteItem } from '../config/navigation';
 import Icon from './Icon';
 
@@ -60,14 +61,16 @@ export default function AppNavbar({
   activeItem,
   showSessionActions = false,
 }: AppNavbarProps) {
+  const { logout, user } = useAuth();
   const navigation = NAVIGATION_BY_ROLE[role] ?? NAVIGATION_BY_ROLE.funcionario;
   const roleDetails = ROLE_DETAILS[role];
+  const homePath = role === 'administrador' ? '/homepage-administrador' : '/homepage-funcionario';
 
   return (
     <header>
       <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/login">E-Estacionamento</Link>
+          <Link className="navbar-brand" to={user ? homePath : '/login'}>E-Estacionamento</Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -106,11 +109,11 @@ export default function AppNavbar({
                 <li className="nav-item">
                   <span className="nav-link">
                     <Icon name={roleDetails.icon} className="me-1" />
-                    {roleDetails.label}
+                    {user?.nomeUsuario ? `${user.nomeUsuario} — ${roleDetails.label}` : roleDetails.label}
                   </span>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/login">Sair</Link>
+                  <Link className="nav-link" to="/login" onClick={logout}>Sair</Link>
                 </li>
               </ul>
             )}

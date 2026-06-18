@@ -28,12 +28,6 @@ export default function HomepageFuncionario() {
           </a>
         </div>
         <div className="col-6 col-md-3">
-          <a href="#/cadastro-despesa" className="btn btn-outline-primary w-100">
-            <i className="bi bi-cash-stack me-2"></i>
-            Despesa
-          </a>
-        </div>
-        <div className="col-6 col-md-3">
           <a href="#/cadastro-cliente" className="btn btn-outline-primary w-100">
             <i className="bi bi-person me-2"></i>
             Cliente
