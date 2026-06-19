@@ -55,6 +55,7 @@ export interface FieldConfig {
   optionSource?: OptionSource;
   helperText?: string;
   readOnlyOnEdit?: boolean;
+  uppercase?: boolean;
 }
 
 export interface FilterConfig {
@@ -90,6 +91,7 @@ export interface ResourceConfig<T extends EntityRecord = EntityRecord> {
   getSearchText?: (item: T) => string;
   toPayload?: (values: FormValues, mode: 'create' | 'edit') => Record<string, unknown>;
   fromEntity?: (entity: T) => FormValues;
+  renderSuccess?: (entity: T) => ReactNode;
 }
 
 export type FormValues = Record<string, string | number | boolean>;
@@ -360,7 +362,7 @@ export const resourceConfigs = {
     canUpdate: true,
     canDelete: true,
     fields: [
-      { name: 'placa', label: 'Placa', type: 'text', required: true, maxLength: 8, helperText: 'Use placa antiga ou Mercosul. Ex.: ABC1234 ou ABC1D23.' },
+      { name: 'placa', label: 'Placa', type: 'text', required: true, maxLength: 8, uppercase: true, helperText: 'Use placa antiga ou Mercosul. Ex.: ABC1234 ou ABC1D23.' },
       { name: 'modeloId', label: 'Modelo', type: 'select', required: true, optionSource: modeloSource },
       { name: 'cor', label: 'Cor', type: 'select', required: true, options: corOptions },
       { name: 'banido', label: 'Banido?', type: 'checkbox' },
@@ -538,6 +540,7 @@ export const resourceConfigs = {
       { header: 'Desconto', render: (item) => formatPercent(item.desconto, true) },
       { header: 'Pagamento', render: (item) => humanizeEnum(item.tipoPagamento) },
       { header: 'Status', className: 'text-center', render: (item) => badge(humanizeEnum(item.statusPagamento), item.statusPagamento === 'PAGO' ? 'bg-success' : 'bg-warning text-dark') },
+      { header: 'Total', className: 'text-end', render: (item) => item.valorTotal != null ? formatCurrency(item.valorTotal) : '-' },
       { header: 'Observações', className: 'text-break', render: (item) => String(item.observacoes ?? '').trim() || '-' },
     ],
     getSearchText: commonText,
@@ -548,6 +551,53 @@ export const resourceConfigs = {
       statusPagamento: String(values.statusPagamento ?? ''),
       observacoes: String(values.observacoes ?? '').trim(),
     }),
+    renderSuccess: (entity) => {
+      const s = entity as Saida & { valorTotal?: number };
+      return (
+        <div className="card mt-4 border-success">
+          <div className="card-header bg-success text-white d-flex align-items-center gap-2">
+            <i className="bi bi-receipt fs-5" />
+            <strong>Comprovante de Saída</strong>
+          </div>
+          <div className="card-body">
+            <ul className="list-group list-group-flush">
+              <li className="list-group-item d-flex justify-content-between">
+                <span className="text-muted">Entrada #</span>
+                <strong>{s.entradaId}</strong>
+              </li>
+              <li className="list-group-item d-flex justify-content-between">
+                <span className="text-muted">Data de saída</span>
+                <strong>{formatDateTime(s.dataSaida)}</strong>
+              </li>
+              <li className="list-group-item d-flex justify-content-between">
+                <span className="text-muted">Desconto aplicado</span>
+                <strong>{formatPercent(s.desconto, true)}</strong>
+              </li>
+              <li className="list-group-item d-flex justify-content-between">
+                <span className="text-muted">Pagamento</span>
+                <strong>{humanizeEnum(s.tipoPagamento)}</strong>
+              </li>
+              <li className="list-group-item d-flex justify-content-between">
+                <span className="text-muted">Status</span>
+                <strong>{humanizeEnum(s.statusPagamento)}</strong>
+              </li>
+              {s.observacoes && (
+                <li className="list-group-item d-flex justify-content-between">
+                  <span className="text-muted">Observações</span>
+                  <span>{s.observacoes}</span>
+                </li>
+              )}
+            </ul>
+            <div className="mt-3 p-3 bg-success bg-opacity-10 rounded d-flex justify-content-between align-items-center">
+              <span className="fs-5 fw-semibold">Total a cobrar</span>
+              <span className="fs-4 fw-bold text-success">
+                {s.valorTotal != null ? formatCurrency(s.valorTotal) : '-'}
+              </span>
+            </div>
+          </div>
+        </div>
+      );
+    },
   } satisfies ResourceConfig<Saida>,
 
   'tipo-servico': {
@@ -603,7 +653,7 @@ export const resourceConfigs = {
     fields: [
       { name: 'prestadorId', label: 'Prestador', type: 'select', required: true, optionSource: usuarioSource },
       { name: 'tipoDeServicoId', label: 'Tipo de serviço', type: 'select', required: true, optionSource: tipoServicoSource },
-      { name: 'placa', label: 'Placa do veículo', type: 'text', required: true, helperText: 'A API vincula o serviço à última entrada ativa dessa placa.' },
+      { name: 'placa', label: 'Placa do veículo', type: 'text', required: true, uppercase: true, helperText: 'A API vincula o serviço à última entrada ativa dessa placa.' },
       { name: 'desconto', label: 'Desconto (%)', type: 'number', min: 0, max: 100, step: 0.01 },
     ],
     filters: [

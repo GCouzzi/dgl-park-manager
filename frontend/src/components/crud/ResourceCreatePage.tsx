@@ -32,6 +32,7 @@ export default function ResourceCreatePage<T extends EntityRecord>({ config, tit
   const [values, setValues] = useState<FormValues>(initialValues);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
+  const [successData, setSuccessData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
   const related = useRelatedOptions(config.fields);
 
@@ -43,13 +44,15 @@ export default function ResourceCreatePage<T extends EntityRecord>({ config, tit
     event.preventDefault();
     setSubmitting(true);
     setSuccess(null);
+    setSuccessData(null);
     setError(null);
 
     try {
       const payload = config.toPayload ? config.toPayload(values, 'create') : values;
-      await api.post<T>(config.endpoint, payload);
+      const data = await api.post<T>(config.endpoint, payload);
       setValues(initialValues);
       setSuccess(`${config.singular} cadastrado com sucesso.`);
+      setSuccessData(data ?? null);
     } catch (err) {
       setError(err instanceof Error ? err.message : `Erro ao cadastrar ${config.singular.toLowerCase()}.`);
     } finally {
@@ -61,7 +64,7 @@ export default function ResourceCreatePage<T extends EntityRecord>({ config, tit
     <CrudPageShell config={config} action="insert" title={pageTitle}>
       {related.loading && <LoadingMessage />}
       {related.error && <AlertMessage type="danger">{related.error}</AlertMessage>}
-      {success && <AlertMessage type="success">{success}</AlertMessage>}
+      {success && !config.renderSuccess && <AlertMessage type="success">{success}</AlertMessage>}
       {error && <AlertMessage type="danger">{error}</AlertMessage>}
 
       <DynamicForm
@@ -76,9 +79,12 @@ export default function ResourceCreatePage<T extends EntityRecord>({ config, tit
         onReset={() => {
           setValues(initialValues);
           setSuccess(null);
+          setSuccessData(null);
           setError(null);
         }}
       />
+
+      {success && config.renderSuccess && successData && config.renderSuccess(successData)}
     </CrudPageShell>
   );
 }

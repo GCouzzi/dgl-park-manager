@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import { Saida } from "../models/Saida.js";
 import { Entrada } from "../models/Entrada.js";
 import { Cliente } from "../models/Cliente.js";
@@ -27,11 +27,10 @@ class RelatorioUsuariosSaidasService {
 
     const includeCliente = { model: Cliente, as: "cliente", required: true };
     if (cliente) {
-      includeCliente.where = {
-        nome: {
-          [Op.like]: `%${cliente}%`
-        }
-      };
+      includeCliente.where = Sequelize.where(
+        Sequelize.fn('UPPER', Sequelize.col('nome')),
+        { [Op.like]: `%${cliente.toUpperCase()}%` }
+      );
     }
 
     const saidas = await Saida.findAll({

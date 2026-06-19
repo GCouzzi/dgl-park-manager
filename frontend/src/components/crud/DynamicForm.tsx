@@ -138,6 +138,7 @@ export default function DynamicForm({
                 step={field.step}
                 maxLength={field.maxLength}
                 disabled={disabled || submitting}
+                style={field.uppercase ? { textTransform: 'uppercase' } : undefined}
                 onChange={handleInputChange(field)}
               />
               <label htmlFor={fieldId}>{field.label}</label>
