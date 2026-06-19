@@ -8,6 +8,12 @@ class EntradaController {
         .catch(next);
   }
 
+  static async findAllSemSaida(req, res, next) {
+    EntradaService.findAllSemSaida()
+        .then(objs => res.json(objs))
+        .catch(next);
+  }
+
   static async findByPk(req, res, next) {
     EntradaService.findByPk(req)
         .then(obj => res.json(obj))

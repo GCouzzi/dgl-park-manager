@@ -42,6 +42,7 @@ routes.delete('/clientes/:id', ClienteController.delete);
 routes.put('/clientes/:id', ClienteController.update);
 
 routes.get('/vagas', VagaController.findAll);
+routes.get('/vagas/livres', VagaController.findAllLivres);
 routes.get('/vagas/:id', VagaController.findByPk);
 routes.post('/vagas', VagaController.create);
 routes.delete('/vagas/:id', VagaController.delete);
@@ -60,6 +61,7 @@ routes.delete('/usuarios/:id', UsuarioController.delete);
 routes.put('/usuarios/:id', UsuarioController.update);
 
 routes.get('/entradas', EntradaController.findAll);
+routes.get('/entradas/sem-saida', EntradaController.findAllSemSaida);
 routes.get('/entradas/:id', EntradaController.findByPk);
 routes.post('/entradas', EntradaController.create);
 routes.delete('/entradas/:id', EntradaController.delete);

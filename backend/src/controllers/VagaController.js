@@ -8,6 +8,12 @@ class VagaController {
       .catch(next);
   }
 
+  static async findAllLivres(req, res, next) {
+    VagaService.findAllLivres()
+      .then(objs => res.json(objs))
+      .catch(next);
+  }
+
   static async findByPk(req, res, next) {
     VagaService.findByPk(req)
       .then(obj => res.json(obj))

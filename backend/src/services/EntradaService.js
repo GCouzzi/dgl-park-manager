@@ -2,6 +2,8 @@ import { Entrada } from "../models/Entrada.js";
 import { Veiculo } from "../models/Veiculo.js";
 import { Vaga } from "../models/Vaga.js";
 import { Cliente } from "../models/Cliente.js";
+import { Saida } from "../models/Saida.js";
+import { Op } from "sequelize";
 import { todasVagasOcupadas, clientePossuiEntradaAtiva } from "../utils/EntradaRegrasDeNegocio.js";
 import sequelize from "../config/database-connection.js";
 
@@ -9,6 +11,20 @@ class EntradaService {
 
   static async findAll() {
     const objs = await Entrada.findAll({ include: { all: true, nested: true } });
+    return objs;
+  }
+
+  static async findAllSemSaida() {
+    // Busca os entradaId que já possuem saída registrada
+    const saidas = await Saida.findAll({ attributes: ['entradaId'] });
+    const entradaIdsComSaida = saidas.map((s) => s.entradaId);
+
+    const objs = await Entrada.findAll({
+      where: entradaIdsComSaida.length > 0
+        ? { id: { [Op.notIn]: entradaIdsComSaida } }
+        : {},
+      include: { all: true, nested: true },
+    });
     return objs;
   }
 
