@@ -1,0 +1,25 @@
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.auth-shell {
+  background-color: var(--bs-light);
+}
+
+.app-footer {
+  flex-shrink: 0;
+}
+
+.crud-sidebar {
+  background-color: var(--bs-body-bg);
+}
