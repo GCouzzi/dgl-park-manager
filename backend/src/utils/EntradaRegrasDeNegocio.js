@@ -17,3 +17,15 @@ export async function clientePossuiEntradaAtiva(clienteId) {
     }
     return false;
 }
+
+export async function veiculoPossuiEntradaAtiva(veiculoId, entradaIdParaIgnorar = null) {
+    // REGRA DE NEGÓCIO 3: Não permitir que o mesmo veículo tenha 2 entradas ativas
+    // (uma entrada ativa é aquela que ainda não possui saída registrada)
+    const entradasVeiculo = await EntradaService.findByVeiculo(veiculoId);
+    for (const entrada of entradasVeiculo) {
+        if (entradaIdParaIgnorar && entrada.id === entradaIdParaIgnorar) continue;
+        const saida = await Saida.findOne({ where: { entradaId: entrada.id } });
+        if (!saida) return true;
+    }
+    return false;
+}

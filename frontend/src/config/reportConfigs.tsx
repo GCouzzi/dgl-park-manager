@@ -92,18 +92,18 @@ export const relatorioEntradasVeiculosConfig: ReportConfig<Row> = {
 };
 
 export const relatorioEntradasUsuariosConfig: ReportConfig<Row> = {
-  title: 'Entradas Registradas por Usuário',
-  pageTitle: 'Entradas por Usuário',
+  title: 'Entradas Registradas por Cliente',
+  pageTitle: 'Entradas por Cliente',
   endpoint: '/relatorios/usuarios-entradas',
   role: 'funcionario',
   activeItem: '/relatorio-entradas-usuarios',
-  intro: 'Informe o período para consultar quantas entradas cada usuário registrou.',
+  intro: 'Informe o período para consultar quantas vezes cada cliente entrou no estacionamento.',
   fields: [
     { name: 'dataInicial', label: 'Data inicial', type: 'date', required: true },
     { name: 'dataFinal', label: 'Data final', type: 'date', required: true },
   ],
   columns: [
-    { header: 'Usuário', path: 'usuario' },
+    { header: 'Cliente', path: 'cliente' },
     { header: 'Entradas', path: 'entradas' },
   ],
   transformResponse: asRows,

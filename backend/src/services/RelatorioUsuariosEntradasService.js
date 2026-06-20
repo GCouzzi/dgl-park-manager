@@ -30,14 +30,15 @@ class RelatorioUsuariosEntradasService {
     // Ajustar fim para incluir o dia inteiro
     fim.setHours(23, 59, 59, 999);
 
-    // A relação é: Entrada -> Usuario (entrada.usuarioId = usuario.id)
-    // JOIN entre entradas e usuarios para agrupar por nome do usuário
+    // A relação é: Entrada -> Cliente (entrada.clienteId = cliente.id)
+    // JOIN entre entradas e clientes para agrupar por cliente, contando
+    // quantas vezes cada cliente registrou entrada no estacionamento.
     const query = `
-      SELECT u.nome_usuario AS usuario, COUNT(e.id) AS entradas
+      SELECT c.nome AS cliente, c.cpf AS cpf, COUNT(e.id) AS entradas
       FROM entradas e
-      INNER JOIN usuarios u ON e.usuario_id = u.id
+      INNER JOIN clientes c ON e.cliente_id = c.id
       WHERE e.horario BETWEEN :dataInicial AND :dataFinal
-      GROUP BY u.id, u.nome_usuario
+      GROUP BY c.id, c.nome, c.cpf
       ORDER BY entradas DESC
     `;
 

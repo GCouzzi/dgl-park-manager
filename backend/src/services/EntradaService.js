@@ -4,7 +4,7 @@ import { Vaga } from "../models/Vaga.js";
 import { Cliente } from "../models/Cliente.js";
 import { Saida } from "../models/Saida.js";
 import { Op } from "sequelize";
-import { todasVagasOcupadas, clientePossuiEntradaAtiva } from "../utils/EntradaRegrasDeNegocio.js";
+import { todasVagasOcupadas, clientePossuiEntradaAtiva, veiculoPossuiEntradaAtiva } from "../utils/EntradaRegrasDeNegocio.js";
 import sequelize from "../config/database-connection.js";
 
 class EntradaService {
@@ -56,6 +56,11 @@ class EntradaService {
     return objs;
   }
 
+  static async findByVeiculo(veiculoId) {
+    const objs = await Entrada.findAll({ where: { veiculoId } });
+    return objs;
+  }
+
   static async create(req) {
     const { clienteId, vagaId, veiculoId } = req.body;
     const horario = new Date();
@@ -87,9 +92,20 @@ class EntradaService {
       throw 'Este cliente já possui uma entrada ativa!';
     }
 
+    // REGRA DE NEGÓCIO 3: Não permitir que o mesmo veículo tenha 2 entradas ativas
+    if (await veiculoPossuiEntradaAtiva(veiculoId)) {
+      throw 'Este veículo já possui uma entrada ativa e ainda não teve saída registrada.';
+    }
+
     const t = await sequelize.transaction();
 
     try {
+      // Revalida dentro da transação para evitar condição de corrida entre
+      // a checagem inicial e a efetiva criação da entrada.
+      if (await veiculoPossuiEntradaAtiva(veiculoId)) {
+        throw 'Este veículo já possui uma entrada ativa e ainda não teve saída registrada.';
+      }
+
       const entrada = await Entrada.create(
         { horario, clienteId, vagaId, veiculoId },
         { transaction: t }
@@ -122,6 +138,15 @@ class EntradaService {
     const { clienteId, vagaId, veiculoId } = req.body;
     const obj = await Entrada.findByPk(id, { include: { all: true, nested: true } });
     if (obj == null) throw 'Entrada não encontrada!';
+
+    // Se o veículo está sendo alterado, garante que o novo veículo não
+    // esteja vinculado a outra entrada ativa (ignorando a própria entrada).
+    if (veiculoId && veiculoId !== obj.veiculoId) {
+      if (await veiculoPossuiEntradaAtiva(veiculoId, Number(id))) {
+        throw 'Este veículo já possui uma entrada ativa e ainda não teve saída registrada.';
+      }
+    }
+
     Object.assign(obj, { clienteId, vagaId, veiculoId });
     await obj.save();
     return await Entrada.findByPk(obj.id, { include: { all: true, nested: true } });
