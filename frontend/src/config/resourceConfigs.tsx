@@ -457,7 +457,7 @@ export const resourceConfigs = {
     ],
     columns: [
       { header: '#', path: 'id' },
-      { header: 'Usuário', path: 'nomeUsuario' },
+      { header: 'Usuário', path: 'nomeUsuario', render: (item) => item.nomeUsuario},
       { header: 'CPF', render: (item) => formatCpf(item.cpf) },
       { header: 'Telefone', render: (item) => formatTelefone(item.telefone) },
       { header: 'Tipo', className: 'text-center', render: (item) => badge(humanizeEnum(item.tipoUsuario), item.tipoUsuario === 'ADMINISTRADOR' ? 'bg-dark' : 'bg-primary') },
