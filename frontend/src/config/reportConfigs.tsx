@@ -20,7 +20,7 @@ export const relatorioCarrosBanidosConfig: ReportConfig<Veiculo> = {
   columns: [
     { header: '#', path: 'id' },
     { header: 'Placa', path: 'placa' },
-    { header: 'Modelo', render: (row) => `${row.modelo?.marca ?? ''} ${row.modelo?.nome ?? ''} ${row.modelo?.ano ?? ''}`.trim() || '-' },
+    { header: 'Modelo', render: (row) => row.modelo?.nome || '-' },
     { header: 'Cor', render: (row) => humanizeEnum(row.cor) },
     { header: 'Motivo', path: 'motivo' },
   ],
