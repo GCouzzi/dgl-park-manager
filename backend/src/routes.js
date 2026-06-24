@@ -15,7 +15,7 @@ import { RelatorioEntradasVeiculosController } from "./controllers/RelatorioEntr
 import { RelatorioUsuariosEntradasController } from "./controllers/RelatorioUsuariosEntradasController.js";
 import { RelatorioUsuariosSaidasController } from "./controllers/RelatorioUsuariosSaidasController.js";
 import { RelatorioClientesMediaSaidaController } from "./controllers/RelatorioClientesMediaSaidaController.js";
-
+import { AuthController } from "./controllers/AuthController.js";
 
 const routes = express.Router();
 
@@ -86,5 +86,7 @@ routes.get('/relatorios/entradas-veiculos', RelatorioEntradasVeiculosController.
 routes.get('/relatorios/usuarios-entradas', RelatorioUsuariosEntradasController.generate);
 routes.get('/relatorios/usuarios-saidas', RelatorioUsuariosSaidasController.generate);
 routes.get('/relatorios/clientes-media-saida', RelatorioClientesMediaSaidaController.generate);
+
+routes.post('/login', AuthController.login);
 
 export default routes;
