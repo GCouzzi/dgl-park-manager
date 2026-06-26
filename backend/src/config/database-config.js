@@ -28,7 +28,7 @@ export const databaseConfig = {
 
 export const databaseConfig = {
   dialect: 'postgres',
-  host: 'postgresql://dgl_park_manager_user:0YgJJdC1OVfBk7X6gtfaRaz10fSgScCY@dpg-d8usk8favr4c73fn9n1g-a/dgl_park_manager_ncj1',
+  host: 'dpg-d8usk8favr4c73fn9n1g-a.oregon-postgres.render.com',
   username: 'dgl_park_manager_user',
   password: '0YgJJdC1OVfBk7X6gtfaRaz10fSgScCY',
   database: 'dgl_park_manager_ncj1',
